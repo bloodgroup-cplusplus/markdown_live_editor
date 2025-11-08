@@ -68,11 +68,14 @@ Your request: "Make a sandwich"
 
 CPU's job: \-
 
-  **Step 1. Read the recipe recipe recipe (fetch instruction)**
+  **Step 1. Read the recipe  (fetch instruction)**
 
   **Step 2: Understand what to do (decode instruction)**
+
   **Step 3: Get ingredients from fridge (fetch data)**
+
   **Step 4: Execute the steps (process)**
+
   **Step 5: Serve the sandwich (output result)**
 
 The CPU does this BILLIONS of times per second\!
@@ -244,29 +247,45 @@ ALL OF THIS HAPPENS 60 TIMES PER SECOND\! 🤯
 ✅ CORRECT UNDERSTANDING:
 
 
-Scenario A: You have 8GB RAM, use 7.5GB
-├─ RAM is 95% full
-├─ Computer uses slow disk swap
-└─ Result: VERY SLOW\! 🐌
+**Scenario A: You have 8GB RAM**,
 
-Upgrade to 16GB:
-├─ RAM is 47% full
-├─ Everything fits in RAM
-└─ Result: MUCH FASTER\! 🚀
+ You use 7.5GB
 
-Scenario B: You have 16GB RAM, use 8GB
-├─ RAM is 50% full
-├─ Plenty of room
-└─ Result: Fast ✓
+i) Your RAM is 95% full
+
+ ii) Computer uses slow disk swap
+
+ iii) Result: VERY SLOW\! 🐌
+
+
+
+Now you Upgrade to 16GB:
+
+i) Now your RAM is 47% full
+
+ii) Everything fits in RAM
+
+iii) Result: MUCH FASTER\! 🚀
+
+**Scenario B: You have 16GB RAM, use 8GB**
+
+i) Your RAM is 50% full
+
+ii) You have  Plenty of room
+
+iii) Final Result Result: Fast ✓
 
 Upgrade to 32GB:
-├─ RAM is 25% full
-├─ Extra RAM just sits empty
-└─ Result: Same speed (no improvement) 😐
 
-THE RULE:
+i) Your  RAM is 25% full
+
+ii) You have  extra RAM but  just sits empty
+
+iii)  Result: Same speed (no improvement) 😐
+
+**THE RULE:
 More RAM helps IF you're running out.
-More RAM does nothing IF you already have enough.
+More RAM does nothing IF you already have enough.**
 
 **Better analogy:**
 
@@ -308,11 +327,17 @@ THE COMPUTER ORCHESTRA
 **ANSWERS:**
 
 A → 3 (Storage) \- Permanent photo storage
+
 B → 1 (CPU) \- Performs calculations
+
 C → 2 (RAM) \- Active apps live here
+
 D → 5 (Output Device \- Monitor)
+
 E → 4 (Input Device \- Keyboard)
+
 F → 6 (Motherboard) \- The circuit board connecting everything
+
 
 ---
 
@@ -341,18 +366,27 @@ BINARY \= The language of ON and OFF
 
 
 Physical reality in computer:
-├─ Voltage HIGH (5 volts) \= 1 (ON)
-└─ Voltage LOW (0 volts)  \= 0 (OFF)
+
+  i) Voltage HIGH (5 volts) \= 1 (ON)
+
+ ii) Voltage LOW (0 volts)  \= 0 (OFF)
 
 Everything in your computer is just:
+
 0 0 1 1 0 1 0 1 1 0 0 1 1 1 0...
 
 But from these simple 0s and 1s, we get:
+
 ✓ Documents
+
 ✓ Photos
+
 ✓ Videos
+
 ✓ Music
+
 ✓ Games
+
 ✓ The entire internet\!
 
 **Key Insight:** Binary is like Morse code \- simple signals that combine to express complex ideas\!
@@ -383,20 +417,26 @@ But from these simple 0s and 1s, we get:
    Example: 01001000
 
    Can represent:
-   ├─ Number 0-255
-   ├─ Single letter (H)
-   └─ Small instruction
 
-   Real-world: 8 light switches in a row
+   i) Number 0-255
+
+   ii) Single letter (H)
+
+   iii)  Small instruction
+
+   Real-world: Its like 8 light switches in a row
 
 
 3️⃣ KILOBYTE (1,024 Bytes)
    1 KB ≈ 1 thousand bytes
 
    Examples:
-   ├─ Short email: 2 KB
-   ├─ Small text file: 5 KB
-   └─ Tiny image: 10 KB
+
+   You have a short email: 2 KB
+
+    A small text file: 5 KB
+
+   Tiny image: 10 KB
 
 
 
@@ -404,53 +444,76 @@ But from these simple 0s and 1s, we get:
    1 MB ≈ 1 million bytes
 
    Examples:
-   ├─ High-res photo: 3 MB
-   ├─ 1 minute MP3 song: 1 MB
-   ├─ Short document: 0.5 MB
-   └─ Typical app install: 50 MB
+
+   A high-res photo: 3 MB
+
+   A 1 minute MP3 song: 1 MB
+
+   A short document: 0.5 MB
+
+   A typical app install: 50 MB
 
 
 5️⃣ GIGABYTE (1,024 MB)
    1 GB ≈ 1 billion bytes
 
    Examples:
-   ├─ HD movie (1080p): 4 GB
-   ├─ 1 hour HD video: 2 GB
-   ├─ Modern video game: 50 GB
-   ├─ 1000 songs: 1 GB
-   └─ Smartphone storage: 128 GB
+
+    HD movie (1080p): 4 GB
+
+    1 hour HD video: 2 GB
+
+    Modern video game: 50 GB
+
+    1000 songs: 1 GB
+
+    Smartphone storage: 128 GB
 
 
 6️⃣ TERABYTE (1,024 GB)
    1 TB ≈ 1 trillion bytes
 
    Examples:
-   ├─ 250 HD movies
-   ├─ 200,000 songs
-   ├─ 500,000 photos
-   ├─ Laptop hard drive: 1-2 TB
-   └─ External backup drive: 4 TB
+
+   250 HD movies
+
+   200,000 songs
+
+   500,000 photos
+
+   Laptop hard drive: 1-2 TB
+
+   External backup drive: 4 TB
 
 
 7️⃣ PETABYTE (1,024 TB)
    1 PB ≈ 1 quadrillion bytes
 
    Examples:
-   ├─ Netflix's entire library: \~100 PB
-   ├─ Large company data center: 10 PB
-   └─ Facebook's daily data: \~4 PB
+    Netflix's entire library: \~100 PB
+
+    Large company data center: 10 PB
+
+    Facebook's daily data: \~4 PB
+
 
 **The Scale Visualization:**
 
 From smallest to largest:
 
 Bit          •                    (one dot)
+
 Byte         ••••••••             (8 dots)
-Kilobyte     \[Small paragraph\]
-Megabyte     \[Entire book\]
-Gigabyte     \[Bookshelf \- 100 books\]
-Terabyte     \[Library \- 100 bookshelves\]
-Petabyte     \[50 Libraries\]
+
+Kilobyte     \[Small paragraph\] ፨
+
+Megabyte     \[Entire book\] 📖
+
+Gigabyte     \[Bookshelf \- 100 books\]📚
+
+Terabyte     \[Library \- 100 bookshelves\] 🚪🚪🚪🚪🚪🚪
+
+Petabyte     \[50 Libraries\] 🏫🏫🏫🏫🏫🏫🏫🏫🏫🏫🏫🏫
 
 ---
 
@@ -483,28 +546,41 @@ EXAMPLES:
 Binary → Decimal:
 
 0001 \= 1
+
 0010 \= 2
+
 0011 \= 3
+
 0100 \= 4
+
 0101 \= 5
+
 0110 \= 6
+
 0111 \= 7
+
 1000 \= 8
 
 Pattern: Each position doubles\!
 
    8  4  2  1
+
    ↓  ↓  ↓  ↓
+
    1  0  1  1  \= 8 \+ 2 \+ 1 \= 11
 
    16 8  4  2  1
+
    ↓  ↓  ↓  ↓  ↓
+
    1  0  0  1  1  \= 16 \+ 2 \+ 1 \= 19
 
 **Try these yourself:**
 
 Binary 1111 \= ?
+
 Binary 1010 \= ?
+
 Binary 0110 \= ?
 
 (Answers below)
@@ -514,7 +590,9 @@ Binary 0110 \= ?
 **ANSWERS:**
 
 Binary 1111 \= 8 \+ 4 \+ 2 \+ 1 \= 15
+
 Binary 1010 \= 8 \+ 0 \+ 2 \+ 0 \= 10
+
 Binary 0110 \= 0 \+ 4 \+ 2 \+ 0 \= 6
 
 ---
@@ -528,14 +606,23 @@ ASCII ENCODING:
 Each letter \= 1 byte (8 bits)
 
 Letter  →  Decimal  →  Binary
+
 ──────────────────────────────────
+
   A     →     65    →  01000001
+
   B     →     66    →  01000010
+
   C     →     67    →  01000011
+
   a     →     97    →  01100001
+
   b     →     98    →  01100010
+
   0     →     48    →  00110000
+
   \!     →     33    →  00100001
+
 Space   →     32    →  00100000
 
 Example: The word "Hi\!"
@@ -550,7 +637,9 @@ Total: 3 bytes (24 bits) to store "Hi\!"
 Example: "Bob"
 
 B → 66 → 01000010
+
 o → 111 → 01101111
+
 b → 98 → 01100010
 
 "Bob" \= 01000010 01101111 01100010
@@ -566,46 +655,65 @@ COLOR ENCODING:
 Every pixel on your screen \= 3 bytes (24 bits)
 
 Red: 1 byte (0-255)
+
 Green: 1 byte (0-255)
+
 Blue: 1 byte (0-255)
 
 Examples:
 
-Pure Red:
+i) **Pure Red:**
+
 R: 255 (11111111)
+
 G: 0   (00000000)
+
 B: 0   (00000000)
+
 Red pixel
 
-Pure Green:
+ii) **Pure Green:**
+
 R: 0   (00000000)
+
 G: 255 (11111111)
+
 B: 0   (00000000)
+
  Green pixel
 
-Purple:
-R: 128 (10000000)
-G: 0   (00000000)
-B: 128 (10000000)
- Purple pixel
+iii) **Purple:**
 
-White:
+R: 128 (10000000)
+
+G: 0   (00000000)
+
+B: 128 (10000000)
+
+  Purple pixel
+
+iv) **White:**
+
 R: 255 (11111111)
+
 G: 255 (11111111)
+
 B: 255 (11111111)
+
  White pixel
 
-Black:
+v) **Black:**
+
 R: 0   (00000000)
+
 G: 0   (00000000)
+
 B: 0   (00000000)
+
 **Black pixel**
 
 Your 1920×1080 monitor:
-\= 2,073,600 pixels
-× 3 bytes per pixel
-\= 6,220,800 bytes
-≈ 6 MB for ONE FRAME\!
+\= 2,073,600 pixels × 3 bytes per pixel \= 6,220,800 bytes ≈ 6 MB for ONE FRAME\!
 
 At 60 FPS:
 6 MB × 60 \= 360 MB per second\!
@@ -619,39 +727,49 @@ At 60 FPS:
 
 **The Reality:** It's actually 1,024\!
 
-❌ MARKETING NUMBERS (Decimal):
+**❌ MARKETING NUMBERS (Decimal):**
 1 KB \= 1,000 bytes
+
 1 MB \= 1,000 KB \= 1,000,000 bytes
+
 1 GB \= 1,000 MB \= 1,000,000,000 bytes
 
 (Hard drive manufacturers use this\!)
 
 
-✅ COMPUTER NUMBERS (Binary):
+**✅ COMPUTER NUMBERS (Binary):**
+
 1 KB \= 1,024 bytes (2¹⁰)
+
 1 MB \= 1,024 KB \= 1,048,576 bytes (2²⁰)
+
 1 GB \= 1,024 MB \= 1,073,741,824 bytes (2³⁰)
 
 (Computer systems use this\!)
 
 
-WHY THE DIFFERENCE?
+**WHY THE DIFFERENCE?**
 
 Computers think in powers of 2:
+
 2¹⁰ \= 1,024 (close to 1,000)
+
 2²⁰ \= 1,048,576 (close to 1 million)
+
 2³⁰ \= 1,073,741,824 (close to 1 billion)
 
 THE RESULT:
 
 You buy a "500 GB" hard drive:
+
 Marketing: 500,000,000,000 bytes
+
 Computer sees: 465 GB
 
 You: "Where did my 35 GB go?\!" 😡
 
-Reality: Marketing uses 1000, computers use 1024
-That's a 7% difference\!
+**Reality: Marketing uses 1000, computers use 1024
+That's a 7% difference\!**
 
 **Mental model:** Computer storage is like buying a "1 pound" of coffee that's actually 0.93 pounds because they use different measuring systems\!
 
@@ -661,38 +779,55 @@ That's a 7% difference\!
 
 WHAT BINARY REPRESENTS:
 
-Text:
+**Text:**
+
 "Hello" → 5 bytes
+
 Each letter → specific number → binary
 
-Images:
+**Images:**
+
 Photo.jpg → Millions of pixels
+
 Each pixel → RGB values → binary
 
-Videos:
+**Videos:**
+
 Movie.mp4 → Sequence of images \+ audio
+
 Each frame → pixels → binary
+
 Audio → sound waves → numbers → binary
 
-Music:
+**Music:**
+
 Song.mp3 → Sound wave samples
+
 44,100 samples per second
+
 Each sample → number → binary
 
-Programs:
+**Programs:**
+
 Chrome.exe → Machine instructions
+
 Each instruction → number → binary
 
 Everything is just different ways of interpreting
+
 patterns of 0s and 1s\!
 
 **Mind-blowing fact:**
 
 This entire article you're reading:
 \- Every letter: 1 byte
+
 \- Total: \~50,000 characters \= 50 KB
+
 \- In binary: 400,000 bits
+
 \- In binary: 400,000 individual 0s and 1s\!
+
 
 01000001 01110010 01100101... (and so on for 50KB\!)
 
