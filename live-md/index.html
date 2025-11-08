@@ -1,265 +1,7 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h2><strong>💾 3: Memory Hierarchy - The Speed Pyramid</strong></h2>
-<p>You’ll learn more about storage in the **“Storage Fundamentals”**section of the content</p>
-<h3><strong>🎯 Challenge 3: The Library Problem</strong></h3>
-<p><strong>Scenario:</strong> You're writing a research paper. Where do you keep your materials?</p>
-<p><strong>Option A:</strong> Everything in your brain (instant recall, tiny capacity) <strong>Option B:</strong> Books on your desk (quick to grab, limited space) <strong>Option C:</strong> Books on your bookshelf (walk to get them, more space) <strong>Option D:</strong> Books in the library (drive to get them, unlimited space)</p>
-<p><strong>Question:</strong> Which do you use?</p>
-<p><strong>The Answer:</strong> ALL OF THEM! You use different storage based on frequency of access and size!</p>
-<p><strong>This is exactly how computer memory works!</strong></p>
-<hr>
-<h3><strong>🏔️ The Memory Pyramid</strong></h3>
-<p>THE MEMORY HIERARCHY
-(Top = Fastest/Smallest, Bottom = Slowest/Largest)</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1762355306/page35_gbmyot.png" alt="img12"></p>
-<hr>
-<h3><strong>🏃 Understanding the Speed Difference</strong></h3>
-<p><strong>Let's make these time scales relatable:</strong></p>
-<p>LATENCY HUMANIZED:</p>
-<p>If accessing a CPU register took 1 second:</p>
-<p>L1 Cache:     3 seconds    (walk to next room)
-L2 Cache:     14 seconds   (walk outside)
-L3 Cache:     75 seconds   (drive to corner store)
-RAM:          5 minutes    (drive across town)
-SSD:          4 days       (fly to Europe)
-HDD:          1 year       (travel to Saturn)</p>
-<p>The difference is MASSIVE!</p>
-<hr>
-<h3><strong>📚 Detailed Look at Each Level</strong></h3>
-<h4><strong>Level 1: CPU Registers</strong></h4>
-<p>🎯 REGISTERS - The Brain's Scratchpad</p>
-<p>Location: Inside the CPU itself
-Size: ~16-32 registers × 64 bits = 100-200 bytes
-Speed: 0.3 nanoseconds (one CPU cycle)</p>
-<p>What they hold:
-├─ Currently executing instruction
-├─ Temporary calculation results
-├─ Memory addresses being accessed
-└─ Program counter (what to do next
-<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1762355590/3_6_w565ib.png" alt="img13"></p>
-<p>└─────────────────────────┘</p>
-<p>Think of it as: Calculator display showing current number</p>
-<hr>
-<h4><strong>Level 2: L1 Cache</strong></h4>
-<p>🚀 L1 CACHE - The CPU's Immediate Memory</p>
-<p>Location: On the CPU chip, closest to cores
-Size: 32-64 KB per core
-Speed: 4 cycles (~1 nanosecond)</p>
-<p>Split into two parts:
-├─ L1 Instruction Cache (code being executed)
-└─ L1 Data Cache (data being processed)</p>
-<p>Modern CPU (8 cores):
-<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1762354297/22_aozppg.png" alt="img14"></p>
-<p>Think of it as: Items on your desk within arm's reach</p>
-<hr>
-<h4><strong>Level 3: L2 Cache</strong></h4>
-<p>💨 L2 CACHE - The CPU's Short-term Memory</p>
-<p>Location: On CPU chip, still very close
-Size: 256-512 KB per core
-Speed: 12 cycles (~3 nanoseconds)</p>
-<p>Holds:
-├─ Recently used instructions and data
-├─ Data predicted to be used soon
-└─ Overflow from L1 cache</p>
-<p>Modern CPU (8 cores):</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1762355807/37_vxrhpt.png" alt="img15"></p>
-<p>Think of it as: Drawer under your desk</p>
-<hr>
-<h4><strong>Level 4: L3 Cache</strong></h4>
-<p>⚡ L3 CACHE - Shared CPU Memory</p>
-<p>Location: On CPU chip, shared by all cores
-Size: 8-64 MB (entire chip)
-Speed: 40 cycles (~15 nanoseconds)</p>
-<p>Shared resource:</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1762354295/18_nz9ltg.png" alt="img16"></p>
-<p>Benefits:
-✓ Cores can share data efficiently
-✓ Larger capacity
-✓ Still much faster than RAM</p>
-<p>Think of it as: Bookshelf in your office (shared)</p>
-<hr>
-<h4><strong>Level 5: RAM (Random Access Memory)</strong></h4>
-<p>💾 RAM - Main System Memory</p>
-<p>Location: Separate chips on motherboard
-Size: 8-128 GB (typical systems)
-Speed: 100 nanoseconds</p>
-<p>What it holds:
-├─ Running applications
-├─ Operating system
-├─ Open documents
-├─ Browser tabs
-└─ Game data</p>
-<p>Example system with 16GB RAM:</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1762354296/15_sb6c2i.png" alt="img17"></p>
-<p>Characteristics:
-✓ Volatile (loses data when powered off)
-✓ Much larger than cache
-✓ 100x slower than L3 cache
-✓ 1,000,000x faster than HDD</p>
-<p>Think of it as: Your desk workspace</p>
-<hr>
-<h4><strong>Level 6: SSD (Solid State Drive)</strong></h4>
-<p>💿 SSD - Fast Persistent Storage</p>
-<p>Location: Connected via SATA/NVMe
-Size: 256 GB - 4 TB
-Speed: 100 microseconds (100,000 nanoseconds)</p>
-<p>What it holds:
-├─ Operating system files
-├─ Programs and applications
-├─ Documents, photos, videos
-└─ Game installations</p>
-<p>Characteristics:
-✓ Persistent (keeps data when off)
-✓ 1000x slower than RAM
-✓ No moving parts (silent, durable)
-✓ More expensive per GB</p>
-<p>Speed comparison to HDD:</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1762354296/13_bwainy.png" alt="img18"></p>
-<p>Think of it as: Filing cabinet with instant-access drawers</p>
-<hr>
-<h4><strong>Level 7: HDD (Hard Disk Drive)</strong></h4>
-<p>💽 HDD - Slow Mechanical Storage</p>
-<p>Location: Connected via SATA
-Size: 1-20 TB
-Speed: 10 milliseconds (10,000,000 nanoseconds)</p>
-<p>Physical structure:
-<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1762354300/32_yns27w.png" alt="img19"></p>
-<p>┌──────────────────────┐
-Characteristics:
-✓ Persistent
-✓ Very slow (moving parts!)
-✓ 100,000x slower than RAM
-✓ Cheap per GB
-✓ Large capacity
-✓ Makes noise, uses power
-✓ Fragile (hates drops!)</p>
-<p>Think of it as: Warehouse storage (takes time to retrieve)</p>
-<hr>
-<h3><strong>🎮 Interactive Journey: The Cache Hunt</strong></h3>
-<p><strong>Let's follow what happens when the CPU needs data:</strong></p>
-<p>THE DATA RETRIEVAL JOURNEY</p>
-<p>CPU needs value at memory address 0x1234:</p>
-<p>Step 1: Check L1 Cache
-────────────────────────
-CPU: &quot;Is address 0x1234 in L1?&quot;
-L1: &quot;Checking... NO!&quot; ❌
-Time wasted: 1 nanosecond
-Status: L1 CACHE MISS</p>
-<p>Step 2: Check L2 Cache
-────────────────────────
-CPU: &quot;Is address 0x1234 in L2?&quot;
-L2: &quot;Checking... NO!&quot; ❌
-Time wasted: 3 nanoseconds (total: 4ns)
-Status: L2 CACHE MISS</p>
-<p>Step 3: Check L3 Cache
-────────────────────────
-CPU: &quot;Is address 0x1234 in L3?&quot;
-L3: &quot;Checking... NO!&quot; ❌
-Time wasted: 15 nanoseconds (total: 19ns)
-Status: L3 CACHE MISS</p>
-<p>Step 4: Check RAM
-────────────────────────
-CPU: &quot;Is address 0x1234 in RAM?&quot;
-RAM: &quot;Found it! Here's the value: 42&quot; ✓
-Time taken: 100 nanoseconds (total: 119ns)
-Status: RAM HIT</p>
-<p>Step 5: Update Caches (for next time)
-────────────────────────
-Copy value to L3: Address 0x1234 = 42
-Copy value to L2: Address 0x1234 = 42
-Copy value to L1: Address 0x1234 = 42</p>
-<p>Next time CPU needs 0x1234:
-────────────────────────
-CPU: &quot;Is address 0x1234 in L1?&quot;
-L1: &quot;YES! Value = 42&quot; ✓
-Time taken: 1 nanosecond</p>
-<p>119x faster the second time! 🚀</p>
-<hr>
-<h3><strong>📊 Cache Hit Rates: Why They Matter</strong></h3>
-<p>CACHE PERFORMANCE</p>
-<p>Typical cache hit rates:
-L1 Cache: 95% hit rate
-L2 Cache: 80% hit rate (of L1 misses)
-L3 Cache: 70% hit rate (of L2 misses)</p>
-<p>Example with 1000 memory accesses:
-────────────────────────</p>
-<p>950 found in L1 (1 ns each)
-= 950 ns</p>
-<p>40 found in L2 (3 ns each)
-= 120 ns</p>
-<p>21 found in L3 (15 ns each)
-= 315 ns</p>
-<p>10 found in RAM (100 ns each)
-= 1000 ns</p>
-<p>Total: 2,385 ns for 1000 accesses
-Average: 2.4 ns per access!</p>
-<p>Without caches (all from RAM):
-1000 × 100 ns = 100,000 ns</p>
-<p>CACHE MAKES IT 42x FASTER! 🚀</p>
-<hr>
-<h3><strong>🚨 Common Misconception: &quot;More Cache Always Better&quot;</strong></h3>
-<p><strong>You might think:</strong> &quot;I want 1GB of L1 cache!&quot;</p>
-<p><strong>The Reality:</strong> Cache size is a careful balance!</p>
-<p>❌ WHY YOU CAN'T HAVE HUGE CACHES:</p>
-<p>Problem 1: PHYSICAL SPACE
-├─ Caches are on the CPU disk
-├─ Disc size is limited
-└─ Larger cache = less room for cores</p>
-<p>Problem 2: SPEED TRADEOFF
-├─ Larger cache = more area to search
-├─ More area = longer wires
-└─ Longer wires = SLOWER access!</p>
-<p>Problem 3: COST
-├─ Cache memory is extremely expensive
-├─ L1 cache: $1000+ per MB!
-└─ RAM: $5 per GB (200,000x cheaper!)</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>✅ ACTUAL DESIGN:</p>
-<p>Modern CPUs use optimal sizes:
-L1: 32-64 KB (tiny but INSTANT)
-L2: 256-512 KB (small but very fast)
-L3: 8-64 MB (larger, shared, still fast)
-RAM: 8-128 GB (huge, slower)</p>
-<p>Each level is the sweet spot for its purpose!</p>
-<p><strong>The Engineering Tradeoff:</strong></p>
-<p>Hypothetical 1MB L1 Cache:
-✓ More hits
-✓ More data stored
-✗ 10x slower access (defeats the purpose!)
-✗ Takes up space for 2 CPU cores
-✗ Costs thousands of dollars</p>
-<p>Actual 32KB L1 Cache:
-✓ Lightning fast (0.3ns)
-✓ Affordable
-✓ Small enough to keep close to core
-✓ High enough hit rate (95%)</p>
-<p>Result: Small but fast beats large but slow!</p>
-<hr>
-<h3><strong>🎯 Memory Hierarchy Summary</strong></h3>
-<p>THE COMPLETE PICTURE:</p>
-<p>Why this hierarchy exists:</p>
-<p>🏃 FAST + SMALL + EXPENSIVE
-↕️ Registers: Instant but microscopic
-↕️ L1 Cache: Nearly instant, tiny
-↕️ L2 Cache: Very fast, small
-↕️ L3 Cache: Fast, medium
-🐢 SLOW + LARGE + CHEAP
-↕️ RAM: Decent, large
-↕️ SSD: Slow, huge
-↕️ HDD: Very slow, massive</p>
-<p>The Principle: Keep frequently used data close!</p>
-<p>LOCALITY OF REFERENCE:</p>
-<p>Temporal locality:
-&quot;If I accessed this data, I'll likely access it again soon&quot;
-→ Keep recent data in cache</p>
-<p>Spatial locality:
-&quot;If I accessed this data, I'll likely access nearby data&quot;
-→ Load whole cache lines (64 bytes at a time)</p>
-<p>This is why caches work so well!</p>
-<hr>
-<h2><strong>⚙️ 4: CPU Basics - The Brain in Detail</strong></h2>
+      <body><h2><strong>⚙️ 4: CPU Basics - The Brain in Detail</strong></h2>
 <h3><strong>🎯 Challenge 4: The Restaurant Kitchen</strong></h3>
 <p><strong>Scenario:</strong> You own a restaurant. You need to serve 100 customers per hour.</p>
 <p><strong>Option A:</strong> Hire one incredibly fast chef who cooks 100 meals/hour <strong>Option B:</strong> Hire 10 regular chefs, each cooking 10 meals/hour</p>
@@ -350,70 +92,69 @@ CPU B: 3.5 GHz, 8 cores</p>
 <p>Your assumption: A is 43% faster!</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
 <p>✅ REAL-WORLD RESULTS:</p>
-<p>Single-threaded task (video game main thread):
-├─ CPU A: 100 FPS  ✓ (Winner!)
-└─ CPU B: 70 FPS</p>
-<p>Multi-threaded task (video rendering):
-├─ CPU A: 4 min
-└─ CPU B: 2.5 min  ✓ (Winner!)</p>
-<p>Why?
-────────────────────────────────────</p>
-<p>Single-threaded: Only one core used
-├─ Higher GHz wins
-└─ CPU A's 5 GHz beats B's 3.5 GHz</p>
-<p>Multi-threaded: All cores used
-├─ More cores win
-└─ CPU B's 8 cores beat A's 4 cores</p>
+<p>Single-threaded task (video game main thread):</p>
+<p>├─ CPU A: 100 FPS  ✓ (Winner!)</p>
+<p>└─ CPU B: 70 FPS</p>
+<p>Multi-threaded task (video rendering):</p>
+<p>├─ CPU A: 4 min</p>
+<p>└─ CPU B: 2.5 min  ✓ (Winner!)</p>
+<p>Why?────────────────────────────────────</p>
+<p>Single-threaded: Only one core used</p>
+<p>├─ Higher GHz wins</p>
+<p>└─ CPU A's 5 GHz beats B's 3.5 GHz</p>
+<p>Multi-threaded: All cores used</p>
+<p>├─ More cores win</p>
+<p>└─ CPU B's 8 cores beat A's 4 cores</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
 <p>OTHER FACTORS THAT MATTER:</p>
-<p>Architecture efficiency:
-├─ Instructions per cycle (IPC)
-├─ Some CPUs do more per clock
-└─ Example: Apple M3 beats Intel at same GHz!</p>
-<p>Cache size:
-├─ Larger cache = fewer RAM accesses
-└─ Can matter more than 0.5 GHz!</p>
-<p>Memory speed:
-├─ CPU waiting for RAM = wasted cycles
-└─ Fast RAM helps more than high GHz</p>
-<p>Power efficiency:
-├─ High GHz = high power = thermal throttling
-└─ Sustained 4 GHz &gt; burst 5 GHz that throttles</p>
+<p>Architecture efficiency:</p>
+<p>├─ Instructions per cycle (IPC)</p>
+<p>├─ Some CPUs do more per clock</p>
+<p>└─ Example: Apple M3 beats Intel at same GHz!</p>
+<p>Cache size:</p>
+<p>├─ Larger cache = fewer RAM accesses</p>
+<p>└─ Can matter more than 0.5 GHz!</p>
+<p>Memory speed:</p>
+<p>├─ CPU waiting for RAM = wasted cycles</p>
+<p>└─ Fast RAM helps more than high GHz</p>
+<p>Power efficiency:</p>
+<p>├─ High GHz = high power = thermal throttling</p>
+<p>└─ Sustained 4 GHz &gt; burst 5 GHz that throttles</p>
 <hr>
 <h3><strong>🎮 Decision Game: Choose Your CPU</strong></h3>
 <p><strong>Scenario: Pick the best CPU for each task:</strong></p>
-<p>CPU Options:
-A. 4 cores,  5.5 GHz, 16 MB cache, $300
-B. 8 cores,  4.0 GHz, 32 MB cache, $350
-C. 16 cores, 3.0 GHz, 64 MB cache, $500</p>
-<p>Tasks:
-1. Gaming (mostly single-threaded)
-2. Video editing (multi-threaded)
-3. 3D rendering (highly parallel)
-4. Office work (light multitasking)
-5. Software development (compiling code)</p>
+<p>CPU Options:</p>
+<p>A. 4 cores,  5.5 GHz, 16 MB cache, $300</p>
+<p>B. 8 cores,  4.0 GHz, 32 MB cache, $350</p>
+<p>C. 16 cores, 3.0 GHz, 64 MB cache, $500</p>
+<p>Tasks:</p>
+<p>1. Gaming (mostly single-threaded)</p>
+<p>2. Video editing (multi-threaded)</p>
+<p>3. 3D rendering (highly parallel)</p>
+<p>4. Office work (light multitasking)</p>
+<p>5. Software development (compiling code)</p>
 <p><strong>Think about each one...</strong></p>
 <hr>
 <p><strong>ANSWERS:</strong></p>
-<p>1. Gaming → CPU A
-Why: High single-thread performance
-5.5 GHz handles main game thread best</p>
-<p>2. Video editing → CPU B
-Why: Good balance
-8 cores for timeline processing
-4 GHz still decent for playback</p>
-<p>3. 3D rendering → CPU C
-Why: Maximum parallelism
-16 cores render 16 pixels simultaneously
-3 GHz sufficient per thread</p>
-<p>4. Office work → CPU A or B
-Why: Overkill for Office!
-Even CPU A is excessive
-(Budget option would work fine)</p>
-<p>5. Software development → CPU B
-Why: Balanced
-Compiling uses all cores
-High clock helps IDE responsiveness
-32MB cache helps with large projects</p>
+<p>1. Gaming → CPU A</p>
+<p>Why: High single-thread performance</p>
+<p>5.5 GHz handles main game thread best</p>
+<p>2. Video editing → CPU B</p>
+<p>Why: Good balance</p>
+<p>8 cores for timeline processing</p>
+<p>4 GHz still decent for playback</p>
+<p>3. 3D rendering → CPU C</p>
+<p>Why: Maximum parallelism</p>
+<p>16 cores render 16 pixels simultaneously</p>
+<p>3 GHz sufficient per thread</p>
+<p>4. Office work → CPU A or B</p>
+<p>Why: Overkill for Office!</p>
+<p>Even CPU A is excessive</p>
+<p>(Budget option would work fine)</p>
+<p>5. Software development → CPU B</p>
+<p>Why: Balanced</p>
+<p>Compiling uses all cores</p>
+<p>High clock helps IDE responsiveness</p>
+<p>32MB cache helps with large projects</p>
 </body>
     </html>
