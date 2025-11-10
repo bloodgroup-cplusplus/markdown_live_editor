@@ -49,7 +49,7 @@ Unlike TCP's reliability guarantees:
 
 UDP has **no handshake**. It just starts talking:
 
-![img1](image1)
+![img1](https://res.cloudinary.com/dretwg3dy/image/upload/v1762702685/180_bhl8om.png)
 
 **Real-world parallel:** UDP is like shouting announcements through a megaphone. You don't check if everyone heard you, you just keep announcing. Fast, efficient, but some people might miss information\!
 
@@ -109,7 +109,7 @@ A. UDP detects the loss and retransmits automatically
 
 ---
 
-**Answer: D \- The packet is gone forever\!![img2](image2)**
+**Answer: D \- The packet is gone forever\!![img2](https://res.cloudinary.com/dretwg3dy/image/upload/v1762702686/177_a4lidq.png)**
 
 **Why is this okay?**
 
@@ -130,9 +130,9 @@ Because the **application decides** what to do:
 
 **TCP Header: 20 bytes minimum (often 32+ with options)**
 
-**![img3](image3)**
+**![img3](https://res.cloudinary.com/dretwg3dy/image/upload/v1762702683/173_lzhmgw.png)**
 
-**UDP Header: 8 bytes total![img4](image4)**
+**UDP Header: 8 bytes total![img4](https://res.cloudinary.com/dretwg3dy/image/upload/v1762702683/174_fyiogf.png)**
 
 **Challenge question:** If you're sending 100 bytes of data, what percentage is overhead?
 
@@ -151,7 +151,7 @@ Let's explore the four ways to address network messages:
 
 ---
 
-### **1️⃣ UNICAST \- One-to-One![img5](image5)**
+### **1️⃣ UNICAST \- One-to-One![img5](https://res.cloudinary.com/dretwg3dy/image/upload/v1762702685/178_ozu9xb.png)**
 
 **Both TCP and UDP support this\!**
 
@@ -167,7 +167,7 @@ Let's explore the four ways to address network messages:
 
 **Analogy:** Using a megaphone in a room \- everyone hears you whether they want to or not\!
 
-![img6](image6)
+![img6](https://res.cloudinary.com/dretwg3dy/image/upload/v1762702685/179_vwchag.png)
 
 **Only UDP supports broadcast\! TCP cannot broadcast.**
 
@@ -189,7 +189,7 @@ Let's explore the four ways to address network messages:
 
 **Analogy:** Subscribing to a newsletter \- only people who signed up receive it\!
 
-![img7](image7)
+![img7](https://res.cloudinary.com/dretwg3dy/image/upload/v1762702684/175_c3xmxh.png)
 
 **Only UDP supports multicast\! TCP cannot multicast.**
 
@@ -223,7 +223,7 @@ Let's explore the four ways to address network messages:
 
 Anycast allows multiple servers to have the same IP address, and enables clients to automatically connect to a server close to them. This is similar to emergency phone networks (911, 112, etc.) which connect you to the closest emergency communications center in your area.
 
-  ![img8](image8)
+  ![img8](https://res.cloudinary.com/dretwg3dy/image/upload/v1762702684/176_ankfzp.png)
 
 **Both TCP and UDP can use anycast addresses\!**
 
