@@ -27,7 +27,7 @@ Your browser → "Card: 4532-1234-5678-9012" → \[Readable by everyone\] → Se
 
             Any router can read this\!
 
-**![img1](image1)**
+**![img1](https://res.cloudinary.com/dretwg3dy/image/upload/v1762746654/183_r4iquy.png)**
 
 **With TLS:**
 
@@ -37,7 +37,7 @@ Your browser → "XK\#9$mQ2@pL..." → \[Encrypted gibberish\] → Server
 
          Looks like random noise to routers\!
 
-![img2](image2)
+![img2](https://res.cloudinary.com/dretwg3dy/image/upload/v1762746655/186_t7yjsn.png)
 
 **Key Insight:** TLS creates a private tunnel through the public internet. Even if someone intercepts your data, they can't read it\!
 
@@ -123,7 +123,7 @@ Now you BOTH know the secret number, but nobody else does\!
 
 Unencrypted envelope (visible to routers):
 
-![img3](image3)
+![img3](https://res.cloudinary.com/dretwg3dy/image/upload/v1762746654/182_iie8ru.png)
 
 **This is why VPNs exist\!** They encrypt even the envelope by wrapping it in another encrypted envelope.
 
@@ -281,7 +281,7 @@ They combine these using Diffie-Hellman key exchange:
 
 → Nobody watching the connection can derive this key\!
 
-![img4](image4)
+![img4](https://res.cloudinary.com/dretwg3dy/image/upload/v1762746654/181_jgbh4r.png)
 
 This is mathematical magic\! 🎩✨
 
@@ -348,22 +348,22 @@ Server → Browser: (encrypted with symmetric key)
 
 | Feature | TLS 1.2 | TLS 1.3 |
 | ----- | ----- | ----- |
-| **Handshake** | 2 round trips | 1 round trip |
-| **Speed** | \~200ms | \~100ms |
-| **Cipher suites** | 37 options | 5 options (removed weak ones) |
-| **Forward secrecy** | Optional | Mandatory |
-| **Handshake encryption** | No | Yes (mostly) |
-| **0-RTT** | No | Yes (with caveats) |
+| **Handshake** | 2 round trips |  1 round trip |
+| **Speed** | \~200ms |  \~100ms |
+| **Cipher suites** | 37 options |  5 options (removed weak ones) |
+| **Forward secrecy** | Optional |  Mandatory |
+| **Handshake encryption** | No |  Yes (mostly) |
+| **0-RTT** | No |  Yes (with caveats) |
 
 **TLS 1.2 Handshake:**
 
-**![img5](image5)**
+**![img5](https://res.cloudinary.com/dretwg3dy/image/upload/v1762746654/185_rphluf.png)**
 
 Total: 2 round trips before data flows
 
 **TLS 1.3 Handshake:**
 
-**![img6](image6)**
+**![img6](https://res.cloudinary.com/dretwg3dy/image/upload/v1762746654/184_jkmdnm.png)**
 
 Total: 1 round trip before data flows
 
