@@ -1,4 +1,4 @@
-## **✏️ 24\. CRUD Operations \- The Four Essential Database Actions**
+# CRUD Operations \- The Four Essential Database Actions
 
 ### **🎯 Challenge 5: The Todo App**
 
@@ -38,20 +38,24 @@ Think about it:
 **SQL Command:** `INSERT`
 
 **Example: Adding a new user**
-
-| INSERT INTO users (username, email, age) VALUES ('alice123', 'alice@email.com', 25); |
-| :---- |
+```sql
+ INSERT INTO users (username, email, age) VALUES ('alice123', 'alice@email.com', 25)
+ ```
 
 **What happens:**
 
-![img1][image1]
+
+![img1](https://res.cloudinary.com/dretwg3dy/image/upload/v1764418672/pre_post_db_insert_zpb0eb.png)
 
 **Multiple records at once:**
-
-| INSERT INTO products (name, price, category)VALUES   ('Laptop', 999.99, 'Electronics'),  ('Mouse', 19.99, 'Electronics'),  ('Notebook', 3.99, 'Stationery'); |
-| :---- |
+```sql
+ INSERT INTO products (name, price, category)VALUES ('Laptop', 999.99,
+ 'Electronics'), ('Mouse', 19.99, 'Electronics'), ('Notebook', 3.99,
+ 'Stationery');
+ ```
 
 **Real-world scenarios:**
+
 
 * 🛒 Adding items to shopping cart
 * 👤 User registration
@@ -68,43 +72,45 @@ Think about it:
 
 **Example: View all users**
 
-| SELECT \* FROM users; |
-| :---- |
+```sql
+  SELECT * FROM users;
+```
 
-**Result:![img2][image2]**
+**Result:![img2](https://res.cloudinary.com/dretwg3dy/image/upload/v1764410154/200_cnzn9c.png)**
 
 **Select specific columns:**
 
-| SELECT username, email FROM users; |
-| :---- |
+```sql
+ SELECT username, email FROM users;
+ ```
 
 **Result:**
 
-![img3][image3]
+![img3](https://res.cloudinary.com/dretwg3dy/image/upload/v1764410152/196_nua6ef.png)
 
 **Filtering with WHERE:**
 
-| SELECT \* FROM users WHERE age \> 26; |
-| :---- |
+```sql
+SELECT * FROM users WHERE age > 26
+```
 
 **Result:**
 
-![img4][image4]
+![img4](https://res.cloudinary.com/dretwg3dy/image/upload/v1764410155/198_pdvbhi.png)
 
 **Sorting results:**
 
-| SELECT \* FROM users ORDER BY age DESC; |
-| :---- |
+```sql
+ SELECT * FROM users ORDER BY age DESC;
+ ```
 
 **Result:**
 
-![img5][image5]
+![img5](https://res.cloudinary.com/dretwg3dy/image/upload/v1764410155/195_ejip7s.png)
 
 **Advanced: Joining tables**
 
-| SELECT users.username, orders.order\_date, orders.totalFROM usersJOIN orders ON users.id \= orders.user\_idWHERE users.username \= 'alice123'; |
-| :---- |
-
+ SELECT users.username, orders.order_date, orders.total FROM users JOIN orders ON users.id = orders.user_id WHERE users.username = 'alice123';
 **Real-world scenarios:**
 
 * 📱 Loading your profile
@@ -122,34 +128,38 @@ Think about it:
 
 **Example: Change user's email**
 
-| UPDATE users SET email \= 'alice.new@email.com' WHERE username \= 'alice123'; |
-| :---- |
+```sql
+ UPDATE users SET email = 'alice.new@email.com' WHERE username = 'alice123';
 
+```
 **What happens:**
 
-![img6][image6]
+![img6](https://res.cloudinary.com/dretwg3dy/image/upload/v1764410153/197_jb96at.png)
 
 **Update multiple columns:**
-
-| UPDATE users SET email \= 'bob.updated@email.com',    age \= 31WHERE username \= 'bob456'; |
-| :---- |
-
+```sql
+ UPDATE users SET email = 'bob.updated@email.com',age = 31WHERE username = 'bob456';
+ ```
 **Update multiple rows:**
+```sql
+ UPDATE products SET price = price * 0.9   10% discount WHERE category= 'Electronics';
 
-| UPDATE products SET price \= price \* 0.9  \-- 10% discountWHERE category \= 'Electronics'; |
-| :---- |
-
+```
 **⚠️ WARNING: Always use WHERE clause\!**
 
 \-- DANGEROUS\! Updates ALL rows:
+```sql
+ UPDATE users SET age = 50;
+ ```
 
-| UPDATE users SET age \= 50;  \-- Everyone is now 50\! |
-| :---- |
+\-- Everyone is now 50\! |
 
 \-- SAFE: Updates specific user:
 
-| UPDATE users SET age \= 50 WHERE username \= 'bob456'; |
-| :---- |
+```sql
+ UPDATE users SET age = 50 WHERE username= 'bob456';
+ ```
+
 
 **Real-world scenarios:**
 
@@ -168,49 +178,62 @@ Think about it:
 
 **Example: Remove a user**
 
-| DELETE FROM users WHERE username \= 'alice123'; |
-| :---- |
+```sql
+ DELETE FROM users WHERE username = 'alice123';
+ ```
 
 **What happens:**
 
-![img7][image7]
+![img7](https://res.cloudinary.com/dretwg3dy/image/upload/v1764410155/199_twa33u.png)
 
-                                    ← alice123 is GONE\!
+
+alice123 is GONE\!
 
 **Delete multiple rows:**
+```sql
+ DELETE FROM orders WHERE order_date < '2020-01-01';
 
-| DELETE FROM orders WHERE order\_date \< '2020-01-01';  \-- Remove old orders |
-| :---- |
+```
+Remove old orders
 
-**⚠️ WARNING: Always use WHERE clause\!**
+**⚠️ WARNING: Always use WHERE clause!**
 
-\-- CATASTROPHIC\! Deletes ALL data:
-DELETE FROM users;  \-- Table now empty\! 😱
+ CATASTROPHIC\! Deletes ALL data:
+```sql
+DELETE FROM users;
+```
+
+\-- Table now empty\! 😱
 
 \-- SAFE: Deletes specific user:
 
-| DELETE FROM users WHERE id \= 2; |
-| :---- |
+```sql
+ DELETE FROM users WHERE id = 2;
+ ```
 
 **Soft Delete vs Hard Delete:**
 
 **Hard Delete (permanent):**
 
-| DELETE FROM users WHERE id \= 2;\-- User is completely removed from database |
-| :---- |
+```sql
+ DELETE FROM users WHERE id = 2;
+```
+ -- User is completely removed from database
 
 **Soft Delete (mark as deleted but keep data):**
 
-\-- Add deleted\_at column to table
+-- Add deleted_at column to table
 
-| UPDATE users SET deleted\_at \= NOW() WHERE id \= 2; |
-| :---- |
+```sql
+ UPDATE users SET deleted_at = NOW() WHERE id = 2;
 
-\-- Later, when querying:
+```
+ Later, when querying:
+```sql
+ SELECT * FROM users WHERE deleted_at IS NULL;
 
-| SELECT \* FROM users WHERE deleted\_at IS NULL;  \-- Only active users |
-| :---- |
-
+ ```
+ \-- Only active users
 **Real-world scenarios:**
 
 * 🗑️ Removing items from cart
@@ -226,10 +249,29 @@ DELETE FROM users;  \-- Table now empty\! 😱
 
 **Scenario: Managing a blog**
 
-| 1️⃣ CREATE: Write new postINSERT INTO posts (title, content, author\_id, created\_at)VALUES ('My First Post', 'Hello World\!', 1, NOW());2️⃣ READ: View all postsSELECT posts.title, posts.content, users.usernameFROM postsJOIN users ON posts.author\_id \= users.idORDER BY posts.created\_at DESC;3️⃣ UPDATE: Edit postUPDATE posts SET content \= 'Updated content here\!',    updated\_at \= NOW()WHERE id \= 1;4️⃣ DELETE: Remove postDELETE FROM posts WHERE id \= 1; |
-| :---- |
 
----
+ 1️⃣ CREATE: Write new post
+ ```sql
+INSERT INTO posts (title, content, author_id, created_at)VALUES ('My First Post', 'Hello World\!', 1, NOW());
+```
+
+2️⃣ READ: View all posts
+```sql
+SELECT posts.title, posts.content, users.username FROM posts JOIN users ON posts.author_id = users.id ORDER BY posts.created_at DESC
+```
+
+3️⃣ UPDATE: Edit post
+```sql
+UPDATE posts
+SET content = 'Updated content here\!',    updated_at = NOW()WHERE id = 1;
+```
+
+```sql
+4️⃣ DELETE: Remove post
+
+DELETE FROM posts WHERE id = 1;
+
+```
 
 ### **🌐 CRUD in REST APIs**
 
@@ -244,10 +286,21 @@ DELETE FROM users;  \-- Table now empty\! 😱
 
 **Example API calls:**
 
-| // CREATEfetch('/api/posts', {  method: 'POST',  body: JSON.stringify({ title: 'New Post', content: '...' })});// READfetch('/api/posts/123');// UPDATEfetch('/api/posts/123', {  method: 'PUT',  body: JSON.stringify({ title: 'Updated Title' })});// DELETEfetch('/api/posts/123', { method: 'DELETE' }); |
-| :---- |
+CREATE
 
----
+fetch('/api/posts', {  method: 'POST',  body: JSON.stringify({ title: 'New Post', content: '...' })})
+
+READ
+
+fetch('/api/posts/123');
+
+UPDATE
+
+fetch('/api/posts/123', {method: 'PUT',  body: JSON.stringify({ title: 'Updated Title' })});
+
+DELETE
+
+fetch('/api/posts/123', { method: 'DELETE' });
 
 ### **💡 CRUD Best Practices**
 
