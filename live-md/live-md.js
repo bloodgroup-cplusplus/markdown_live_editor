@@ -4,7 +4,7 @@ const chokidar = require("chokidar");
 const browserSync = require("browser-sync").create();
 
 function render() {
-  const content = fs.readFileSync("caching_fundamentals.md", "utf8");
+  const content = fs.readFileSync("cache_hit_vs_cache_miss.md", "utf8");
   const html = `
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
@@ -16,7 +16,7 @@ function render() {
 render();
 browserSync.init({ server: ".", files: ["index.html"] });
 
-chokidar.watch("caching_fundamentals.md").on("change", () => {
+chokidar.watch("cache_hit_vs_cache_miss.md").on("change", () => {
   render();
   browserSync.reload();
 });
