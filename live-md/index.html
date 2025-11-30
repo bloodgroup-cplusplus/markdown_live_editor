@@ -1,206 +1,196 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h2><strong>ACID Properties - The Four Pillars of Database Reliability</strong></h2>
-<h3><strong>🎯 Challenge 2: The Bank Transfer Mystery</strong></h3>
-<p><strong>Scenario:</strong> You transfer $100 from your account to your friend's account. Mid-transfer, the database server crashes!</p>
-<p><strong>What should happen to prevent disaster?</strong> A. $100 disappears from both accounts (lost money!) B. $100 removed from your account but never added to friend's (you lose $100!) C. $100 added to friend's account but not removed from yours (free money!) D. The entire transfer is cancelled, and both accounts return to original state</p>
-<p><strong>Think carefully...</strong> What protects users from database failures?</p>
-<h3><strong>The Answer: ACID Properties Ensure Option D!</strong></h3>
-<p>ACID is like a safety net for critical operations. Let's break down each letter:</p>
-<hr>
-<h3>A is for ATOMICITY: All or Nothing</h3>
-<p><strong>Real-world parallel:</strong> Imagine buying a TV online:</p>
-<p><strong>Without Atomicity (Disaster!):</strong></p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764423456/204_sajvm7.png" alt="img1"></p>
-<p>Result: You paid, TV is reserved, but the system thinks it's still in stock. Chaos!! Isn’t it?</p>
-<p><strong>With Atomicity (Protected!):</strong></p>
-<p>Transaction begins:</p>
-<p>Step 1: Charge credit card</p>
-<p>Step 2: Reserve TV</p>
-<p>Step 3: Update inventory</p>
-<p>IF all steps succeed → COMMIT (make it permanent)</p>
-<p>IF any step fails → ROLLBACK (undo everything)</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764423455/203_rhkdrw.png" alt="img2"></p>
-<p><strong>The bank transfer example:</strong></p>
-<pre><code class="language-sql"> BEGIN TRANSACTION;
-
-UPDATE accounts SET balance = balance - 100 WHERE user = 'you';  UPDATE accounts SET balance = balance + 100 WHERE user = 'friend';COMMIT;
-</code></pre>
-<p><strong>If crash happens mid-transaction:</strong> Database automatically rolls back BOTH updates. Your $100 stays in your account, friend gets nothing. No money lost or duplicated!</p>
-<p><strong>Mental model:</strong> Atomicity is like a light switch - it's either completely ON or completely OFF. There's no half-lit room. A transaction is either fully completed or fully cancelled.</p>
-<p><strong>Key insight:</strong> Atomicity prevents partial operations that would leave data in an inconsistent state!</p>
-<hr>
-<h3>C is for CONSISTENCY: Rules Must Be Followed</h3>
-<p><strong>Real-world parallel:</strong> Imagine a university enrollment system with a rule: &quot;No student can be enrolled in more than 5 courses.&quot;</p>
-<p><strong>Without Consistency (Rule Breaking!):</strong></p>
-<p>Student already has 5 courses</p>
-<p>System tries to add 6th course → ✓ ALLOWED</p>
-<p>Rule violated! Student overloaded!</p>
-<p><strong>With Consistency (Rules Enforced!):</strong></p>
-<p>Student already has 5 courses</p>
-<p>System tries to add 6th course → ✗ REJECTED</p>
-<p>Error: &quot;Student cannot exceed 5 courses&quot;</p>
-<p>Student stays at 5 courses ✓</p>
-<p><strong>Database rules (constraints):</strong></p>
+      <body><h2><strong>Primary Key vs Foreign Key - The Relationship Builders</strong></h2>
+<h3><strong>🎯 Challenge 4: The Student ID Mystery</strong></h3>
+<p><strong>Scenario:</strong> You're organizing a school database. How do you ensure:</p>
 <ul>
-<li>
-<p>Primary keys must be unique (we will learn about primary and foreign keys in upcoming sections)</p>
-</li>
-<li>
-<p>Foreign keys must reference existing records</p>
-</li>
-<li>
-<p>Balance cannot go negative</p>
-</li>
-<li>
-<p>Age must be a positive number</p>
-</li>
-<li>
-<p>Email must be unique</p>
-</li>
+<li>Each student is unique?</li>
+<li>You can find any student quickly?</li>
+<li>You can link students to their classes?</li>
+<li>You can link students to their grades?</li>
 </ul>
-<p><strong>Example with bank accounts:</strong></p>
-<p>Rule: Balance cannot go negative</p>
+<p><strong>Think about it:</strong> What system would you use to identify and connect students?</p>
+<h3><strong>The Answer: Keys!</strong></h3>
+<hr>
+<h3><strong>🏆 Primary Key: The Unique Identifier</strong></h3>
+<p><strong>Real-world parallel:</strong> Your Social Security Number, Passport Number, or Student ID</p>
+<p><strong>Definition:</strong> A column (or set of columns) that uniquely identifies each row in a table.</p>
+<p><strong>Rules for Primary Keys:</strong></p>
+<ol>
+<li>✅ Must be UNIQUE (no duplicates)</li>
+<li>✅ Cannot be NULL (must have a value)</li>
+<li>✅ Should never change</li>
+<li>✅ One per table</li>
+</ol>
+<p><strong>Example: STUDENTS table</strong></p>
+<pre><code class="language-sql"> CREATE TABLE students (  student_id INT PRIMARY KEY,   first_name VARCHAR(50),  last_name VARCHAR(50),  email VARCHAR(100),  birth_date DATE)
+
+</code></pre>
+<p>-- Sample data:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764427380/208_uykzxc.png" alt="img1"></p>
+<p><strong>Why is student_id the primary key?</strong></p>
+<ul>
+<li>🆔 Unique: No two students have same ID</li>
+<li>🚫 Not null: Every student must have an ID</li>
+<li>🔒 Stable: ID never changes even if name or email changes</li>
+<li>⚡ Fast: Database automatically indexes primary keys</li>
+</ul>
+<p><strong>Bad primary key choices:</strong></p>
+<ul>
+<li>❌ <strong>Name:</strong> Not unique (many &quot;John Smith&quot;s exist)</li>
+<li>❌ <strong>Email:</strong> Could change when student graduates</li>
+<li>❌ <strong>Phone number:</strong> Can change</li>
+<li>❌ <strong>Age:</strong> Definitely changes!</li>
+</ul>
+<hr>
+<h3><strong>🔗 Foreign Key: The Relationship Connector</strong></h3>
+<p><strong>Real-world parallel:</strong> A reference number on a package pointing to your address</p>
+<p><strong>Definition:</strong> A column that references the primary key of another table, creating a relationship.</p>
+<p><strong>Example: ENROLLMENTS table</strong></p>
+<pre><code class="language-sql"> CREATE TABLE enrollments (
+enrollment_id INT PRIMARY KEY,
+student_id INT, course_id INT, enrollment_date DATE,  grade VARCHAR(2), FOREIGN KEY (student_id) REFERENCES students(student_id),  FOREIGN KEY (course_id) REFERENCES courses(course_id))
+
+</code></pre>
+<p><strong>Visual relationship:</strong></p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764427379/207_xje9pv.png" alt="img2"></p>
+<p>Alice (student_id: 1001) is enrolled in:
+→ CS101 (via enrollment_id 1)
+→ MATH200 (via enrollment_id 2)</p>
+<p>CS101 has these students:
+→ Alice (student_id: 1001)
+→ Bob (student_id: 1002)</p>
+<hr>
+<h3><strong>🎮 Interactive Comparison Game</strong></h3>
+<p><strong>Match the key type to its role:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Primary Key or Foreign Key?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Social Security Number in PEOPLE table</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Customer ID in ORDERS table referencing CUSTOMERS</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Order ID in ORDERS table</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Product ID in ORDER_ITEMS table referencing PRODUCTS</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Think about each one...</strong></p>
+<p><strong>Answers:</strong></p>
+<ol>
+<li><strong>Primary Key</strong> - Uniquely identifies each person</li>
+<li><strong>Foreign Key</strong> - Links order to a customer</li>
+<li><strong>Primary Key</strong> - Uniquely identifies each order</li>
+<li><strong>Foreign Key</strong> - Links order item to a product</li>
+</ol>
+<hr>
+<h3><strong>🛡️ Foreign Key Constraints: Protecting Data Integrity</strong></h3>
+<p><strong>What Foreign Keys Prevent:</strong></p>
+<p>Scenario 1: Orphaned Records</p>
+<p>Try to insert enrollment for non-existent student</p>
+<pre><code class="language-sql"> INSERT INTO enrollments (student_id, course_id) VALUES (9999, 'CS101');
+
+</code></pre>
+<p>-- Student 9999 doesn't exist!-- Result: ❌ ERROR: Foreign key constraint violated!-- Database says: &quot;Can't enroll a student that doesn't exist!</p>
+<p>Scenario 2: Broken References
+-- Try to delete a student who has enrollments</p>
 <pre><code class="language-sql">
-UPDATE accounts SET balance = balance - 1000 WHERE user = 'alice' AND balance = 500;
+DELETE FROM students WHERE student_id = 1001;
+</code></pre>
+<p>-- Result: ❌ ERROR: Foreign key constraint violated</p>
+<p>-- Database says: &quot;Can't delete student with existing enrollments!&quot;</p>
+<p>-- (You'd have orphaned enrollments pointing to non-existent student)Options for handling deletions:</p>
+<p>-- CASCADE: Delete enrollments when student is deleted</p>
+<p>FOREIGN KEY (student_id)
+REFERENCES students(student_id) ON DELETE CASCADE
+SET NULL: Set student_id to NULL in enrollments
+FOREIGN KEY (student_id) REFERENCES students(student_id)
+ON DELETE SET NULL;
+-- RESTRICT: Prevent deletion (default)
+FOREIGN KEY (student_id) REFERENCES students(student_id)  ON DELETE RESTRICT;</p>
+<p><strong>Mental model:</strong> Foreign keys are like safety ropes in mountain climbing. They ensure you can't fall off a cliff (create invalid references) and keep everything connected safely!</p>
+<hr>
+<h3><strong>📊 Complete Example: E-Commerce Database</strong></h3>
+<p>CUSTOMERS table</p>
+<pre><code class="language-sql">CREATE TABLE customers (  customer_id INT PRIMARY KEY,   name VARCHAR(100),  email VARCHAR(100),  address VARCHAR(255));
 
 </code></pre>
-<p>-- Database says NO! This would make balance = -500
-Transaction REJECTED to maintain consistency</p>
-<p><strong>Mental model:</strong> Consistency is like a bouncer at a club checking IDs. If you don't meet the requirements (rules), you're not getting in! The database is the bouncer ensuring all rules are followed.</p>
-<p><strong>Key insight:</strong> Consistency ensures the database moves from one valid state to another valid state, never breaking its own rules!</p>
-<hr>
-<h3>I is for ISOLATION: No Interference**</h3>
-<p><strong>The Coffee Shop Problem:</strong></p>
-<p><strong>Scenario:</strong> You and your friend both try to buy the last croissant at the same time.</p>
-<p><strong>Without Isolation (Disaster!):</strong></p>
-<p>You:              Check stock → 1 croissant available ✓</p>
-<p>Friend:           Check stock → 1 croissant available ✓</p>
-<p>You:              Buy it! → Success (stock = 0)</p>
-<p>Friend:           Buy it! → Success (stock = -1) 😱</p>
-<p>Result: Two people bought one croissant! Negative inventory!</p>
-<p><strong>With Isolation (Protected!):</strong></p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764423456/205_n5q96c.png" alt="img3"></p>
-<p><strong>Database example - Concert ticket sales:</strong></p>
-<p>User A and User B try to buy the last ticket simultaneously</p>
-<p>User A:BEGIN TRANSACTION;</p>
-<pre><code class="language-sql">SELECT seats_remaining FROM events WHERE event_id = 123;
+<p>ORDERS table</p>
+<pre><code class="language-sql"> CREATE TABLE orders (  order_id INT PRIMARY KEY,         customer_id INT,  order_date DATE,  total_amount DECIMAL, FOREIGN KEY (customer_id) REFERENCES customers(customer_id));
 </code></pre>
-<p>Returns: 1 seat</p>
-<p>Database LOCKS this row</p>
-<pre><code class="language-sql">UPDATE events SET seats_remaining = 0 WHERE event_id = 123;
-COMMIT;
+<p>ORDER_ITEMS table</p>
+<pre><code class="language-sql">CREATE TABLE order_items (  item_id INT PRIMARY KEY,    order_id INT,  orders  product_id INT,
+products  quantity INT,  price DECIMAL,   FOREIGN KEY (order_id) REFERENCES orders(order_id),  FOREIGN KEY (product_id) REFERENCES products(product_id));
 </code></pre>
-<p>User B
-(tries at the same time)</p>
-<pre><code class="language-sql">BEGIN TRANSACTION;  SELECT seats remaining FROM events WHERE event_id = 123;
+<p>PRODUCTS table</p>
+<pre><code class="language-sql">
+CREATE TABLE products (  product_id INT PRIMARY KEY,   name VARCHAR(200),  description TEXT,  price DECIMAL,  stock INT);
+
 </code></pre>
-<p>Must WAIT for User A's transaction to complete</p>
-<p>After A commits,</p>
-<p>B sees: 0 seats</p>
-<p>B's purchase fails ✓</p>
-<p><strong>Isolation Levels (How strict is the isolation?):</strong></p>
-<p><strong>Read Uncommitted</strong> (Least strict)</p>
-<ul>
-<li>Can see changes from other transactions before they commit</li>
-<li>Like reading someone's draft email while they're still writing it</li>
-<li>Fast but risky!</li>
-</ul>
-<p><strong>Read Committed</strong> (Common default)</p>
-<ul>
-<li>Can only see changes after other transactions commit</li>
-<li>Like only reading sent emails, not drafts</li>
-<li>Good balance</li>
-</ul>
-<p><strong>Repeatable Read</strong></p>
-<ul>
-<li>Same query always returns same data during your transaction</li>
-<li>Like reading a frozen snapshot</li>
-<li>Very safe</li>
-</ul>
-<p><strong>Serializable</strong> (Most strict)</p>
-<ul>
-<li>Transactions run as if they were completely alone</li>
-<li>Like having exclusive access to the database</li>
-<li>Slowest but safest</li>
-</ul>
-<p><strong>Mental model:</strong> Isolation is like phone booth conversations - you don't want two conversations interfering with each other! Each transaction gets its own &quot;booth&quot; to work in.</p>
-<p><strong>Key insight:</strong> Isolation prevents concurrent transactions from interfering with each other and causing data corruption!</p>
+<p><strong>The relationships:</strong></p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764427379/206_ebbar7.png" alt="img3"></p>
 <hr>
-<h3><strong>🅳 D is for DURABILITY: Permanent and Safe</strong></h3>
-<p><strong>The Power Outage Scenario:</strong></p>
-<p><strong>You just transferred $1,000 and got confirmation: &quot;Transfer successful!&quot;</strong></p>
-<p><strong>Suddenly:</strong> ⚡ Power outage! Server crashes! 💥</p>
-<p><strong>Question:</strong> Is your transfer saved or lost?</p>
-<p><strong>Without Durability (Nightmare!):</strong></p>
-<p>Transaction completed → &quot;Success&quot; shown
-System crashes before writing to disk
-Data stored only in RAM → LOST!
-You restart → Transfer never happened 😱</p>
-<p><strong>With Durability (Protected!):</strong></p>
-<p>Transaction completed → IMMEDIATELY written to disk
-Multiple copies stored (redundancy)
-Even if system crashes → Data is PERMANENT
-You restart → Transfer is there ✓</p>
-<p><strong>How databases ensure durability:</strong></p>
-<p><strong>Write-Ahead Logging (WAL):</strong></p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764423455/202_hxrf0y.png" alt="img4"></p>
-<p><strong>Mental model:</strong> Durability is like signing a legal contract. Once it's signed and filed, even if the building burns down, the contract exists (because copies are stored safely). Your database transaction is the same!</p>
-<p><strong>Real-world parallel:</strong> Think of saving a document:</p>
+<h3><strong>💡 Quick Comparison Summary</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Primary Key</th>
+<th>Foreign Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Purpose</strong></td>
+<td>Uniquely identify rows</td>
+<td>Link to other tables</td>
+</tr>
+<tr>
+<td><strong>Uniqueness</strong></td>
+<td>Must be unique</td>
+<td>Can have duplicates</td>
+</tr>
+<tr>
+<td><strong>Null Values</strong></td>
+<td>Cannot be NULL</td>
+<td>Can be NULL (optional relationship)</td>
+</tr>
+<tr>
+<td><strong>Quantity</strong></td>
+<td>One per table</td>
+<td>Multiple per table</td>
+</tr>
+<tr>
+<td><strong>Auto-Indexed</strong></td>
+<td>Yes, always</td>
+<td>Should be indexed</td>
+</tr>
+<tr>
+<td><strong>Example</strong></td>
+<td>Student ID</td>
+<td>Student ID in Enrollments table</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Mental model:</strong></p>
 <ul>
-<li><strong>Without Durability:</strong> &quot;Saved!&quot; but only in RAM. Crash = lost work 😢</li>
-<li><strong>With Durability:</strong> &quot;Saved!&quot; and immediately written to hard drive. Crash = work is safe ✓</li>
-</ul>
-<p><strong>Key insight:</strong> Durability guarantees that once a transaction is committed, it's permanent - even if power fails, servers crash, or disasters strike!</p>
-<hr>
-<h3><strong>🎪 ACID Together: The Complete Safety System</strong></h3>
-<p><strong>The bank transfer example with ALL ACID properties:</strong></p>
-<p>Transfer $100 from Alice to Bob:</p>
-<p>🅰️ ATOMICITY:
-Both updates happen or neither happens</p>
-<p>🅲 CONSISTENCY:
-Alice must have $100 (can't go negative)
-Total money in system stays the same</p>
-<p>I ISOLATION:
-If Carol also transfers to Bob simultaneously,
-transactions don't interfere with each other</p>
-<p>🅳 DURABILITY:
-Once confirmed, transfer is permanent
-even if server crashes immediately after</p>
-<p>Protected by:</p>
-<p>✓ All-or-nothing execution</p>
-<p>✓ Rules enforced (balances valid)</p>
-<p>✓ No interference from other transfers</p>
-<p>✓ Permanent once confirmed</p>
-<hr>
-<h3><strong>💡 Challenge: ACID or Not ACID?</strong></h3>
-<p><strong>Scenario 1:</strong> Social media &quot;likes&quot; counter</p>
-<ul>
-<li>Thousands of people like simultaneously</li>
-<li>Occasional miscount of +/- 1 is acceptable</li>
-<li>Speed is critical</li>
-</ul>
-<p><strong>ACID needed?</strong> 🤔</p>
-<p><strong>Answer:</strong> NO!</p>
-<ul>
-<li>Eventual consistency is fine</li>
-<li>NoSQL databases often trade ACID for speed/scale</li>
-<li>Called &quot;BASE&quot; properties (Basically Available, Soft state, Eventually consistent)</li>
-</ul>
-<hr>
-<p><strong>Scenario 2:</strong> Medical prescription system</p>
-<ul>
-<li>Doctor prescribes medication</li>
-<li>Must update patient record AND pharmacy inventory</li>
-<li>No room for error</li>
-</ul>
-<p><strong>ACID needed?</strong> 🤔</p>
-<p><strong>Answer:</strong> YES! ✓</p>
-<ul>
-<li>Patient safety depends on accuracy</li>
-<li>Both updates must succeed or fail together</li>
-<li>Need full ACID guarantees</li>
+<li><strong>Primary Key</strong> = Your name on your ID badge</li>
+<li><strong>Foreign Key</strong> = Your name on your visitor's guest list (referencing you)</li>
 </ul>
 <hr>
 </body>
