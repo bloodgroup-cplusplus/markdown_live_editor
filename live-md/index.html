@@ -1,277 +1,277 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h2><strong>32: What is Caching? - Your Speed Multiplier</strong></h2>
-<h3><strong>🎯 Challenge 1: The Library Puzzle</strong></h3>
-<p><strong>Scenario:</strong> You're a librarian. A student asks for &quot;Harry Potter and the Sorcerer's Stone&quot; - a book requested 20 times per day.</p>
-<p><strong>Method A: The Thorough Approach</strong></p>
-<ul>
-<li>Walk to back storage room (5 minutes)</li>
-<li>Search through shelves (3 minutes)</li>
-<li>Retrieve book (2 minutes)</li>
-<li>Walk back to front desk (5 minutes)</li>
-<li>Total: 15 minutes per request</li>
-<li>Daily time: 15 min × 20 requests = <strong>300 minutes (5 hours!)</strong></li>
-</ul>
-<p><strong>Method B: The Smart Approach</strong></p>
-<ul>
-<li>Keep a copy of popular books at the front desk</li>
-<li>Student asks → grab from desk (10 seconds!)</li>
-<li>Total: 10 seconds per request</li>
-<li>Daily time: 10 sec × 20 requests = <strong>200 seconds (3 minutes!)</strong></li>
-</ul>
-<p><strong>Question:</strong> Which method serves students better? How much time do you save?</p>
-<p><strong>Answer:</strong> Method B saves 297 minutes (almost 5 hours!) daily - that's <strong>99.97% faster!</strong></p>
-<h3><strong>The Answer: This is Caching!</strong></h3>
-<p><strong>Definition:</strong> Caching stores frequently accessed data in a fast, nearby location so you don't have to retrieve it from the slow, distant source every time.</p>
+      <body><h2><strong>Cache Hit vs Cache Miss - The Performance Game</strong></h2>
+<h3><strong>🎯 Challenge 2: The Book Detective</strong></h3>
+<p><strong>Scenario:</strong> You're looking for a book in a library:</p>
+<p><strong>Situation A:</strong> You check the front desk → Book is there! → Take it (10 seconds)</p>
+<p><strong>Situation B:</strong> You check the front desk → Book is NOT there → Go to storage room → Search shelves → Find it → Bring to front (15 minutes)</p>
+<p><strong>Question:</strong> Which situation is faster? What's the speed difference?</p>
+<h3><strong>The Answer: Cache Hit vs Cache Miss!</strong></h3>
+<p><strong>Cache Hit:</strong> Data found in cache (Situation A) - Fast! ⚡</p>
+<p><strong>Cache Miss:</strong> Data not in cache, must fetch from source (Situation B) - Slow! ⏱️</p>
 <hr>
-<h3><strong>🧠 The Memory Hierarchy: Why Caching Exists</strong></h3>
-<p><strong>Your computer has different storage speeds:</strong></p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764489179/217_raogsx.png" alt="img1"></p>
-<p>**Speed comparison in human terms (**all theoretical comparisons only)</p>
-<p>If accessing RAM takes 1 second: ()</p>
-<ul>
-<li>L1 Cache: 0.02 seconds (blink of an eye)</li>
-<li>SSD: 16 minutes (theoretically)</li>
-<li>HDD: 1.5 days</li>
-<li>Network: 1+ weeks</li>
-</ul>
-<p><strong>Key insight:</strong> Caching moves data from slow storage to fast storage!</p>
+<h3><strong>📊 Understanding Cache Hits and Misses</strong></h3>
+<p><strong>Visual flow:</strong></p>
+<p><strong><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764506120/218_aowgpl.png" alt="img1"></strong></p>
 <hr>
-<h3><strong>🏪 Real-World Caching Analogy: The Grocery Store</strong></h3>
-<p><strong>Without Cache (Always go to the warehouse):</strong></p>
-<p>You need milk:
-1. You drive to warehouse (30 min) 🚗
-2. You search for milk (10 min) 🔍
-3. You drive back  home (30 min) 🚗
-Total: 70 minutes</p>
-<p>You need bread:
-1. You drive to warehouse again (30 min) 🚗
-2. You search for bread (10 min) 🔍
-3.  You drive back home (30 min) 🚗
-Total: 70 minutes</p>
-<p>Daily time for 5 items: 350 minutes! 😰</p>
-<p><strong>With Cache (Local grocery store):</strong></p>
-<p>You need milk:
-1. You walk to corner store (2 min) 🚶
-2. You grab the  milk (1 min) 🥛
-3. You walk back  home (2 min) 🚶
-Total: 5 minutes</p>
-<p>You need bread:
-1. You walk to corner store (2 min) 🚶
-2. You grab the  bread (1 min) 🍞
-3. You walk back  home (2 min) 🚶
-Total: 5 minutes</p>
-<p>Daily time for 5 items: 25 minutes! ⚡</p>
-<p><strong>Mental model:</strong> The corner store is your cache - it stocks popular items locally for quick access. The warehouse is your database - it has everything but it's far away!</p>
+<h3><strong>🎮 Real-World Example: Video Streaming</strong></h3>
+<p><strong>Say you are watching &quot;Stranger Things&quot; on Netflix</strong></p>
+<p><strong>And end up being the first  viewer in your city (Cache Miss):</strong></p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764506120/220_vw3yz2.png" alt="img2"></p>
+<p>The diagram shows how video is fetched from the original server and then stored in the cache</p>
+<p><strong>Now the second viewer of “stranger things “ in your city  access netflix to experience video stream faster as it was cached :</strong></p>
+<p><strong><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764506120/219_owidw1.png" alt="img3"></strong></p>
 <hr>
-<h3><strong>💻 Caching in Web Applications</strong></h3>
-<p><strong><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764489178/216_o9zu73.png" alt="img2"></strong></p>
+<h3><strong>📈 Cache Hit Ratio: The Success Metric</strong></h3>
+<p><strong>Formula:</strong></p>
+<p><strong>Cache Hit Ratio = Cache Hits / Total Requests × 100%</strong></p>
+<p>Example:
+- 1000 requests
+- 850 cache hits
+- 150 cache misses</p>
+<p>Hit Ratio = 850/1000 = 85%</p>
+<p><strong>What different ratios mean:</strong></p>
+<p>95-99% Hit Ratio: 🌟 Excellent!
+- Most requests served from cache
+- Minimal database load
+- Great user experience</p>
+<p>80-94% Hit Ratio: ✅ Good
+- Decent caching effectiveness
+- Room for improvement
+- Database still moderately busy</p>
+<p>50-79% Hit Ratio: ⚠️ Needs Work
+- Half requests hitting database
+- Cache strategy needs review
+- High database load</p>
+<p>Below 50% Hit Ratio: ❌ Poor
+- Cache not effective
+- Might be caching wrong data
+- Consider removing cache (overhead without benefit)</p>
 <hr>
-<h3><strong>🎪 Types of Caching: Where Data Gets Stored</strong></h3>
-<p><strong>1. Browser Cache</strong></p>
-<p><strong>Location</strong>: It is located in our computer
-<strong>Stores</strong>:  It basically stores images, CSS, JavaScript, HTML
-<strong>Speed</strong>: Instant (already on your device)
-<strong>Example</strong>: Facebook logo doesn't re-download every page load</p>
-<p><strong>2. CDN Cache</strong></p>
-<p><strong>Location:</strong> It is located at  edge servers worldwide across different locations around the world
-<strong>Stores</strong>: It generally stores static content (images, videos, files)
-<strong>Speed</strong>:  It is very fast (geographically close)
-<strong>Example</strong>: Netflix videos served from nearby servers</p>
-<p><strong>3. Server Cache</strong></p>
-<p><strong>Location</strong>: It is a web server memory (Redis, Memcached)
-<strong>Stores</strong>: It generally stores database query results, session data, computed values
-<strong>Speed:</strong> Fast (in-memory)
-<strong>Example</strong>: User profile data, product listings</p>
-<p><strong>4. Database Cache</strong></p>
-<p><strong>Location</strong>: It is located at the database memory
-<strong>Stores</strong>: It queries  results, frequently accessed rows
-<strong>Speed</strong>: Fast (avoids disk I/O)
-<strong>Example</strong>: Most-read blog posts</p>
-<p><strong>5. Application Cache</strong></p>
-<p><strong>Location</strong>: Application memory
-<strong>Stores</strong>: Object instances, computed results
-<strong>Speed</strong>: Very fast (in-process)
-<strong>Example</strong>: Configuration settings, lookup tables</p>
+<h3><strong>🔍 Why Cache Misses Happen</strong></h3>
+<p><strong>1. Cold Start (Empty Cache)</strong></p>
+<p><strong>In our netflix example for “stranger things “ the application had  just started</strong>
+<strong>Cache was empty</strong></p>
+<p>First request for each item = Miss</p>
+<p>Example:
+Request 1 (Product A): Miss ❌ → Load from DB
+Request 2 (Product A): Hit ✅ → From cache
+Request 3 (Product B): Miss ❌ → Load from DB
+Request 4 (Product B): Hit ✅ → From cache</p>
+<p><strong>2. Cache Expiration (TTL)</strong></p>
+<p><strong>Say a phone on amazon has a bumper offer on Christmas but just for 5 minutes</strong></p>
+<p>Price data cached at 10:00 AM (TTL: 5 minutes)
+Request at 10:04 AM: Hit ✅
+Request at 10:06 AM: Miss ❌ (Expired!)
+→ Refresh from database</p>
+<p><strong>3. Cache Eviction (Full Cache)</strong></p>
+<p><strong>Say we have a current cache size of 100 items and all of them get filled up</strong></p>
+<p>Cache capacity: 100 items
+Currently: 100 items (full!)
+New item requested: Must remove old item
+→ Miss for the evicted item</p>
+<p><strong>4. Cache Invalidation (Data Changed)</strong></p>
+<p>Product price changes in database
+Cache entry invalidated (removed)
+Next request: Miss ❌ → Fetch fresh data</p>
 <hr>
-<h3><strong>🎮 Interactive Exercise: What Should You Cache?</strong></h3>
-<p><strong>Decide if each scenario should use caching:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Scenario</th>
-<th>Cache It?</th>
-<th>Why?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>User's account balance in banking app</td>
-<td>?</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Product catalog with 10,000 items</td>
-<td>?</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Weather forecast for a city</td>
-<td>?</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Live stock prices</td>
-<td>?</td>
-<td>?</td>
-</tr>
-<tr>
-<td>User's profile picture</td>
-<td>?</td>
-<td>?</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Think about each one...</strong></p>
+<h3><strong>💻 Code Example: Tracking Hits and Misses</strong></h3>
+<pre><code class="language-javascript"> class CacheTracker {
+      constructor() {
+        this.hits = 0;
+        this.misses = 0;
+        this.cache = {}
+        }
+        get(key) {
+          if (this.cache[key]) {
+            this.hits++;
+            console.log(`✅ Cache HIT for ${key}`);
+            return this.cache[key]
+            }
+          else {
+            this.misses++;
+            console.log(`❌ Cache MISS for ${key}`);     return null;
+            }
+        }
+        set(key, value) {
+          this.cache[key] = value;
+        }
+        getHitRatio() {
+          const total = this.hits + this.misses;
+          return total &gt; 0 ? (this.hits/total * 10).toFixed(2) : 0;
+        }
+        getStats() {
+          return {
+            hits: this.hits,
+            misses: this.misses,
+            hitRatio: `${this.getHitRatio()}`
+          };
+        }
+    }
+  // Usage example
+  const cache = new CacheTracker();
+
+  // First request  Cache Miss
+
+  cache.get('user:123');  // ❌ Miss
+
+  const user = await db.getUser(123);
+
+  cache.set('user:123', user);
+
+  // Second request - Cache Hit
+
+  cache.get('user:123');
+
+  // ✅ Hit
+
+ // Third request Different user  Cache Miss
+
+ cache.get('user:456');  // ❌ Miss
+
+ console.log(cache.getStats())
+
+ // { hits: 1, misses: 2, hitRatio: '33.33%' } |
+
+</code></pre>
 <hr>
-<p><strong>Answers:</strong></p>
-<ol>
-<li>
-<p><strong>Account Balance: ❌ NO</strong> (or very short TTL (time to live))</p>
-<ul>
-<li>Account Balances changes frequently</li>
-<li>It must always be accurate</li>
-<li>Cache for 1-2 seconds max if needed</li>
-<li><strong>Mental model:</strong> Money must be precise!</li>
-</ul>
-</li>
-<li>
-<p><strong>Product Catalog: ✅ YES</strong></p>
-<ul>
-<li>A product catalog changes infrequently</li>
-<li>It is read far more than written</li>
-<li>We can cache it  for 5-60 minutes</li>
-<li><strong>Mental model:</strong> Products don't change every second</li>
-</ul>
-</li>
-<li>
-<p><strong>Weather Forecast: ✅ YES</strong></p>
-<ul>
-<li>Weather forecast updates every 30-60 minutes</li>
-<li>It is usually the same data for all users in city</li>
-<li>Cache for 30 minutes</li>
-<li><strong>Mental model:</strong> Weather doesn't change instantly</li>
-</ul>
-</li>
-<li>
-<p><strong>Live Stock Prices: ❌ NO</strong> (or 1-second cache)</p>
-<ul>
-<li>Stock prices changes every millisecond</li>
-<li>Users expect real-time prices to carry out high frequency trade</li>
-<li>Maybe 1-second cache for high traffic</li>
-<li><strong>Mental model:</strong> &quot;Live&quot; means fresh!</li>
-</ul>
-</li>
-<li>
-<p><strong>Profile Picture: ✅ YES</strong></p>
-<ul>
-<li>Rarely changes</li>
-<li>Same for all viewers</li>
-<li>Cache for 24 hours or longer</li>
-<li><strong>Mental model:</strong> People don't change photos often</li>
-</ul>
-</li>
-</ol>
+<h3><strong>🎪 Interactive Exercise: Calculate Hit Ratio</strong></h3>
+<p><strong>Scenario: Let us consider an E-commerce website over 1 hour</strong></p>
+<p>The homepage (popular):
+Let’s say we have 10,000 requests
+The First request: Misses the essential data it  loads from DB (cache miss)  and stores it into the cache
+Now for the next  9,999 requests: The content is served  from cache</p>
+<p>Hits: 9,999 | Misses: 1</p>
+<p>Product page (100 different products):
+Let us say each product is  requested 50 times
+Total requests: 5,000 (100 * 50)
+First request  for every  product  is a cache miss since its not being fetched yet  (100 misses)
+Subsequent requests: Hits (4,900 hits)</p>
+<p>Hits: 4,900 | Misses: 100</p>
+<p>User profiles (1,000 different users):</p>
+<p>Each user profile viewed 2 times
+Total requests: 2,000
+First view: Miss (1,000 misses)
+Second view: Hit (1,000 hits)
+Hits: 1,000 | Misses: 1,000</p>
+<p><strong>Question:</strong> What's the overall cache hit ratio?</p>
+<p><strong>Calculate:</strong></p>
+<p>Total Hits: 9,999 + 4,900 + 1,000 = 15,899
+Total Misses: 1 + 100 + 1,000 = 1,101
+Total Requests: 15,899 + 1,101 = 17,000</p>
+<p>Hit Ratio = 15,899 / 17,000 = 93.52% 🌟</p>
+<p>This is excellent! Homepage caching is very effective.</p>
 <hr>
-<h3><strong>📋 The Caching Decision Framework</strong></h3>
-<p><strong>Cache when data is:</strong></p>
-<ul>
-<li>✅ Read frequently (high traffic)</li>
-<li>✅ Expensive to generate (complex queries)</li>
-<li>✅ Relatively stable (doesn't change often)</li>
-<li>✅ Identical for multiple users</li>
-<li>✅ Acceptable if slightly stale</li>
-</ul>
-<p><strong>Don't cache when data is:</strong></p>
-<ul>
-<li>❌ Written more than read</li>
-<li>❌ Must be 100% fresh (financial transactions)</li>
-<li>❌ User-specific and rarely reused</li>
-<li>❌ Cheap to generate</li>
-<li>❌ Privacy-sensitive</li>
-</ul>
-<p><strong>The Golden Rule:</strong></p>
-<p>Cache value = <strong>(Access frequency × Generation cost) / Freshness requirement</strong></p>
-<p>If Cache value &gt; Threshold → Cache it!</p>
+<h3><strong>🚀 Optimizing for Cache Hits</strong></h3>
+<p><strong>Strategy 1: Cache Warming (Pre-populate)</strong></p>
+<p>In cache warming you don’t wait for the first request instead we already add the data to the cache</p>
+<p>For instance netflix might be aware the people are going to watch “stranger things”, “squid games” so they can prepopulate the cache with videos</p>
+<p>// Don't wait for first request - warm cache at startup</p>
+<pre><code class="language-javascript">
+async function warmCache() {
+
+ console.log('Warming cache...');
+
+ // Load popular items into cache
+
+ const popularProducts = await db.query('SELECT * FROM products ORDER BY views DESC LIMIT 100'  );
+
+ popularProducts.forEach(product =&gt; {
+
+   cache.set(`product:${product.id}`, product);  });
+
+   console.log('Cache warmed with 100 popular products\!')
+
+  }
+   // Run at application startup
+   warmCache()
+
+</code></pre>
+<p><strong>Strategy 2: Longer TTL for Stable Data</strong></p>
+<p>Say we are accessing an ecommerce website like Amazon the content on the homepage changes daily based on recommendation or say there is a Black Friday Sale or Halloween Sale or Big Billion Sale (India) the page content has to show content with new offers so homepage content has to be changing based on day, based on time based on the user gender, age, recommendation and all such factors</p>
+<pre><code class="language-javascript">// Homepage content (changes daily)
+
+cache.set('homepage', data, { ttl: 3600 });  // 1 hour
+
+/*The product catalog changes on a weekly basis so we can keep the cache time upto 24 hours*/
+
+// Product catalog (changes weekly)
+
+cache.set('products', data, { ttl: 86400 });  // 24 hours
+
+/*Details such as user profile, user name, user photo changes rarely on an ecomm site so we can keep the ttl for such content longer say even a month
+*/
+
+
+cache.set(`user:${id}`, data, { ttl: 86400 * 30 });
+
+// 1 month
+</code></pre>
+<p><strong>Strategy 3: Predictive Caching</strong></p>
+<p>Say a  user views product A (a phone)
+Now he/she is very likely to view related Products B (phone cover), C (tempered glass), D (charging brick)
+So products B,C,D could be pre-fetched and cached!</p>
+<pre><code class="language-js">async function cacheRelatedProducts(productId) {
+
+  const related = await db.query( 'SELECT * FROM products WHERE category = (SELECT category FROM products WHERE id = ?)', [productId]  );
+  related.forEach(product =&gt; {
+
+  cache.set(`product:${product.id}`, product);  })
+
+  }
+</code></pre>
 <hr>
-<h3><strong>💡 Simple Caching Example</strong></h3>
-<p>Without Cache:
-// Every request hits database</p>
-<pre><code class="language-javascript">app.get('/products', async (req, res) =&gt; {
+<h3><strong>📊 Monitoring Cache Performance</strong></h3>
+<p>Key metrics to track:</p>
+<ul>
+<li>Average Response Time</li>
+<li>Cache Size</li>
+<li>Eviction Rate</li>
+<li>Staleness</li>
+<li>Alert Thresholds</li>
+<li>Eviction Rate</li>
+</ul>
+<pre><code class="language-js"> const metrics = {
 
-  // Query takes 100ms
-  const products = await db.query('SELECT \* FROM products');
+    // Hit ratio (most important!)
 
-  res.json(products);}
+  hitRatio: (hits / (hits + misses)) * 100,
 
-// 100 requests = 100 database queries = 10 seconds total
+  // Average response time
 
-// With Cache:
- const cache = {}
- app.get('/products', async (req, res) =&gt; {
+  avgHitTime: 2,    // ms (from cache)
 
-  // Check cache first
+  avgMissTime: 150, // ms (from database)
 
-  if (cache['products']) {
+  // Cache size
 
-    // Cache hit! Return immediately (1ms)
+  itemsInCache: 5000,
 
-         return res.json(cache['products'])
+  memoryUsed: '500 MB',
+
+  // Eviction rate
+
+  evictionsPerHour: 100,
+
+  // Staleness
+
+  avgItemAge: 300  // seconds
   }
 
-  // Cache miss - query database
+  // Alert thresholds
 
-  const products = await db.query('SELECT * FROM products');
-  // Store in cache for future requests/
+  if (hitRatio &lt; 80) {
 
-  cache['products'] = products;
+    alert('Low cache hit ratio Review caching strategy')
 
-  res.json(products);
+  }
+  if (evictionsPerHour &gt; 1000) {
 
-  // 100 requests = 1 database query + 99 cache hits = 0.2 seconds! ⚡ 50x  faster
-
-
+    alert('High eviction rate! Consider increasing cache size');
+  }
 
 ---
 </code></pre>
-<h3><strong>🚨 Common Caching Mistakes</strong></h3>
-<p>| ❌ Mistake 1: Caching Everything</p>
-<p>// BAD: Cache user's shopping cart</p>
-<pre><code class="language-javascript">cache.set(`cart:${userId}`, cart);
-</code></pre>
-<p>// Changes every second</p>
-<p>// BAD: Cache current time</p>
-<pre><code class="language-javascript">
-cache.set('current_time', new Date());
-</code></pre>
-<p>// Always stale</p>
-<p>// Mental model: Don't cache what changes constantly !❌ Mistake</p>
-<p>2: Never Expiring Cache</p>
-<p>// BAD: Cache forever</p>
-<pre><code class="language-javascript">cache.set('products', data);
-</code></pre>
-<p>// What if product prices change?</p>
-<p>// GOOD: Set expiration (TTL - Time To Live)</p>
-<pre><code class="language-javascript">
-cache.set('products', data, { ttl: 300 });  // 5 minutes ❌
-
-</code></pre>
-<p>Mistake 3: Cache Stampede</p>
-<p>PROBLEM: Cache expires, 1000 requests hit database simultaneously</p>
-<p>// All 1000 requests see cache miss</p>
-<p>All 1000 query database at once</p>
-<p>// Database overload! 💥</p>
-<p>// SOLUTION: Use locking or cache warming</p>
 </body>
     </html>
