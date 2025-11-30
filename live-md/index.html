@@ -1,278 +1,334 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h2><strong>Database Indexing - The Library Card Catalog</strong></h2>
-<h3><strong>🎯 Challenge 3: The Phonebook Problem</strong></h3>
-<p><strong>Scenario:</strong> You need to find &quot;John Smith&quot; in a phonebook with 100,000 names.</p>
-<p><strong>Method A:</strong> Start at page 1, check every single name until you find John Smith</p>
+      <body><h2><strong>Read vs Write Operations - Understanding the Flow</strong></h2>
+<h3><strong>🎯 Challenge 2: The Library Rush</strong></h3>
+<p><strong>Scenario:</strong> A library has 1000 students:</p>
 <ul>
-<li>Time: Could take 50,000 comparisons on average! 😰</li>
+<li>950 students are browsing books (reading data)</li>
+<li>50 students are checking out books (writing data)</li>
 </ul>
-<p><strong>Method B:</strong> Use alphabetical organization:</p>
+<p><strong>Question:</strong> Which operation is more demanding on the library system?</p>
+<p>Think about it:</p>
 <ul>
-<li>Open to middle (probably around &quot;M&quot;)</li>
-<li>Too far? Go left</li>
-<li>Not far enough? Go right</li>
-<li>Repeat until found</li>
-<li>Time: About 17 comparisons! ⚡</li>
+<li>Reading is just looking at information</li>
+<li>Writing requires updating records, checking availability, locking resources</li>
+<li>Which needs more coordination?</li>
 </ul>
-<p><strong>Question:</strong> How is Method B so much faster?</p>
-<h3><strong>The Answer: Indexing!</strong></h3>
-<p><strong>A database without indexes</strong> = Reading every single row to find what you need</p>
-<p><strong>A database with indexes</strong> = Jump directly to the data you want</p>
+<h3><strong>The Answer: Writes Are Much More Expensive!</strong></h3>
+<p><strong>The fundamental truth:</strong> Reads are cheap, writes are expensive.</p>
 <hr>
-<h3><strong>📚 What Is an Index?</strong></h3>
-<p><strong>Think of it like:</strong></p>
-<ul>
-<li>📖 Index at the back of a textbook</li>
-<li>🗂️ Card catalog in a library</li>
-<li>📇 Contacts list sorted by name on your phone</li>
-</ul>
-<p><strong>Example: Finding a book in a library</strong></p>
-<p><strong>Without Index:</strong></p>
-<p>Walk through EVERY aisle
-Check EVERY book title
-Found it after searching 50,000 books! ⏰ 2 hours</p>
-<p><strong>With Index (Card Catalog):</strong></p>
-<p>Look up &quot;Pride and Prejudice&quot; in catalog
-Card says: &quot;Aisle 12, Shelf 5, Position 3&quot;
-Walk directly there ⚡ 2 minutes</p>
-<hr>
-<h3><strong>🗄️ How Database Indexes Work</strong></h3>
-<p><strong>Imagine a USERS table without index:</strong></p>
-<p>Finding user with email &quot;bob@example.com&quot;:</p>
-<p>Row 1: alice@example.com ❌
-Row 2: charlie@example.com ❌
-Row 3: david@example.com ❌
-...
-Row 50,000: bob@example.com ✓ FOUND!</p>
-<p>Time: Scanned 50,000 rows (SLOW! 😰)</p>
-<p><strong>Same table WITH index on email:</strong></p>
-<p>Email Index (automatically sorted):
-alice@example.com    → Row 1
-bob@example.com      → Row 50,000 ✓
-charlie@example.com  → Row 2
-david@example.com    → Row 3
-...</p>
-<p>Database uses index:
-1. Binary search in index (fast!)
-2. Index points to Row 50,000
-3. Jump directly to that row</p>
-<p>Time: Scanned ~17 entries (FAST! ⚡)</p>
-<hr>
-<h3><strong>🎮 Interactive Exercise: When to Add an Index?</strong></h3>
-<p><strong>You have a PRODUCTS table with 1 million products:</strong></p>
-<pre><code class="language-sql"> CREATE TABLE products (  product_id INT,  name VARCHAR(255),  price DECIMAL,  category VARCHAR(100),  description TEXT,  created_at DATE);
-
-</code></pre>
-<p>Common queries:</p>
+<h3><strong>📚 Understanding Read Operations</strong></h3>
+<p><strong>What happens during a READ:</strong></p>
 <pre><code class="language-sql">
-SELECT * FROM products WHERE product_id = 12345;
-
-SELECT * FROM products WHERE category = 'Electronics';
-
-SELECT * FROM products WHERE price &gt; 100;
-
-SELECT * FROM products WHERE name LIKE 'phone';
-
+ SELECT * FROM users WHERE username = 'alice';
 </code></pre>
-<p>Question: Which columns should you index? Think about it...</p>
-<hr>
-<h3><strong>🎯 Indexing Guidelines: When to Index</strong></h3>
-<p><strong>✅ GOOD candidates for indexing:</strong></p>
+<p><strong>Behind the scenes:</strong></p>
+<p>1. Find data location (using index if available) ⚡</p>
+<p>2. Read from disk/memory 📖</p>
+<p>3. Return result ✓</p>
+<p>No locks (in most cases)</p>
+<p>No validation needed</p>
+<p>No disk writes</p>
+<p>Multiple reads can happen simultaneously</p>
+<p><strong>Mental model:</strong> Reading is like looking at a museum painting - everyone can look at the same time, no one interferes with each other!</p>
+<p><strong>Types of Reads:</strong></p>
+<pre><code class="language-sql">
+ SELECT \* FROM users WHERE username = 'alice';
+</code></pre>
+<p><strong>Read characteristics:</strong></p>
 <ul>
-<li><strong>Primary keys</strong> (usually auto-indexed)
-<ul>
-<li>Reason: Constantly used for lookups</li>
-</ul>
+<li>
+<p>✅ Fast and efficient</p>
 </li>
-<li><strong>Foreign keys</strong> (columns that reference other tables)
-<ul>
-<li>Reason: Used in JOIN operations</li>
-</ul>
+<li>
+<p>✅ Can happen in parallel</p>
 </li>
-<li><strong>Columns frequently used in WHERE clauses</strong>
-<ul>
-<li>Example: <code>WHERE email = '...'</code></li>
-<li>Reason: Speeds up filtering</li>
-</ul>
+<li>
+<p>✅ Don't block other reads</p>
 </li>
-<li><strong>Columns used for sorting (ORDER BY)</strong>
-<ul>
-<li>Example: <code>ORDER BY created_at DESC</code></li>
-<li>Reason: Avoids sorting entire table</li>
-</ul>
+<li>
+<p>✅ Cheap to scale (add read replicas)</p>
+</li>
+<li>
+<p>❌ Can block writes (in some isolation levels)</p>
 </li>
 </ul>
-<p><strong>❌ POOR candidates for indexing:</strong></p>
-<ul>
-<li><strong>Rarely queried columns</strong>
-<ul>
-<li>Example: <code>description</code> text field</li>
-<li>Reason: Index overhead not worth it</li>
-</ul>
-</li>
-<li><strong>Columns with many duplicates</strong>
-<ul>
-<li>Example: <code>gender</code> (only M/F values)</li>
-<li>Reason: Index doesn't narrow down much</li>
-</ul>
-</li>
-<li><strong>Very small tables</strong>
-<ul>
-<li>Example: Table with 50 rows</li>
-<li>Reason: Full scan is already fast</li>
-</ul>
-</li>
-</ul>
-<p><strong>💰 The Cost of Indexes:</strong></p>
-<p><strong>Benefits:</strong></p>
-<ul>
-<li>⚡ Dramatically faster SELECT queries</li>
-<li>🎯 Efficient searching and filtering</li>
-<li>📊 Faster sorting and joining</li>
-</ul>
-<p><strong>Costs:</strong></p>
-<ul>
-<li>💾 Extra storage space (indexes take up room)</li>
-<li>⏱️ Slower INSERT/UPDATE/DELETE (must update indexes too)</li>
-<li>🔧 Maintenance overhead</li>
-</ul>
-<p><strong>Mental model:</strong> Think of indexes like shortcuts in a video game. They get you places faster, but they take time to build and maintain!</p>
 <hr>
-<h3><strong>📊 Index Types: Quick Overview</strong></h3>
-<p><strong>Primary Index (Clustered):</strong></p>
-<ul>
-<li>Determines physical order of data on disk</li>
-<li>Like books sorted on library shelves</li>
-<li>One per table</li>
-</ul>
-<p><strong>Secondary Index (Non-Clustered):</strong></p>
-<ul>
-<li>Separate structure pointing to data</li>
-<li>Like card catalog pointing to books</li>
-<li>Multiple per table</li>
-</ul>
-<p><strong>Unique Index:</strong></p>
-<ul>
-<li>Ensures no duplicate values</li>
-<li>Like social security numbers</li>
-</ul>
-<p><strong>Composite Index:</strong></p>
-<ul>
-<li>Index on multiple columns together</li>
-<li>Like phonebook sorted by (LastName, FirstName)</li>
-</ul>
-<p><strong>Example:</strong></p>
-<p>Index on single column</p>
-<pre><code class="language-sql">
-CREATE INDEX idx_email ON users(email);
+<h3><strong>✏️ Understanding Write Operations</strong></h3>
+<p><strong>What happens during a WRITE:</strong></p>
+<pre><code class="language-sql"> UPDATE users SET email = 'new@email.com' WHERE id = 123;
 </code></pre>
-<p>Composite index</p>
-<pre><code class="language-sql">
-CREATE INDEX idx_name ON users(last_name, first_name);
-
-</code></pre>
-<p>Unique index</p>
-<pre><code class="language-sql">
-CREATE UNIQUE INDEX idx_username ON users(username);
-</code></pre>
-<hr>
-<h3><strong>🔥 Real-World Performance Example</strong></h3>
-<p>Query without index:</p>
-<pre><code class="language-sql">
-SELECT * FROM orders WHERE customer_id = 12345;
-</code></pre>
-<p>Execution time: 8 seconds (full table scan)</p>
-<p>Rows examined: 10,000,000</p>
-<p>Same query WITH index</p>
-<pre><code class="language-sql">CREATE INDEX idx_customer ON orders(customer_id);
-
-SELECT * FROM orders WHERE customer_id = 12345;
-</code></pre>
-<p>Execution time: 0.003 seconds</p>
-<p>⚡ Rows examined: 50 (via index)</p>
-<p><strong>Speed improvement: 2,667x faster!</strong></p>
-<p><strong>Visual analogy:</strong></p>
-<p><strong><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764476903/database_indexing_zrax60.png" alt="img1"></strong></p>
-<hr>
-<h2><strong>🎯 Final Synthesis: Putting It All Together</strong></h2>
-<h3><strong>The Complete Picture: Building a Library System</strong></h3>
-<p>Let's apply everything we've learned!</p>
-<p><strong>1️⃣ Database Choice:</strong></p>
-<ul>
-<li>Need structured data (books, members, loans)</li>
-<li>Need relationships (members ←→ loans ←→ books)</li>
-<li>Need accuracy (can't lose loan records!)</li>
-<li><strong>Choice: SQL Database with ACID properties</strong> ✓</li>
-</ul>
-<p>| 2️⃣ Table Design with Keys</p>
-<pre><code class="language-sql">CREATE TABLE books (  book_id INT PRIMARY KEY,             isbn VARCHAR(13),  title VARCHAR(200),  author VARCHAR(100), published_date DATE);
-
-CREATE TABLE members (  member_id INT PRIMARY KEY,       name VARCHAR(100),  email VARCHAR(100),  join_date DATE);
-
-CREATE TABLE loans (  loan_id INT PRIMARY KEY,             book_id INT,member_id INT,loan_date DATE,due_date DATE, returned_date DATE,FOREIGN KEY (book_id) REFERENCES books(book_id),  FOREIGN KEY (member_id) REFERENCES members(member_id));
-</code></pre>
-<p>3️⃣ Add Indexes for Performance</p>
-<pre><code class="language-sql">
-CREATE INDEX idx_book_isbn ON books(isbn)
-
-CREATE INDEX idx_member_email ON members(email);
-
-CREATE INDEX idx_loan_dates ON loans(loan_date, due_date)
-</code></pre>
-<p>4️⃣ CRUD Operations:</p>
-<p>Create: New member joins</p>
-<pre><code class="language-sql">INSERT INTO members (member_id, name, email, join_date)VALUES (1, 'Alice Johnson', 'alice@email.com', '2025-10-15');
-</code></pre>
-<p>Read: Find overdue books</p>
-<pre><code class="language-sql">
-SELECT books.title, members.name, loans.due_date
-
-FROM loans
-
-JOIN books ON loans.book_id = books.book_id
-
-JOIN members ON loans.member_id = members.member_id
-
-WHERE loans.due_date &lt; CURRENT_DATE   AND
-
-loans.returned_date IS NULL;
-</code></pre>
-<p>Update: Return a book</p>
-<p>UPDATE loans</p>
-<pre><code class="language-sql">SET returned_date = CURRENT_DATE WHERE loan_id = 123
-</code></pre>
-<p>Delete: Remove old loan records</p>
-<pre><code class="language-sql">
-DELETE FROM loans WHERE returned_date &lt; '2020-01-01';
-</code></pre>
-<p>5️⃣ ACID Transaction: Loan a book</p>
-<pre><code class="language-sql">BEGIN TRANSACTION;
-
-//Check if book is available
-
-SELECT * FROM books WHERE book_id = 42 AND available = true;
-// Create loan record
-
-INSERT INTO loans (book\_id, member_id, loan_date, due_date)  VALUES (42, 1, CURRENT_DATE, CURRENT_DATE + 14);
-
- Mark book as unavailable
-UPDATE books SET available = false WHERE book_id = 42;
-
-COMMIT;
-</code></pre>
-<p>-- All or nothing!**</p>
-<hr>
-<h2><strong>🏆 Quick Recap: Test Your Understanding</strong></h2>
-<p><strong>Without looking back, can you explain:</strong></p>
+<p><strong>Behind the scenes (so much more complex!):</strong></p>
 <ol>
-<li><strong>When would you choose SQL vs NoSQL?</strong></li>
-<li><strong>What does each letter in ACID stand for and why does it matter?</strong></li>
-<li><strong>Why would adding an index make a query faster?</strong></li>
-<li><strong>What's the difference between a Primary Key and a Foreign Key?</strong></li>
-<li><strong>What do the letters in CRUD stand for?</strong></li>
+<li>
+<p>BEGIN TRANSACTION 🔄</p>
+</li>
+<li>
+<p>Acquire LOCK on the row 🔒</p>
+</li>
+<li>
+<p>Read current data 📖</p>
+</li>
+<li>
+<p>Validate constraints (unique, foreign keys, etc.) ✓</p>
+</li>
+<li>
+<p>Write to transaction log (WAL) 📝</p>
+</li>
+<li>
+<p>Update indexes 🗂️</p>
+</li>
+<li>
+<p>Write actual data change 💾</p>
+</li>
+<li>
+<p>Release locks 🔓</p>
+</li>
+<li>
+<p>COMMIT transaction ✅</p>
+</li>
 </ol>
-<p><strong>Mental check:</strong> If you can answer these clearly, you've mastered database fundamentals! 🎓</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764481458/214_w8h8ne.png" alt="img1"></p>
+<p>Blocks concurrent writes to same row</p>
+<p>Requires validation</p>
+<p>Multiple disk writes</p>
+<p>Slower than reads</p>
+<p><strong>Mental model:</strong> Writing is like editing a shared Google Doc - only one person can edit a specific paragraph at a time, changes must be saved, version history updated, etc.</p>
+<p><strong>Types of Writes:</strong></p>
+<p>INSERT (simplest write):</p>
+<pre><code class="language-sql">INSERT INTO users (name, email) VALUES ('Bob', 'bob@email.com');
+</code></pre>
+<p>Must:- Generate new ID</p>
+<p>Check constraints (email unique?)</p>
+<p>Update indexes</p>
+<p>Write to log</p>
+<p>UPDATE (complex write):</p>
+<pre><code class="language-sql">UPDATE products SET price = 99.99 WHERE category = 'Electronics';
+</code></pre>
+<p>Must:</p>
+<ul>
+<li>
+<p>Find all matching rows</p>
+</li>
+<li>
+<p>Lock them</p>
+</li>
+<li>
+<p>Update each one</p>
+</li>
+<li>
+<p>Update all relevant indexes</p>
+</li>
+<li>
+<p>Maintain consistency</p>
+<p>DELETE (most complex):</p>
+<pre><code class="language-sql">
+DELETE FROM users WHERE id = 123;
+</code></pre>
+<p>Must:</p>
+<p>Check foreign key constraints (does anything reference this?)</p>
+<p>Lock the row</p>
+<p>Remove from indexes</p>
+<p>Mark as deleted</p>
+<p>Handle cascade deletes</p>
+</li>
+</ul>
+<p><strong>Write characteristics:</strong></p>
+<ul>
+<li>
+<p>❌ Slower than reads</p>
+</li>
+<li>
+<p>❌ Require locks (blocking)</p>
+</li>
+<li>
+<p>❌ Multiple validation steps</p>
+</li>
+<li>
+<p>❌ Multiple disk writes</p>
+</li>
+<li>
+<p>❌ Harder to scale</p>
+</li>
+<li>
+<p>✅ Ensure data integrity</p>
+</li>
+</ul>
+<hr>
+<h3><strong>📊 The 80/20 Rule (or 95/5 in reality!)</strong></h3>
+<p><strong>Real-world application traffic:</strong></p>
+<p>📊 Typical Web Application:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764481458/215_rxilqb.png" alt="img2"></p>
+<p>Examples:</p>
+<p>- Social media: 99% reading posts, 1% creating posts</p>
+<p>- E-commerce: 95% browsing, 5% purchasing</p>
+<p>- News sites: 99.9% reading, 0.1% commenting</p>
+<p><strong>Why this matters for architecture:</strong></p>
+<p><strong>Read-Heavy Application (like Twitter):</strong></p>
+<p>Strategy: Optimize for reads!</p>
+<p>- Use caching heavily (Redis, Memcached)</p>
+<p>- Add read replicas</p>
+<p>- Denormalize data for faster reads</p>
+<p>- Use CDNs for static content</p>
+<p><strong>Write-Heavy Application (like logging systems):</strong></p>
+<p>Strategy: Optimize for writes!</p>
+<p>- Batch writes together</p>
+<p>- Use write-optimized databases</p>
+<p>- Async processing</p>
+<p>- Eventual consistency</p>
+<hr>
+<h3><strong>🎮 Interactive Exercise: Read or Write?</strong></h3>
+<p><strong>Classify these operations:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Read or Write?</th>
+<th>Why?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SELECT COUNT(*) FROM users</code></td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td><code>UPDATE users SET last_login = NOW() WHERE id = 1</code></td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td><code>SELECT * FROM posts ORDER BY created_at</code></td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td><code>INSERT INTO logs (message) VALUES ('error')</code></td>
+<td>?</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Think about each one...</strong></p>
+<p><strong>Answers:</strong></p>
+<ol>
+<li>
+<p><strong>READ</strong> - Counting doesn't modify data</p>
+</li>
+<li>
+<p><strong>WRITE</strong> - Modifying data, requires transaction, locks</p>
+</li>
+<li>
+<p><strong>READ</strong> - Just retrieving and sorting data</p>
+</li>
+<li>
+<p><strong>WRITE</strong> - Adding new data, requires transaction</p>
+</li>
+</ol>
+<hr>
+<h3><strong>🔥 Performance Comparison: Real Numbers</strong></h3>
+<p><strong>Scenario: Database with 1 million users</strong></p>
+<p><strong>Read Operation:</strong></p>
+<pre><code class="language-sql">
+SELECT * FROM users WHERE id = 12345;
+</code></pre>
+<p>Time: 0.5-2ms ⚡
+Disk I/O: 1 read
+Locks: None (Read Committed)
+Concurrent: Unlimited simultaneous reads</p>
+<p><strong>Write Operation:</strong></p>
+<pre><code class="language-sql">
+UPDATE users SET last_name = 'Smith' WHERE id = 12345;
+</code></pre>
+<p>Time: 5-50ms ⏱️
+Disk I/O: 3-5 writes (data, log, indexes)
+Locks: Row-level lock 🔒
+Concurrent: Blocks other writes to same row
+Validation: Check constraints, update indexes</p>
+<p><strong>Visual comparison:</strong></p>
+<p>READ:  ⚡ ────✓ (Fast! One hop)</p>
+<p>Write is 10-25x slower than read!</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764481458/213_cfax8z.png" alt="img3"></p>
+<hr>
+<h3><strong>🚀 Optimization Strategies</strong></h3>
+<p><strong>For Read-Heavy Systems:</strong></p>
+<p><strong>1. Caching (we shall learn more about caching in the upcoming sections)</strong></p>
+<p>First request:
+User → Database → 50ms ⏱️</p>
+<p>With Cache:
+User → Cache → 1ms ⚡
+(50x faster!)</p>
+<p>Only hit database on cache miss</p>
+<p><strong>2. Read Replicas</strong> (read replicas will be discussed in upcoming lessons as well)</p>
+<p>Primary Database (handles writes)
+↓ (replicates to)
+Read Replica 1  Read Replica 2  Read Replica 3
+↓               ↓               ↓
+Users          Users           Users</p>
+<p>Distribute read load across replicas!</p>
+<p><strong>3. Indexing</strong></p>
+<p>Without index: Scan 1,000,000 rows ⏱️</p>
+<pre><code class="language-sql">
+SELECT * FROM users WHERE email = 'alice@email.com';
+</code></pre>
+<p>With index: Jump to specific row ⚡</p>
+<pre><code class="language-sql">
+CREATE INDEX idx\_email ON users(email);
+</code></pre>
+<p><strong>For Write-Heavy Systems:</strong></p>
+<p><strong>1. Batch Writes</strong></p>
+<p>| // Bad example:</p>
+<p>1000 individual writes</p>
+<pre><code class="language-javascript">for (let i = 0; i &lt; 1000; i++) {
+
+  await db.query('INSERT INTO logs (message) VALUES (?)', \[msg[i]]);}
+
+  // Time: 1000 × 5ms = 5000ms 😰
+</code></pre>
+<p>// Good: 1 batched write</p>
+<pre><code class="language-javascript">await db.query(  'INSERT INTO logs (message) VALUES (?), (?), ... (all 1000)',  messages);
+
+// Time: 50ms ⚡ (100x faster\!)
+</code></pre>
+<p><strong>2. Async Processing</strong></p>
+<p>User Action (POST /order)
+↓</p>
+<p>Quick Response: &quot;Order received!&quot; ✅
+↓</p>
+<p>Background Job Queue 📋
+↓</p>
+<p>Process writes asynchronously</p>
+<p><strong>3. Write-Optimized Storage</strong></p>
+<p>Traditional Database: Update in place</p>
+<p>- Read old value</p>
+<p>- Modify</p>
+<p>- Write back</p>
+<p>- Update indexes</p>
+<p>(Slow! Many disk seeks)</p>
+<p>Log-Structured Storage: Append only</p>
+<p>- Just write new entry at end</p>
+<p>- Never modify existing data</p>
+<p>- Periodically compact</p>
+<p>(Fast! Sequential writes)</p>
+<hr>
+<h3><strong>🎯 Mental Models Summary</strong></h3>
+<p><strong>Reading = Looking at a book</strong></p>
+<ul>
+<li>Many people can look at the same time</li>
+<li>No permission needed</li>
+<li>Fast and easy</li>
+<li>Doesn't change anything</li>
+</ul>
+<p><strong>Writing = Editing a shared document</strong></p>
+<ul>
+<li>Need to coordinate with others</li>
+<li>Requires permission (locks)</li>
+<li>Must validate changes</li>
+<li>Changes need to be saved</li>
+<li>Slower and more complex</li>
+</ul>
+<p><strong>Key Insight:</strong> Design your application architecture around the read/write ratio! Most applications are read-heavy, so optimize for reads first.</p>
 </body>
     </html>
