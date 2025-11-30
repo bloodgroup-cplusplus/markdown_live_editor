@@ -247,7 +247,8 @@ Let's apply everything we've learned\!
 
 | 2️⃣ Table Design with Keys
 ```sql
-CREATE TABLE books (  book_id INT PRIMARY KEY,             isbn VARCHAR(13),  title VARCHAR(200),  author VARCHAR(100), published_date DATE);
+CREATE TABLE books (  book_id INT PRIMARY KEY,          isbn VARCHAR(13),  title VARCHAR(200),  author VARCHAR(100), published_date DATE);
+
 
 CREATE TABLE members (  member_id INT PRIMARY KEY,       name VARCHAR(100),  email VARCHAR(100),  join_date DATE);
 
