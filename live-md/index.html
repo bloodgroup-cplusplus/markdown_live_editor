@@ -1,343 +1,327 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h2><strong>Cache Eviction Policies - When the Cache Gets Full</strong></h2>
-<h3><strong>🎯 Challenge 3: The Parking Lot Problem</strong></h3>
-<p><strong>Scenario:</strong> You manage a parking lot with 10 spaces (cache). All spaces are full. A new car arrives (new data). Which car do you remove to make space?</p>
-<p><strong>Option A:</strong> Remove the car that's been parked longest (first in, first out)</p>
-<p><strong>Option B:</strong> Remove the car that hasn't moved in the longest time (least recently used)</p>
-<p><strong>Option C:</strong> Remove the car that moves least frequently (least frequently used)</p>
-<p><strong>Option D:</strong> Remove a random car</p>
-<p><strong>Question:</strong> Which strategy makes the most sense for keeping the lot efficient?</p>
-<h3><strong>The Answer: Cache Eviction Policies!</strong></h3>
-<p>When cache is full, we need rules for what to remove. Let's explore each!</p>
+      <body><h2><strong>CDN (Content Delivery Network) - Global Speed Boost</strong></h2>
+<h3><strong>🎯 Challenge 4: The Pizza Delivery Problem</strong></h3>
+<p><strong>Scenario:</strong> You own a pizza restaurant in New York. Customers order from:</p>
+<ul>
+<li>New York (local)</li>
+<li>California (3,000 miles away)</li>
+<li>Tokyo (7,000 miles away)</li>
+</ul>
+<p><strong>Method A: Centralized Kitchen</strong></p>
+<ul>
+<li>All pizzas made in New York</li>
+<li>New York customer: 10 min delivery ✓</li>
+<li>California customer: 6 hour flight 😰</li>
+<li>Tokyo customer: 14 hour flight 😱</li>
+</ul>
+<p><strong>Method B: Distributed Kitchens</strong></p>
+<ul>
+<li>Kitchens in New York, LA, Tokyo</li>
+<li>Each serves local customers</li>
+<li>New York customer: 10 min ✓</li>
+<li>California customer: 10 min ✓</li>
+<li>Tokyo customer: 10 min ✓</li>
+</ul>
+<p><strong>Question:</strong> Which method serves all customers faster?</p>
+<h3><strong>The Answer: CDN = Distributed Kitchens for the Internet!</strong></h3>
+<p><strong>Definition:</strong> A CDN is a network of servers distributed globally that store copies of your content closer to users.</p>
 <hr>
-<h3><strong>🥇 LRU (Least Recently Used) - Most Popular!</strong></h3>
-<p><strong>Rule:</strong> Remove the item that hasn't been accessed in the longest time.</p>
-<p><strong>Mental model:</strong> If you haven't used it recently, you probably won't need it soon.</p>
-<p><strong>Visual example:</strong></p>
-<p><strong><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764582002/227_l7ri3p.png" alt="img1"></strong></p>
+<h3><strong>🌐 How CDN Works: The Journey of a Cat Video</strong></h3>
+<p><strong>Without CDN (Origin Server Only):</strong></p>
+<p>User in Tokyo requests cat video from US server:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764590270/230_cgm3i9.png" alt="img1"></p>
+<p>Round trip:
+- Request: 150ms
+- Video download: 5 seconds
+- Total: 5.15 seconds ⏱️</p>
+<p><strong>With CDN (Edge Servers):</strong></p>
+<p>User in Tokyo requests cat video:</p>
+<p>Step 1: Request goes to nearest CDN edge server</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764590270/230_cgm3i9.png" alt="img2"></p>
+<p><strong>If cached:</strong>
+- Request: 10ms4
+- Video download: 0.5 seconds
+- Total: 0.51 seconds ⚡
+(10x faster!)</p>
+<p>If NOT cached (first request):
+Tokyo 🇯🇵 ─── 🇯🇵 Tokyo CDN ─────────── 🇺🇸 Origin
+(10ms)              (150ms)</p>
+<p>- CDN fetches from origin: 5.15s
+- CDN caches for future requests
+- Future Tokyo users: 0.51s ⚡</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764590269/231_tyyfl4.png" alt="img3"></p>
 <hr>
-<p><strong>LRU Implementation:</strong></p>
-<pre><code class="language-js"> class LRUCache {
-
-    constructor(capacity) {
-
-    this.capacity = capacity;
-
-    this.cache = new Map();
-
-    //Maintains insertion order
-    }
-
-   get(key) {
-
-      if (!this.cache.has(key)) {
-
-        return null;
-
-      // Cache miss
-    }
-
-  // Move to end (mark as recently used)
-  const value = this.cache.get(key);
-
-  this.cache.delete(key);
-
-  this.cache.set(key, value);
-
-  return value;
-
-  // Cache hit
-  }
-  set(key, value) {
-
-  // If exists, remove old entry
-  if (this.cache.has(key)) {
-
-        this.cache.delete(key)
-  }
-  // If full, remove least recently used
-  // (first item)
-
-  if (this.cache.size &gt;= this.capacity) {
-
-    const firstKey = this.cache.keys().next().value;
-
-    this.cache.delete(firstKey);
-
-    console.log(\`Evicted: ${firstKey} (LRU)\`);
-  }
-  //Add new entry at end
-  function most_recent()
-  {
-
-      this.cache.set(key, value)
-  }
-
-// Usage
-
-
-const lru = new LRUCache(3)
-
-lru.set('A', 1);  // Cache: \[A\]
-
-lru.set('B', 2);  // Cache: \[A, B\]
-
-lru.set('C', 3);  // Cache: \[A, B, C\]
-
-lru.get('A');     // Cache: \[B, C, A\]
-
-//(A moved to end)
-
-lru.set('D', 4);
-
-// Cache:[C, A, D] (B evicted least recent)
+<h3><strong>🗺️ CDN Architecture: Global Network</strong></h3>
+<p><strong>Visual map:</strong></p>
+<pre><code>        ![img4](https://res.cloudinary.com/dretwg3dy/image/upload/v1764590271/232_qtcw36.png)
 </code></pre>
-<p><strong>When LRU works best:</strong></p>
-<p>✅ In the cases of temporal locality i.e. whenever the most recent data is most likely to  be used  (recent = likely to reuse)</p>
-<p>✅ In case of user sessions on a website recent activity by the user says that he is still logged in and actively using the website whereas the user who hasn’t had activity is more likely to log out or his/her session is going to expire  (recent activity matters)</p>
-<p>✅ Reading sequential data (e.g., pagination)</p>
-<p>✅ Most general-purpose scenarios</p>
-<p>Examples:</p>
-<p>- Browser cache (recently visited pages)</p>
-<p>- Operating system page cache</p>
-<p>- Database query cache</p>
+<p><strong>How it works:</strong></p>
+<p>1. You upload content to origin server
+2. CDN automatically replicates to edge servers
+3. User requests content
+4. DNS routes to nearest edge server
+5. Edge server serves cached content (fast!)
+6. If not cached, fetches from origin and caches</p>
 <hr>
-<h3><strong>📊 LFU (Least Frequently Used) - Count Matters!</strong></h3>
-<p><strong>Rule:</strong> Remove the item accessed the fewest times.</p>
-<p><strong>Mental model:</strong> If it's rarely used, it's probably not important.</p>
-<p><strong>Visual example:</strong></p>
-<p>Cache (capacity: 4 items) with access counts:</p>
-<p>A: 10 accesses</p>
-<p>B: 2 accesses</p>
-<p>C: 7 accesses</p>
-<p>D: 15 accesses</p>
-<p>Cache full! New item E arrives (1 access).
-Remove B (least frequently used - only 2 accesses)</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764582002/225_kyo4x6.png" alt="img2"></p>
+<h3><strong>📦 What CDNs Cache</strong></h3>
+<p><strong>✅ Perfect for CDN:</strong></p>
+<ul>
+<li>Static files (images, CSS, JavaScript)</li>
+<li>Videos and audio</li>
+<li>Software downloads</li>
+<li>PDF documents</li>
+<li>Web fonts</li>
+<li>Libraries (jQuery, Bootstrap)</li>
+</ul>
+<p><strong>❌ Not for CDN:</strong></p>
+<ul>
+<li>User-specific data (shopping cart)</li>
+<li>Real-time data (stock prices)</li>
+<li>Dynamic personalized content</li>
+<li>Frequently changing content</li>
+<li>Private/authenticated content</li>
+</ul>
+<p><strong>Example: E-commerce site</strong></p>
+<p>CDN (Cached):
+✅ Product images
+✅ Logo, icons
+✅ CSS stylesheets
+✅ JavaScript files
+✅ Product videos</p>
+<p>Origin Server (Dynamic):
+❌ User account info
+❌ Shopping cart
+❌ Checkout process
+❌ Inventory counts
+❌ Personalized recommendations</p>
 <hr>
-<p><strong>LFU Implementation:</strong></p>
-<pre><code class="language-js"> class LFUCache {
- constructor(capacity) {
- this.capacity = capacity;
- this.cache = new Map();
- this.frequencies = new Map();
- }
- get(key) {
-  if (!this.cache.has(key)) {
-      return null;  // Cache miss
-}   // Increment frequency
-
-this.frequencies.set(key, (this.frequencies.get(key) || 0+1);
-return this.cache.get(key);  // Cache hit
-}
-set(key, value) {
-  if (this.cache.size &gt;= this.capacity &amp;&amp; !this.cache.has(key)) {
-  // Find least frequently used item
-  let minFreq = Infinity;
-  let lfuKey = null;
-  for (let [k, freq] of this.frequencies) {
-      if (freq &lt; minFreq) {
-        minFreq = freq;
-        lfuKey = k;
-      }
-  }
-  // Remove LFU item
-  this.cache.delete(lfuKey);
-  this.frequencies.delete(lfuKey);
-  console.log(`Evicted: ${lfuKey} (LFU - ${minFreq} accesses)`);
-}
-this.cache.set(key, value);
-this.frequencies.set(key, 1);
-}
-// Usage
-const lfu = new LFUCache(3);
-lfu.set('A', 1);  // A: freq=1
-lfu.get('A');     // A: freq=2
-lfu.get('A');     // A: freq=3
-lfu.set('B', 2);  // B: freq=1
-lfu.set('C', 3);  // C: freq=1
-lfu.set('D', 4);  // Must evict: B or C (both freq=1)                  // Evicts B (first with freq=1)
-</code></pre>
-<p><strong>When LFU works best:</strong></p>
-<p>✅ Content popularity matters (viral videos)</p>
-<p>✅ Long-term access patterns</p>
-<p>✅ Identifying &quot;hot&quot; data</p>
-<p>✅ Media streaming platforms</p>
-<p>Examples:
-- YouTube video cache (popular videos stay)</p>
-<p>- Spotify song cache</p>
-<p>- News article cache (trending stories)</p>
-<p><strong>LFU Problem: The &quot;Aging&quot; Issue</strong></p>
-<p>Problem:
-Old item: 1000 accesses (from 2 years ago)
-New item: 5 accesses (from today, trending!)</p>
-<p>LFU keeps old item, evicts new trending item! ❌</p>
-<p>Solution: Use &quot;Time-aware LFU&quot; with decay
-- Reduce frequency counts over time</p>
-<p>- Or use LRU + LFU hybrid</p>
+<h3><strong>🚀 CDN Benefits: Real Numbers</strong></h3>
+<p><strong>Performance improvement:</strong></p>
+<p>Without CDN:
+New York → California Server: 70ms latency
+Tokyo → California Server: 150ms latency
+London → California Server: 130ms latency</p>
+<p>With CDN:
+New York → New York Edge: 5ms latency (14x faster!)
+Tokyo → Tokyo Edge: 10ms latency (15x faster!)
+London → London Edge: 8ms latency (16x faster!)</p>
+<p><strong>Bandwidth savings:</strong></p>
+<p>Without CDN:
+1 million requests × 2 MB image = 2 TB from origin
+Cost: $200/TB = $400</p>
+<p>With CDN (90% cache hit):
+100k requests × 2 MB = 200 GB from origin
+900k served from cache (free!)
+Cost: $200/TB × 0.2 TB = $40</p>
+<p>Savings: $360 (90% cheaper!) 💰</p>
 <hr>
-<h3><strong>🎯 FIFO (First In, First Out) - Simple Queue</strong></h3>
-<p><strong>Rule:</strong> Remove the oldest item (first added), regardless of usage.</p>
-<p><strong>Mental model:</strong> Like a queue at a store - first person in line leaves first.</p>
-<p><strong>Visual example:</strong></p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764582002/228_rfcxzo.png" alt="img3"></p>
-<hr>
-<p><strong>FIFO Implementation:</strong></p>
-<pre><code class="language-js">
- class FIFOCache {
-  constructor(capacity) {
-    this.capacity = capacity;
-    this.cache = new Map();
-    this.queue = [];
-    // Track insertion order
-  }
-  get(key) {
-    return this.cache.get(key) || null;
-    // Note: No reordering on access (unlike LRU)
-    }
-  set(key, value) {
-    // If full and key doesn't exist, remove oldest
-    if (this.cache.size&gt;= this.capacity &amp;&amp; \!this.cache.has(key)) {
-
-      const oldestKey = this.queue.shift();  //Removefirst
-      this.cache.delete(oldestKey);
-      console.log(`Evicted: ${oldestKey} (FIFO - oldest)`);
-  }
-  // If new key, add to queue
-  if (\!this.cache.has(key)) {
-    this.queue.push(key)
-  }
-  this.cache.set(key, value);
-  }
-}
-// Usage
-const fifo = new FIFOCache(3);
-fifo.set('A', 1);  // Queue: [A]
-fifo.set('B', 2);  // Queue: [A, B]
-fifo.set('C', 3);  // Queue: [A, B, C]
-fifo.get('A');     // Queue unchanged: [A, B, C]
-
-fifo.get('A');     // Still unchanged (FIFO doesn't care about access)
-fifo.set('D', 4);  // Queue: \[B, C, D\] (A evicted \- oldest) |
-</code></pre>
-<p><strong>When FIFO works best:</strong></p>
-<p>✅ Simple requirements</p>
-<p>✅ Time-based expiration matters</p>
-<p>✅ All data equally likely to be accessed</p>
-<p>✅ Predictable access patterns</p>
-<p>Examples:
-- Log file rotation
-- Message queues
-- Simple rate limiting</p>
-<p><strong>FIFO Problems:</strong></p>
-<p>❌ Doesn't consider access patterns</p>
-<p>❌ May evict frequently used items</p>
-<p>❌ No locality optimization</p>
-<p>❌ Generally worse hit ratio than LRU/LFU</p>
-<hr>
-<h3><strong>🎪 Comparison: Which Policy Wins?</strong></h3>
-<pre><code class="language-bash"> Test scenario:
- Access pattern: A, B, C, D, E, A, B, A, F
- Cache capacity: 3 items
- LRU (Least Recently Used):
- Access A: [A]
- Access B: [A, B]
- Access C: [A, B, C]
- Access D: [B, C, D]
- (Evict A - least recent)
- Access E: [C, D, E] (Evict B - least recent)
- Access A: [D, E, A] (Evict C - least recent)
- Access B: [E, A, B] (Evict D - least recent)
- Access A: [E, A, B] (A already in cache - move to front)
- Access F: [A, B, F] (Evict E - least recent)
- Hits: 1 (when accessing A second time)
- Misses: 8
- Hit Ratio: 11.1%
- LFU (Least Frequently Used):
- Access A: [A(1)]
- Access B: [A(1), B(1)]
- Access C: [A(1), B(1), C(1)]
- Access D: [A(1), C(1), D(1)] (Evict B \- break tie by order)
- Access E:[A(1), D(1), E(1)] (Evict C)
- Access A: [A(2), D(1), E(1)] (A frequency increases)
- Access B: [A(2), E(1), B(1)] (Evict D - least frequent)
- Access A: [A(3), E(1), B(1)] (A frequency increases)
- Access F: [A(3), B(1), F(1)] (Evict E - least frequent)
- Hits: 2 (A accessed twice)
- Misses: 7
- Hit Ratio: 22.2%
- FIFO (First In, First Out):
- Access A: [A]
- Access B: [A, B]
- Access C: [A, B, C]
- Access D: [B, C, D]
- (Evict A - oldest)
- Access E: [C, D, E] (Evict B - oldest)
- Access A: [D, E, A] (Evict C - oldest)
- Access B: [E, A, B] (Evict D - oldest)
- Access A: [E, A, B] (A already in cache - no change)
- Access F: [A, B, F] (Evict E - oldest)
- Hits: 1 (when accessing A second time)
- Misses: 8
- Hit Ratio: 11.1%
- Winner: LFU (in this specific pattern) |
-
-</code></pre>
-<hr>
-<h3><strong>📊 Real-World Performance Comparison</strong></h3>
-<p><strong>General performance (typical workloads):</strong></p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764582002/226_q9efo8.png" alt="img4"></p>
-<p>LRU wins most scenarios! ✓</p>
-<p><strong>Complexity:</strong></p>
+<h3><strong>🎮 Interactive Exercise: CDN or Origin?</strong></h3>
+<p><strong>Decide which should be served from CDN vs Origin:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Policy</th>
-<th>Get Complexity</th>
-<th>Set Complexity</th>
-<th>Implementation</th>
+<th>Content</th>
+<th>CDN or Origin?</th>
+<th>Why?</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>LRU</td>
-<td>O(1)</td>
-<td>O(1)</td>
-<td>Moderate (doubly-linked list + hash map)</td>
+<td>Company logo (logo.png)</td>
+<td>?</td>
+<td>?</td>
 </tr>
 <tr>
-<td>LFU</td>
-<td>O(1)*</td>
-<td>O(log n)*</td>
-<td>Complex (multiple data structures)</td>
+<td>User's profile picture</td>
+<td>?</td>
+<td>?</td>
 </tr>
 <tr>
-<td>FIFO</td>
-<td>O(1)</td>
-<td>O(1)</td>
-<td>Simple (queue + hash map)</td>
+<td>jQuery library (3rd party)</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Shopping cart total</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Product catalog page</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Live chat messages</td>
+<td>?</td>
+<td>?</td>
 </tr>
 </tbody>
 </table>
 <hr>
-<h3><strong>💡 Choosing the Right Policy</strong></h3>
-<p>Choose LRU when:</p>
-<p>✓ General-purpose caching</p>
-<p>✓ Temporal locality important</p>
-<p>✓ Simple to implement</p>
-<p>✓ Good performance for most workloads</p>
-<p>Choose LFU when:</p>
-<p>✓ Popularity matters (hot content)</p>
-<p>✓ Long-term patterns</p>
-<p>✓ Willing to handle complexity</p>
-<p>✓ Media/content streaming</p>
-<p>Choose FIFO when:</p>
-<p>✓ Simplicity is critical</p>
-<p>✓ Time-based expiration</p>
-<p>✓ All items equally likely to be accessed</p>
-<p>✓ Learning/prototyping</p>
-<p><strong>Most common choice: LRU</strong> (best balance of performance and simplicity!)</p>
+<p><strong>Answers:</strong></p>
+<ol>
+<li>
+<p><strong>Company Logo: CDN ✅</strong></p>
+<ul>
+<li>Static, same for everyone</li>
+<li>Rarely changes</li>
+<li>Perfect for caching</li>
+<li><strong>Cache for: 1 year</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>User Profile Picture: CDN ✅</strong></p>
+<ul>
+<li>Static image</li>
+<li>Same for all viewers</li>
+<li>Changes rarely</li>
+<li><strong>Cache for: 24 hours</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>jQuery Library: CDN ✅✅✅</strong></p>
+<ul>
+<li>Public library</li>
+<li>Never changes (versioned)</li>
+<li>Used by millions of sites</li>
+<li><strong>Cache for: Forever! (immutable)</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Shopping Cart Total: Origin ❌</strong></p>
+<ul>
+<li>User-specific</li>
+<li>Changes frequently</li>
+<li>Must be real-time accurate</li>
+<li><strong>Never cache</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Product Catalog: Hybrid 🤔</strong></p>
+<ul>
+<li>HTML: Origin (personalized prices/stock)</li>
+<li>Images: CDN (static product photos)</li>
+<li><strong>Smart caching strategy</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Live Chat Messages: Origin ❌</strong></p>
+<ul>
+<li>Real-time</li>
+<li>User-specific</li>
+<li>Constantly changing</li>
+<li><strong>Never cache</strong></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3><strong>🛠️ Setting Up CDN: Code Example</strong></h3>
+<p><strong>Cloudflare CDN Setup:</strong></p>
+<pre><code class="language-html">
+&lt; !-- Before CDN (Origin Server) -- &gt;
+&lt;img src=&quot;https://mysite.com/images/product.jpg&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://mysite.com/styles/main.css&quot;\&gt;
+&lt; !-- With CDN (Automatic) -- &gt;
+&lt;\!-- Just point DNS to Cloudflare - they handle routing! -- &gt;
+&lt;img src=&quot;https://mysite.com/images/product.jpg&quot;\&gt;
+&lt; !-- Cloudflare automatically serves from nearest edge -- &gt;
+</code></pre>
+<p><strong>AWS CloudFront: (CDN provider by Amazon)</strong></p>
+<p>// Configure CloudFront distribution</p>
+<pre><code class="language-js">
+ const distribution = {
+        Origins: [{Id: 'my-origin',
+                  DomainName: 'mysite.com',    CustomOriginConfig: {
+                    HTTPPort: 80,      OriginProtocolPolicy: 'http-only'
+                  }
+                }],
+                DefaultCacheBehavior: {
+                TargetOriginId: 'my-origin',    ViewerProtocolPolicy: 'redirect-to-https', CachePolicyId: 'managed-CachingOptimized',
+                Compress: true,
+                AllowedMethods: ['GET', 'HEAD'],   CachedMethods: ['GET', 'HEAD']
+                }
+      };
+</code></pre>
+<p>// URLs automatically routed through CloudFront//</p>
+<p>https://d1234.cloudfront.net/images/product.jpg |</p>
+<hr>
+<h3><strong>🎯 CDN Cache Control Headers</strong></h3>
+<p><strong>Control how CDN caches your content:</strong></p>
+<pre><code class="language-js"> // Express.js example
+ app.get('/images/:id', (req, res) =&gt; {
+ // Public, cache for 1 year
+ res.set('Cache-Control', 'public, max-age=31536000, immutable');
+ res.sendFile(imagePath);});
+ app.get('/api/products', (req, res) =&gt; {
+ // Cache for 5 minutes, can revalidate
+ res.set('Cache-Control', 'public, max-age=300, must-revalidate');
+ res.json(products);})
+ app.get('/api/cart', (req, res) =&gt; {
+ // Never cache
+ res.set('Cache-Control', 'no-store, no-cache, must-revalidate')
+ res.json(userCart);})
+</code></pre>
+<p><strong>Cache-Control directives:</strong></p>
+<p>public          - Anyone can cache</p>
+<p>private         - Only browser can cache (not CDN)</p>
+<p>no-cache        - Must revalidate before using</p>
+<p>no-store        - Never cache</p>
+<p>max-age=3600    - Cache for 1 hour</p>
+<p>immutable       - Never changes, cache forever</p>
+<p>must-revalidate - Check with origin if expired</p>
+<hr>
+<h3><strong>🔥 CDN Cache Invalidation: Updating Cached Content</strong></h3>
+<p><strong>Problem:</strong> You update logo.png on origin, but CDN still serves old cached version!</p>
+<p><strong>Solution 1: Wait for TTL to expire</strong></p>
+<p>❌ Slow! Could take hours/days
+Not acceptable for urgent updates</p>
+<p>Solution 2:
+Cache Busting (Versioning)</p>
+<pre><code class="language-html">&lt; !-- Old version --&gt;
+&lt;img src=&quot;/logo.png&quot;&gt;
+&lt; !-- New version with query string -- &gt;
+&lt;img src=&quot;/logo.png?v=2&quot;&gt;
+&lt; !-- Or hash in filename -- &gt;
+&lt;img src=&quot;/logo-abc123.png&quot;&gt;
+</code></pre>
+<p>✅ Best practice! CDN sees new URL, fetches new file</p>
+<p>Solution 3: Manual Purge/Invalidation</p>
+<pre><code class="language-js">// Purge via API (Cloudflare example)
+
+fetch('https://api.cloudflare.com/client/v4/zones/ZONE_ID/purge_cache', {
+    method: 'POST',
+    headers: {'X-Auth-Email': 'user@example.com',    'X-Auth-Key': 'API_KEY',
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({files:[     'https://mysite.com/logo.png',     'https://mysite.com/style.css'
+    ]
+    })
+}); // Purges in seconds, but costs money at scale
+</code></pre>
+<hr>
+<h3><strong>💡 Popular CDN Providers</strong></h3>
+<p>Cloudflare 🌐</p>
+<p>- Cloudflare as a free tier available</p>
+<p>- It has availability across 200+ locations worldwide</p>
+<p>- DDoS protection included</p>
+<p>- It is considered great for small-medium sites</p>
+<p>Amazon CloudFront ☁️</p>
+<p>- Cloud front is amazon’s Pay-as-you-go cdn service</p>
+<p>- Integrates with AWS</p>
+<p>- 400+ edge locations (high availability)</p>
+<p>- Enterprise-grade</p>
+<p>Fastly ⚡</p>
+<p>- Real-time purging</p>
+<p>- Edge computing (VCL)</p>
+<p>- Premium performance</p>
+<p>- Used by: GitHub, Shopify</p>
+<p>Akamai 🏢</p>
+<p>- Largest CDN (4,000+ locations)</p>
+<p>- Enterprise focus</p>
+<p>- Most expensive</p>
+<p>- Used by: Apple, Facebook</p>
 </body>
     </html>
