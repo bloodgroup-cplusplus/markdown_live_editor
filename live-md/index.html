@@ -1,261 +1,199 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h1><strong>Back of the Envelope Calculations - The Estimation Game</strong></h1>
-<h3><strong>🎯 Challenge 2: The Impossible Interview Question</strong></h3>
-<p><strong>Interviewer asks:</strong> &quot;Design a system that can handle WhatsApp-scale messaging. How much storage do you need?&quot;</p>
-<p><strong>Your first reaction:</strong> &quot;Umm... a lot? Maybe... 100 terabytes? Or is it petabytes? I have no idea! 😰&quot;</p>
-<p><strong>Pause and think:</strong> How can you go from complete confusion to a reasonable estimate in 2 minutes?</p>
-<p><strong>The Answer:</strong> Back of the envelope calculations! These are quick, rough estimates that get you in the right ballpark.</p>
-<p><strong>Key Insight:</strong> You don't need exact numbers. Being within 10x is often good enough for design decisions!</p>
-<hr>
-<h3><strong>🧮 Interactive Exercise: The Napkin Math Foundations</strong></h3>
-<p>Before we dive in, let's build your mental toolkit with numbers you should memorize:</p>
-<p>📏 POWERS OF 10 (Your new best friends)</p>
-<p>──────────────────────────────────────</p>
-<p>Thousand    =        1,000 = 10³   = 1 KB</p>
-<p>Million     =    1,000,000 = 10⁶   = 1 MB</p>
-<p>Billion     =1,000,000,000 = 10⁹   = 1 GB</p>
-<p>Trillion    =        10¹²          = 1 TB</p>
-<p>⏱️ TIME CONVERSIONS</p>
-<p>──────────────────────────────────────</p>
-<p>1 day       = 86,400 seconds   ≈ 100K seconds (rounded!)</p>
-<p>1 month     ≈ 2.5 million seconds</p>
-<p>1 year      ≈ 31 million seconds (remember: π × 10⁷ seconds!)</p>
-<p>💾 DATA SIZES (rough estimates)</p>
-<p>──────────────────────────────────────</p>
-<p>Single character = 1 byte</p>
-<p>Short tweet = 280 bytes ≈ 300 bytes</p>
-<p>Typical web page = 100 KB</p>
-<p>YouTube video (1 min) = 10 MB</p>
-<p>High-res photo = 2 MB</p>
-<p>Movie (1080p, 2hrs) = 4 GB</p>
-<p><strong>Mental Model:</strong> These rounded numbers make math easy! 86,400 seconds/day becomes 100K seconds. Close enough for estimates!</p>
-<hr>
-<h3><strong>🎪 Real-World Challenge: Estimating Twitter's Storage</strong></h3>
-<p><strong>Scenario:</strong> You're asked: &quot;How much storage does Twitter need per year?&quot;</p>
-<p><strong>Step-by-step thinking:</strong></p>
-<p>🤔 STEP 1: Break down the problem</p>
-<p>──────────────────────────────────────</p>
-<p>What data does Twitter store?</p>
-<p>✓ Tweets (text)</p>
-<p>✓ Images</p>
-<p>✓ Videos</p>
-<p>✓ User profiles</p>
-<p>Let's estimate each!</p>
-<p>📝 STEP 2: Make assumptions (and state them!)</p>
-<p>──────────────────────────────────────</p>
-<p>Daily active users: 200 million</p>
-<p>Tweets per user per day: 2</p>
-<p>Average tweet size: 300 bytes</p>
-<p>20% of tweets have images (2 MB each)</p>
-<p>5% of tweets have videos (10 MB each)</p>
-<p>🧮 STEP 3: Calculate step by step</p>
-<p>──────────────────────────────────────</p>
-<p>Tweets per day:</p>
-<p>200 million users × 2 tweets = 400 million tweets/day</p>
-<p>Text storage per day:</p>
-<p>400 million tweets × 300 bytes = 120 GB/day</p>
-<p>Image storage per day:</p>
-<p>400 million tweets × 20% × 2 MB = 160 TB/day</p>
-<p>Video storage per day:</p>
-<p>400 million tweets × 5% × 10 MB = 200 TB/day</p>
-<p>TOTAL per day: 120 GB + 160 TB + 200 TB ≈ 360 TB/day</p>
-<p>📅 STEP 4: Extrapolate to yearly</p>
-<p>──────────────────────────────────────</p>
-<p>360 TB/day × 365 days ≈ 131 PB/year</p>
-<p>Add 20% for replication and backups:
-131 PB × 1.2 ≈ 157 PB/year</p>
-<p><strong>Final Answer:</strong> &quot;Twitter needs approximately <strong>150-200 petabytes</strong> of storage per year.&quot;</p>
-<p><strong>Reality check:</strong> Twitter's actual numbers are in this ballpark! You got it right with just napkin math! 🎉</p>
-<hr>
-<h3><strong>🚰 Problem-Solving Exercise: Netflix Bandwidth</strong></h3>
-<p><strong>Challenge:</strong> &quot;How much internet bandwidth does Netflix need?&quot;</p>
-<p><strong>Think about it before looking at the solution...</strong></p>
-<p>What information do you need?</p>
+      <body><h2><strong>HLD vs LLD - The Architect's Tale</strong></h2>
+<h3><strong>🎯 Challenge 1: The House Building Dilemma</strong></h3>
+<p><strong>Imagine this scenario:</strong> You want to build your dream house. You meet with your builder and say: &quot;I want a 3-bedroom house with a modern kitchen.&quot;</p>
+<p><strong>Pause and think:</strong> Would you expect the builder to start pouring concrete immediately? Or would you need something in between?</p>
+<p><strong>The Two-Level Reality:</strong> Just like building a house needs both an architectural blueprint AND detailed construction plans, software systems need:</p>
 <ul>
-<li>How many people stream at once?</li>
-<li>What video quality?</li>
-<li>How big is a video stream?</li>
+<li><strong>High-Level Design (HLD)</strong> - The &quot;what&quot; and &quot;why&quot;</li>
+<li><strong>Low-Level Design (LLD)</strong> - The &quot;how&quot; in detail</li>
 </ul>
-<p><strong>Solution walkthrough:</strong></p>
-<p>📊 ASSUMPTIONS</p>
-<p>──────────────────────────────────────</p>
-<p>Netflix subscribers: 250 million</p>
-<p>Concurrent viewers (peak time): 10% = 25 million</p>
-<p>Average bitrate (1080p video): 5 Mbps</p>
-<p>🔢 CALCULATION</p>
-<p>──────────────────────────────────────</p>
-<p>Bandwidth needed:</p>
-<p>25 million viewers × 5 Mbps = 125 million Mbps</p>
-<p>= 125,000 Gbps</p>
-<p>= 125 Tbps (terabits per second)</p>
-<p>🎯 REALITY CHECK</p>
-<p>──────────────────────────────────────</p>
-<p>Netflix actually uses 100-200 Tbps during peak hours!
-Our estimate was spot on! 🎯</p>
-<p><strong>Mental Model:</strong> Don't aim for perfection. Aim for &quot;right order of magnitude.&quot;</p>
-<p>If your answer is:</p>
+<p><strong>Key Insight:</strong> You can't jump from idea to implementation without both levels of design!</p>
+<hr>
+<h3><strong>🖼️ Interactive Exercise: The Restaurant Analogy</strong></h3>
+<p><strong>Scenario:</strong> You're opening a restaurant. Let's see the difference between HLD and LLD thinking:</p>
+<p><strong>High-Level Design (HLD) Thinking:</strong></p>
+<p>Question: &quot;What kind of restaurant are we building?&quot;</p>
+<p>Your HLD answers:</p>
+<p>✓ Italian restaurant</p>
+<p>✓ Seats 50 customers</p>
+<p>✓ Has kitchen, dining area, bar</p>
+<p>✓ Takes reservations online</p>
+<p>✓ Accepts credit cards</p>
+<p>✓ Open 5pm-11pm</p>
+<p><strong>Low-Level Design (LLD) Thinking:</strong></p>
+<p>Question: &quot;HOW exactly will online reservations work?&quot;</p>
+<p>Your LLD answers:</p>
+<p>✓ Use PostgreSQL database with 'reservations' table</p>
+<p>✓ Table has columns: id, customer_name, phone, date, time, party_size</p>
+<p>✓ API endpoint: POST /api/reservations</p>
+<p>✓ Validation: Check if time slot available before confirming</p>
+<p>✓ Send confirmation email using SendGrid API</p>
+<p>✓ Handle double-booking with database transaction locks</p>
+<p><strong>Mental Model:</strong></p>
 <ul>
-<li>✅ 100-200 Tbps → Excellent estimate!</li>
-<li>✅ 50-500 Tbps → Good ballpark</li>
-<li>❌ 1 Tbps or 10,000 Tbps → Off by too much</li>
+<li><strong>HLD</strong> = The restaurant floor plan showing &quot;Kitchen here, tables there, bar over here&quot;</li>
+<li><strong>LLD</strong> = The detailed electrical wiring diagram showing &quot;outlet here, wire gauge 14AWG, circuit breaker 20A&quot;</li>
 </ul>
 <hr>
-<h3><strong>🎯 The 5-Step Formula: Your Estimation Superpower</strong></h3>
-<p><strong>Use this every time:</strong></p>
-<p>STEP 1: 🎯 CLARIFY &amp; SCOPE</p>
-<p>└─ What exactly are we estimating?</p>
-<p>└─ What's included? What's excluded?</p>
-<p>STEP 2: 📝 STATE ASSUMPTIONS</p>
-<p>└─ Number of users</p>
-<p>└─ Usage patterns</p>
-<p>└─ Data sizes</p>
-<p>└─ Write them down!</p>
-<p>STEP 3: 🧮 CALCULATE IN CHUNKS</p>
-<p>└─ Break into smaller pieces</p>
-<p>└─ Estimate each piece</p>
-<p>└─ Round numbers aggressively</p>
-<p>STEP 4: 📊 SANITY CHECK</p>
-<p>└─ Does this make sense?</p>
-<p>└─ Compare to known systems</p>
-<p>└─ Am I off by 1000x?</p>
-<p>STEP 5: 🎁 ADD BUFFERS</p>
-<p>└─ 2x for replication</p>
-<p>└─ 1.5x for growth</p>
-<p>└─ Better to overestimate</p>
+<h3><strong>🎨 Visual Comparison: Building a Social Media App</strong></h3>
+<p>Let's design a Twitter-like app to see both levels in action:</p>
+<h4><strong>HIGH-LEVEL DESIGN (30,000 foot view)</strong></h4>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764645948/236_xjdj2c.png" alt="img1"></p>
+<p>Components: User Service, Tweet Service, Database
+Data Flow: User → Posts Tweet → Stored in DB
+Tech Stack: Node.js backend, React frontend, MongoDB</p>
+<p><strong>HLD answers:</strong></p>
+<ul>
+<li>What are the main components? (User Service, Tweet Service, Database)</li>
+<li>How do they interact? (API calls between services)</li>
+<li>What technologies? (Node.js, MongoDB, React)</li>
+</ul>
+<h4><strong>LOW-LEVEL DESIGN (Ground level view)</strong></h4>
+<p><strong>Just for the &quot;Post Tweet&quot; feature:</strong></p>
+<pre><code class="language-js">| // LLD specifies the EXACT implementation
+class TweetService {
+  async postTweet(userId, content, mediaUrls) {
+      // Step 1: Validate input
+      if (!content || content.length \&gt; 280) {
+
+        throw new ValidationError(&quot;Invalid tweet length&quot;);
+        }
+      // Step 2: Check user exists and is not banned
+
+      const user = await UserDB.findById(userId);
+
+      if (!user || user.status === 'banned') {
+
+
+
+      throw new UnauthorizedError();
+      }
+      // Step 3: Create tweet object
+      const tweet = {
+        id: generateUUID(),
+        userId: userId,
+        content: sanitizeHTML(content),
+        mediaUrls: mediaUrls,
+        timestamp: Date.now(),
+        likes: 0,
+        retweets: 0
+        };
+      // Step 4: Save to database
+      await TweetDB.insert(tweet);
+      // Step 5: Update user's timeline cache
+      await TimelineCache.addTweet(userId, tweet);
+      // Step 6: Fan out to followers
+      await FanoutService.distributeToFollowers(userId, tweet);
+      return tweet;
+    }
+  }
+   Database Schema (LLD specifies exact structure)
+
+   TweetsCollection {
+   _id: ObjectId,
+   userId: ObjectId (indexed),
+   content: String (max 280 chars),
+   mediaUrls: Array&lt;String&gt;,
+   timestamp: ISODate (indexed),
+   likes: Number (default 0),
+   retweets: Number (default 0),
+   hashtags: Array&lt;String&gt; (indexed)
+   }
+</code></pre>
+<p><strong>LLD answers:</strong></p>
+<ul>
+<li>Exact function signatures</li>
+<li>Data validation logic</li>
+<li>Error handling</li>
+<li>Database schema with indexes</li>
+<li>Algorithm for each operation</li>
+<li>Edge cases handling</li>
+</ul>
 <hr>
-<h3><strong>🎮 Practice Game: Quick Estimates!</strong></h3>
-<p><strong>Try these yourself before looking at answers:</strong></p>
-<p><strong>Challenge A:</strong> &quot;How many queries per second does Google Search handle?&quot;</p>
-<p><strong>Challenge B:</strong> &quot;How much storage for 1 year of Zoom meeting recordings?&quot;</p>
-<p><strong>Challenge C:</strong> &quot;How many servers to handle Instagram's image uploads?&quot;</p>
-<p><strong>Think through each one...</strong></p>
+<h3><strong>🚨 Common Misconception: &quot;Can't I Just Code Without All This Design?&quot;</strong></h3>
+<p><strong>You might think:</strong> &quot;This seems like extra work. Why not just start coding?&quot;</p>
+<p><strong>The Reality Check:</strong></p>
+<p>Imagine building IKEA furniture:</p>
+<ul>
+<li><strong>Without HLD:</strong> You don't look at the picture of the finished product → Build random parts → End up with a chair that looks like a table</li>
+<li><strong>Without LLD:</strong> You see the picture but skip the step-by-step instructions → Parts don't fit → Screws in wrong places → Wobbly furniture</li>
+</ul>
+<p><strong>Real-world comparison:</strong></p>
+<p>No HLD = Building a house without a floor plan
+Result: Bathroom ends up in the middle of the living room</p>
+<p>No LLD = Having the floor plan but no construction details
+Result: You know WHERE the bathroom goes, but not HOW to
+install the plumbing, what pipe sizes, what materials</p>
+<p><strong>The Sweet Spot:</strong></p>
+<ol>
+<li><strong>HLD first</strong> → Make sure you're building the RIGHT thing</li>
+<li><strong>LLD next</strong> → Make sure you're building it the RIGHT way</li>
+<li><strong>Code last</strong> → Implementation is now straightforward</li>
+</ol>
 <hr>
-<p><strong>ANSWERS:</strong></p>
-<p><strong>Challenge A: Google Search QPS</strong></p>
-<p>Assumptions:</p>
-<p>- Google users worldwide: 4 billion</p>
-<p>- Searches per person per day: 3</p>
-<p>- Peak traffic: 2x average</p>
-<p>Calculation:</p>
-<p>Daily searches: 4B × 3 = 12 billion</p>
-<p>Per second: 12B ÷ 100K seconds ≈ 120,000 QPS</p>
-<p>Peak: 120K × 2 = 240,000 QPS</p>
-<p>Answer: ~200,000-300,000 queries per second</p>
-<p>Reality: Google handles ~100,000 QPS average, ~200,000 peak ✓</p>
-<p><strong>Challenge B: Zoom Storage</strong></p>
-<p>Assumptions:</p>
-<p>- Daily meeting hours: 3 billion minutes</p>
-<p>- Video bitrate: 2 Mbps</p>
-<p>- Storage with compression: 1 MB/minute</p>
-<p>Calculation:</p>
-<p>Daily storage: 3B minutes × 1 MB = 3 PB/day</p>
-<p>Yearly: 3 PB × 365 = 1,095 PB ≈ 1 exabyte</p>
-<p>Answer: ~1 exabyte per year</p>
-<p><strong>Challenge C: Instagram Servers</strong></p>
-<p>Assumptions:</p>
-<p>- Photos uploaded per day: 100 million</p>
-<p>- Upload takes 2 seconds per photo</p>
-<p>- Server handles 1000 req/sec</p>
-<p>Calculation:</p>
-<p>Total upload seconds per day:</p>
-<p>100M photos × 2 sec = 200M seconds</p>
-<p>Servers needed:</p>
-<p>200M seconds ÷ 86,400 seconds/day = 2,315 server-days</p>
-<p>To handle in 24 hours: 2,315 servers</p>
-<p>Add 2x for peak load: ~5,000 servers</p>
-<p>Answer: ~5,000 servers for uploads</p>
+<h3><strong>🎮 Decision Game: Which Level of Design?</strong></h3>
+<p><strong>For each statement, identify if it's HLD or LLD:</strong></p>
+<p><strong>A.</strong> &quot;We'll use Redis for caching frequently accessed data&quot;</p>
+<p><strong>B.</strong> &quot;The cache key will be <code>user:{userId}:profile</code> with TTL of 3600 seconds&quot;</p>
+<p><strong>C.</strong>
+&quot;The system will have three microservices: Auth, Orders, and Payments&quot;</p>
+<p><strong>D.</strong>
+&quot;The Order service will use a state machine with states: PENDING → CONFIRMED → SHIPPED → DELIVERED&quot;</p>
+<p><strong>E.</strong> &quot;We'll use PostgreSQL for persistent storage&quot;</p>
+<p><strong>F.</strong> &quot;The users table will have a B-tree index on email column and a composite index on (last_name, first_name)&quot;</p>
+<p><strong>Think about each one... What level of detail is being specified?</strong></p>
+<p><strong>Answers revealed:</strong></p>
+<ul>
+<li><strong>A: HLD</strong> → Mentions technology choice, but not implementation details</li>
+<li><strong>B: LLD</strong> → Specific key format, exact TTL value</li>
+<li><strong>C: HLD</strong> → System architecture, component breakdown</li>
+<li><strong>D: LLD</strong> → Exact state transitions and values</li>
+<li><strong>E: HLD</strong> → Database technology choice</li>
+<li><strong>F: LLD</strong> → Specific index types and columns</li>
+</ul>
+<p><strong>Mental Model:</strong></p>
+<ul>
+<li>If your manager or client could understand it → <strong>HLD</strong></li>
+<li>If only developers need this level of detail → <strong>LLD</strong></li>
+</ul>
 <hr>
-<h3><strong>💡 Common Pitfalls &amp; How to Avoid Them</strong></h3>
-<p>❌ PITFALL 1: Trying to be too precise</p>
-<p>└─ &quot;It's exactly 247,394 requests per second&quot;</p>
-<p>└─ Fix: Round! &quot;About 250K requests/second&quot;</p>
-<p>❌ PITFALL 2: Forgetting peak vs. average</p>
-<p>└─ &quot;We need 10 servers for average load&quot;</p>
-<p>└─ Fix: Always plan for 2-3x peak load</p>
-<p>❌ PITFALL 3: Not stating assumptions</p>
-<p>└─ Just writing numbers without context</p>
-<p>└─ Fix: Always say &quot;Assuming X users...&quot;</p>
-<p>❌ PITFALL 4: Skipping sanity checks</p>
-<p>└─ Calculating you need 1 million servers</p>
-<p>└─ Fix: &quot;Wait, that's more than Google. Recheck!&quot;</p>
-<p>❌ PITFALL 5: Analysis paralysis</p>
-<p>└─ Spending 20 minutes on perfect numbers</p>
-<p>└─ Fix: 2-5 minutes max. Rough is good enough!</p>
+<h3><strong>📊 The Complete Picture: HLD vs LLD</strong></h3>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764645948/238_ybixwn.png" alt="img2"></p>
+<pre><code>              LLD (Engineer)
+</code></pre>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764645947/237_ixdg9l.png" alt="img3"></p>
 <hr>
-<h3><strong>🎯 Quick Reference: Estimation Cheat Sheet</strong></h3>
-<p>COMMON BENCHMARKS TO REMEMBER</p>
-<p>═════════════════════════════════════</p>
-<p>📱 Typical smartphone:</p>
-<p>Storage: 128 GB</p>
-<p>RAM: 6 GB</p>
-<p>Screen size: 6 inches, 2400×1080</p>
-<p>💻 Typical web server:</p>
-<p>Handles: 1000-5000 requests/sec</p>
-<p>RAM: 16-64 GB</p>
-<p>Disk: 500 GB - 2 TB</p>
-<p>🌐 Web page load:</p>
-<p>Size: 2 MB average</p>
-<p>Time: 2-3 seconds</p>
-<p>50-100 HTTP requests</p>
-<p>📹 Video streaming:</p>
-<p>480p: 1 Mbps</p>
-<p>720p: 2.5 Mbps</p>
-<p>1080p: 5 Mbps</p>
-<p>4K: 25 Mbps</p>
-<p>👥 Social media usage:</p>
-<p>Average user posts: 1-2 per day</p>
-<p>Average user views: 100-200 items/day</p>
-<p>Active time: 30-60 minutes/day</p>
-<p>🗄️ Database queries:</p>
-<p>Simple SELECT: 1 ms</p>
-<p>JOIN query: 10-100 ms</p>
-<p>Full table scan: seconds to minutes</p>
-<hr>
-<h3><strong>🎪 The Grand Finale: Complex Estimation</strong></h3>
-<p><strong>Ultimate Challenge:</strong> &quot;Design YouTube's infrastructure. Estimate everything.&quot;</p>
-<p><strong>Your approach:</strong></p>
-<p>🎯 SCOPE</p>
-<p>─────────</p>
-<p>What to estimate:</p>
-<p>✓ Storage (videos)</p>
-<p>✓ Bandwidth (uploads + downloads)</p>
-<p>✓ Servers (processing)</p>
-<p>✓ Database (metadata)</p>
-<p>📝 ASSUMPTIONS</p>
-<p>──────────────</p>
-<p>Daily active users: 2 billion</p>
-<p>Videos watched per user: 10</p>
-<p>Average video: 5 minutes, 1080p</p>
-<p>Upload/watch ratio: 1:1000</p>
-<p>New videos per day: 500,000</p>
-<p>💾 STORAGE CALCULATION</p>
-<p>──────────────────────</p>
-<p>Video size: 5 min × 5 Mbps ÷ 8 = 3.75 MB/sec × 300 sec = 1.1 GB</p>
-<p>New storage per day:</p>
-<p>500K videos × 1.1 GB = 550 TB/day</p>
-<p>Yearly growth: 550 TB × 365 = 200 PB/year</p>
-<p>🌐 BANDWIDTH CALCULATION</p>
-<p>────────────────────────</p>
-<p>Views per day: 2B users × 10 videos = 20B views</p>
-<p>Data downloaded per day:</p>
-<p>20B × 1.1 GB = 22,000 PB = 22 EB/day</p>
-<p>Per second: 22 EB ÷ 100K sec = 220 TB/sec = 1,760 Tbps</p>
-<p>⚙️ SERVER CALCULATION</p>
-<p>──────────────────────</p>
-<p>Video encoding:</p>
-<p>500K videos/day need transcoding</p>
-<p>Each video takes 10 minutes to encode</p>
-<p>One server encodes 144 videos/day (24 hrs)</p>
-<p>Servers needed: 500K ÷ 144 = 3,500 encoding servers</p>
-<p>🎯 FINAL ANSWER</p>
-<p>───────────────</p>
-<p>Storage: 200 PB new per year (+ historical data)</p>
-<p>Bandwidth: ~2,000 Tbps (petabits per second!)</p>
-<p>Encoding servers: ~4,000</p>
-<p>Streaming servers: ~50,000 (estimated separately)</p>
-<p>Reality: YouTube stores ~1 exabyte total, uses ~1,000 Tbps</p>
-<p>Our estimates are in the right ballpark! 🎉</p>
+<h3><strong>🔑 Key Takeaway: The Two-Level Strategy</strong></h3>
+<p><strong>When designing a system:</strong></p>
+<ol>
+<li>
+<p><strong>Start with HLD</strong></p>
+<ul>
+<li>Sketch the big picture</li>
+<li>Identify major components</li>
+<li>Choose technologies</li>
+<li>Define interactions</li>
+<li>Get stakeholder buy-in</li>
+</ul>
+</li>
+<li>
+<p><strong>Drill down to LLD</strong></p>
+<ul>
+<li>Design each component in detail</li>
+<li>Specify algorithms</li>
+<li>Define data structures</li>
+<li>Plan error handling</li>
+<li>Ready for coding</li>
+</ul>
+</li>
+</ol>
+<p><strong>Real-world parallel:</strong></p>
+<ul>
+<li>Planning a road trip: HLD = Route from NYC to LA, stop in Chicago and Denver</li>
+<li>LLD = Exact highways (I-80 West), exit numbers (Exit 126B), gas stations every 200 miles</li>
+</ul>
 </body>
     </html>
