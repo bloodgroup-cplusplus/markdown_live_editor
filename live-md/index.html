@@ -1,176 +1,305 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h1><strong>Horizontal vs Vertical Scaling - The Growth Strategy</strong></h1>
-<h3><strong>🎯 Challenge The Pizza Restaurant Dilemma</strong></h3>
-<p><strong>Scenario:</strong> Your pizza restaurant is packed every night. There's a 2-hour wait!</p>
-<p><strong>You have two options to handle more customers:</strong></p>
-<p><strong>Option A:</strong> Hire a superhuman chef who can make pizzas 10x faster (but costs 10x more)</p>
-<p><strong>Option B:</strong> Hire 10 regular chefs, each working at normal speed</p>
-<p><strong>Think about it:</strong> Which would you choose and why?</p>
-<hr>
-<h3><strong>🍕 The Scaling Revelation</strong></h3>
-<p><strong>This is exactly the difference between Vertical and Horizontal Scaling!</strong></p>
-<p>🏢 VERTICAL SCALING (Option A)
-═══════════════════════════════════
-Make your single server MORE POWERFUL
-<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650663/239_kovskg.png" alt="img1">
-Like: Upgrading your laptop to a supercomputer</p>
-<p>🏗️ HORIZONTAL SCALING (Option B)
-═══════════════════════════════════
-Add MORE servers (keep each one normal)</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650666/251_boej6y.png" alt="img2"></p>
-<p>Like: Building a team instead of finding a superhero</p>
-<hr>
-<h3><strong>🎮 Interactive Comparison: The Office Analogy</strong></h3>
-<p><strong>Scenario:</strong> Your company needs to handle more customer support tickets.</p>
-<p><strong>Vertical Scaling Approach:</strong></p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650664/244_xwotv4.png" alt="img3"></p>
-<p><strong>Horizontal Scaling Approach:</strong></p>
-<p><strong><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650665/246_mud34e.png" alt="img4"></strong></p>
-<hr>
-<h3><strong>📊 Real-World Scaling Example: Web Server Overload</strong></h3>
-<p><strong>Problem:</strong> Your website gets 1,000 requests/second, but your server can only handle 500 req/sec.</p>
-<p><strong>Visual representation:</strong></p>
-<p>❌ BEFORE (Overloaded):</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650663/240_twjugz.png" alt="img5">
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>✅ VERTICAL SCALING SOLUTION:</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650667/252_vsuacm.png" alt="img6"></p>
-<p>Pros: Simple - just upgrade one server
-Cons: Expensive, has limits, single point of failure</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>✅ HORIZONTAL SCALING SOLUTION:</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650663/243_yp1sqc.png" alt="img7"></p>
-<pre><code>Total capacity: 2000 req/sec\! 😊 💰
-Cost: 4 cheap servers \&lt; 1 mega server
-Bonus: If one fails, others continue\!
+      <body><h2><strong>Load Balancing Basics - The Traffic Director</strong></h2>
+<h3><strong>🎯 Challenge 4: The Restaurant Host Problem</strong></h3>
+<p><strong>Scenario:</strong> You own a restaurant with 5 identical dining rooms. Customers arrive at the entrance.</p>
+<p><strong>Without a host:</strong></p>
+<p>Entrance
+│</p>
+<pre><code>        ▼
 </code></pre>
-<p>Pros: Cost-effective, redundant, unlimited growth
-Cons: More complex architecture</p>
+<p>Room 1: ████████████ (packed, 30 min wait)</p>
+<p>Room 2: ████         (some people)</p>
+<p>Room 3: ████████████ (packed)</p>
+<p>Room 4: ██           (almost empty!)</p>
+<p>Room 5: ████████████ (packed)</p>
+<p>Problem: Customers just pick random rooms!
+Result: Long waits, unhappy customers, empty tables</p>
+<p><strong>With a smart host:</strong></p>
+<p>Entrance</p>
+<p>│</p>
+<p>▼</p>
+<p>Host (sees all rooms, directs customers smartly)</p>
+<p>├─→ Room 1: ██████  (balanced)</p>
+<p>├─→ Room 2: ██████  (balanced)</p>
+<p>├─→ Room 3: ██████  (balanced)</p>
+<p>├─→ Room 4: ██████  (balanced)</p>
+<p>└─→ Room 5: ██████  (balanced)</p>
+<p>Result: No waits, happy customers, efficient!</p>
+<p><strong>This is exactly what a Load Balancer does!</strong></p>
 <hr>
-<h3><strong>🚨 Common Misconception: &quot;Vertical Scaling is Always Bad&quot;</strong></h3>
-<p><strong>You might think:</strong> &quot;Horizontal scaling sounds way better. Why would anyone use vertical scaling?&quot;</p>
-<p><strong>The Truth:</strong> Both have their place!</p>
-<p>✅ WHEN TO USE VERTICAL SCALING
-════════════════════════════════════</p>
-<p>Good for:
-• Databases (hard to split data across servers)
-• Applications that need shared memory
-• Legacy software that can't be distributed
-• Small to medium traffic
-• When simplicity matters</p>
-<p>Example: Your PostgreSQL database
-You CAN'T easily split it across 10 servers (complex!)
-Easier to give it more RAM and CPU
-<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650663/239_kovskg.png" alt="img8"></p>
-<p>✅ WHEN TO USE HORIZONTAL SCALING
-════════════════════════════════════</p>
-<p>Good for:
-• Stateless web servers
-• Microservices
-• High traffic applications
-• When you need redundancy
-• Unlimited growth potential</p>
-<p>Example: Your web application
-Easy to run same code on 100 servers!
-<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650666/249_xrdotn.png" alt="img9"></p>
-<p><strong>Real-world parallel:</strong></p>
+<h3><strong>🏗️ What is Load Balancing?</strong></h3>
+<p><strong>Definition:</strong> A load balancer is like a smart traffic director that distributes incoming requests across multiple servers.</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771695/262_rajp5f.png" alt="img1"></p>
+<p>All servers: Happy and balanced!</p>
+<p><strong>Key Insight:</strong> Load balancers prevent any single server from being overwhelmed!</p>
+<hr>
+<h3><strong>🎮 Interactive Exercise: Load Balancing Algorithms</strong></h3>
+<p><strong>Scenario:</strong> You have 3 servers. 9 requests arrive. How do you distribute them?</p>
+<p>Let's explore different strategies:</p>
+<h4><strong>Algorithm 1: Round Robin 🔄</strong></h4>
+<p><strong>How it works:</strong> &quot;Take turns, like dealing cards&quot;</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771695/254_ggpk1u.png" alt="img2"></p>
+<p>Perfect equality!</p>
+<p><strong>Pros:</strong> Simple, fair, easy to implement <strong>Cons:</strong> Doesn't consider server load or speed</p>
+<p><strong>Real-world example:</strong> Like handing out homework to students in seat order</p>
+<hr>
+<h4><strong>Algorithm 2: Least Connections 📊</strong></h4>
+<p><strong>How it works:</strong> &quot;Send to whoever is least busy right now&quot;</p>
+<p>Starting state:</p>
+<p>Server 1: 2 active connections</p>
+<p>Server 2: 5 active connections</p>
+<p>Server 3: 1 active connection</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764773305/load_balance_zj4bnd.png" alt="img3"></p>
+<p>New request arrives:</p>
+<p>→ Check all servers</p>
+<p>→ Server 3 has fewest connections (1)</p>
+<p>→ Send request to Server 3!</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771696/258_e36d0v.png" alt="img4"></p>
+<p><strong>Pros:</strong> Accounts for different request durations</p>
+<p><strong>Cons:</strong> Slightly more complex, needs to track connections</p>
+<p><strong>Real-world example:</strong> Like a grocery store checkout - you join the shortest line!</p>
+<hr>
+<h4><strong>Algorithm 3: Weighted Distribution ⚖️</strong></h4>
+<p><strong>How it works:</strong> &quot;Better servers get more work&quot;</p>
+<p>Server setup:</p>
+<p>Server 1: Power rating 5 (newest, most powerful)</p>
+<p>Server 2: Power rating 3 (medium)</p>
+<p>Server 3: Power rating 2 (older, slower)</p>
+<p>Total power: 10</p>
+<p>Distribution ratio: 5:3:2</p>
+<p>For 100 requests:</p>
+<p>Server 1 gets: 50 requests (50%)</p>
+<p>Server 2 gets: 30 requests (30%)</p>
+<p>Server 3 gets: 20 requests (20%)</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771695/256_ax9fjr.png" alt="img5"></p>
+<p><strong>Pros:</strong> Utilizes hardware differences efficiently</p>
+<p><strong>Cons:</strong> Requires knowing server capabilities</p>
+<p><strong>Real-world example:</strong> Like a restaurant assigning more tables to experienced waiters</p>
+<hr>
+<h4><strong>Algorithm 4: IP Hash 🔐</strong></h4>
+<p><strong>How it works:</strong> &quot;Same client always goes to same server&quot;</p>
+<p>How hashing works:</p>
+<p>User IP: 192.168.1.100</p>
+<p>→ Hash function: hash(192.168.1.100) = 347</p>
+<p>→ 347 % 3 = 2  (modulo number of servers)</p>
+<p>→ Always routes to Server 2!</p>
+<p>Same user's next request:</p>
+<p>→ hash(192.168.1.100) = 347  (same!)</p>
+<p>→ 347 % 3 = 2</p>
+<p>→ Server 2 again!</p>
+<p>Different user IP: 192.168.1.101</p>
+<p>→ hash(192.168.1.101) = 892</p>
+<p>→ 892 % 3 = 1</p>
+<p>→ Routes to Server 1</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771695/261_cklgsr.png" alt="img6">)</p>
+<p><strong>Pros:</strong></p>
 <ul>
-<li><strong>Vertical:</strong> Like buying a bigger house when you need more space</li>
-<li><strong>Horizontal:</strong> Like building an apartment complex with many units</li>
+<li>Session persistence (user's data cached on one server)</li>
+<li>Predictable routing</li>
 </ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Uneven distribution if many users from same IP range</li>
+<li>Server failure requires rehashing</li>
+</ul>
+<p><strong>Real-world example:</strong> Like having a regular doctor - you always see the same one who knows your history</p>
 <hr>
-<h3><strong>🎯 Decision Game: Scale Up or Scale Out?</strong></h3>
-<p><strong>For each scenario, choose Vertical or Horizontal scaling:</strong></p>
-<p><strong>Scenario A:</strong> Netflix streaming servers serving video to millions <strong>Scenario B:</strong> Main MySQL database storing user accounts <strong>Scenario C:</strong> Image processing API that resizes photos <strong>Scenario D:</strong> Redis cache for session storage <strong>Scenario E:</strong> E-commerce website frontend</p>
-<p><strong>Think about each one...</strong></p>
+<h3><strong>💡 Types of Load Balancers: Layer 4 vs Layer 7</strong></h3>
+<p>🔌 LAYER 4 (Network Load Balancer)</p>
+<p>═══════════════════════════════════════</p>
+<p>Works at: TCP/UDP level</p>
+<p>Sees: IP addresses, ports</p>
+<p>Fast: Very (just forwards packets)</p>
+<p>Smart: Not very</p>
+<p>Example decision:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771696/257_ikxhju.png" alt="img7"></p>
+<p>Use when: Raw speed needed, simple TCP routing</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>🌐 LAYER 7 (Application Load Balancer)</p>
+<p>═══════════════════════════════════════</p>
+<p>Works at: HTTP/HTTPS level</p>
+<p>Sees: URLs, headers, cookies, content</p>
+<p>Fast: Slower (must read HTTP)</p>
+<p>Smart: Very!</p>
+<p>Example decision:
+&quot;This request is for /api/users&quot;
+→ Route to API servers</p>
+<p>&quot;This request is for /images/cat.jpg&quot;
+→ Route to image servers</p>
+<pre><code>  Internet
+     │
+     ▼
+┌─────────┐
+│ Layer 7 │  &quot;GET /api/users&quot;
+│   LB    │  → Route to API cluster
+└─────────┘
+     │       &quot;GET /static/logo.png&quot;
+     │       → Route to CDN servers
+     │
+┌────┴─────┐
+▼          ▼
+</code></pre>
+<p>[API Servers] [Static Servers]</p>
+<p>Use when: Need smart routing by content</p>
+<p><strong>Real-world comparison:</strong></p>
+<ul>
+<li>
+<p><strong>Layer 4:</strong> Like a highway toll booth - just directs cars, doesn't care what's inside</p>
+</li>
+<li>
+<p><strong>Layer 7:</strong> Like a smart receptionist - reads your request and directs you to the right department</p>
+</li>
+</ul>
+<h3><strong>🚨 Common Misconception: &quot;Load Balancers Never Fail&quot;</strong></h3>
+<p><strong>You might think:</strong> &quot;Great! Load balancer solves everything!&quot;</p>
+<p><strong>The Reality:</strong> Load balancers themselves can fail or become bottlenecks!</p>
+<p><strong>The Solution: Multiple Load Balancers!</strong></p>
+<p>❌ SINGLE LOAD BALANCER (Risky!)</p>
+<p>═════════════════════════════════</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771696/257_ikxhju.png" alt="img8"></p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>✅ REDUNDANT LOAD BALANCERS (Safe!)</p>
+<p>═════════════════════════════════</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771695/255_i2kk9d.png" alt="img9"></p>
+<p>Safety: If LB 1 fails, LB 2 continues!</p>
+<hr>
+<h3><strong>🎪 Real-World Load Balancing Architecture</strong></h3>
+<p><strong>Let's see how a real company like Netflix might structure their load balancing:</strong></p>
+<p>🌍 GLOBAL ARCHITECTURE</p>
+<p>═══════════════════════════════════════════</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771696/260_rfic9f.png" alt="img10"></p>
+<p>Each zone has:</p>
+<p>├─ Layer 4 Load Balancer (Network LB) ← Third layer: TCP routing</p>
+<p>├─ 50+ Web Servers</p>
+<p>├─ 20+ API Servers</p>
+<p>└─ 10+ Database Read Replicas</p>
+<p><strong>Why multiple layers?</strong></p>
+<ol>
+<li>
+<p><strong>DNS Layer:</strong> Routes by geography (latency optimization)</p>
+</li>
+<li>
+<p><strong>Application Layer (L7):</strong> Routes by URL path, HTTP headers</p>
+</li>
+<li>
+<p><strong>Network Layer (L4):</strong> Raw TCP connection distribution</p>
+</li>
+</ol>
+<hr>
+<h3><strong>🔍 Investigation: What Happens When a Server Dies?</strong></h3>
+<p><strong>Scenario:</strong> You have 4 servers behind a load balancer. Server 3 crashes.</p>
+<p><strong>Without Health Checks:</strong></p>
+<p>Load Balancer: &quot;Round robin time!&quot;</p>
+<p>Request 1 → Server 1 ✅ (works)</p>
+<p>Request 2 → Server 2 ✅ (works)</p>
+<p>Request 3 → Server 3 ❌ (DEAD! User sees error)</p>
+<p>Request 4 → Server 4 ✅ (works)</p>
+<p>Request 5 → Server 1 ✅ (works)</p>
+<p>Request 6 → Server 2 ✅ (works)</p>
+<p>Request 7 → Server 3 ❌ (STILL DEAD! Another error)</p>
+<p>Result: 25% of requests fail! 😡</p>
+<p><strong>With Health Checks (Smart!):</strong></p>
+<p>Health Check Configuration:</p>
+<p>- Check every 10 seconds</p>
+<p>- Send HTTP GET to /health</p>
+<p>- Expect 200 OK response</p>
+<p>- If fails 3 times → Mark unhealthy</p>
+<p>Timeline:
+10:00:00 - Server 3 crashes</p>
+<p>10:00:10 - Health check fails (1/3)</p>
+<p>10:00:20 - Health check fails (2/3)</p>
+<p>10:00:30 - Health check fails (3/3) → REMOVED!</p>
+<p>Load Balancer: &quot;Server 3 is out! Skip it!&quot;</p>
+<p>Request 1 → Server 1 ✅</p>
+<p>Request 2 → Server 2 ✅</p>
+<p>Request 3 → Server 4 ✅ (skipped dead Server 3!)</p>
+<p>Request 4 → Server 1 ✅</p>
+<p>Request 5 → Server 2 ✅</p>
+<p>Result: 0% failures! 🎉</p>
+<p>10:05:00 - Server 3 comes back online
+10:05:10 - Health check succeeds (1/3)
+10:05:20 - Health check succeeds (2/3)
+10:05:30 - Health check succeeds (3/3) → ADDED BACK!</p>
+<p>Load Balancer: &quot;Welcome back, Server 3!&quot;</p>
+<p><strong>Key Insight:</strong> Health checks are CRITICAL for reliability!</p>
+<hr>
+<hr>
+<h3><strong>🎯 Decision Game: Choose Your Algorithm</strong></h3>
+<p><strong>For each scenario, pick the best load balancing algorithm:</strong></p>
+<p><strong>Scenario A:</strong> Simple website, all servers identical</p>
+<p><strong>Scenario B:</strong> Video encoding - jobs take 5 seconds to 5 minutes</p>
+<p><strong>Scenario C:</strong> Shopping cart - need same user to hit same server</p>
+<p><strong>Scenario D:</strong> 1 new powerful server + 2 older slower servers</p>
+<p><strong>Scenario E:</strong> API with completely independent requests</p>
+<p><strong>Think carefully...</strong></p>
 <hr>
 <p><strong>ANSWERS:</strong></p>
-<p>Scenario A: HORIZONTAL ✓
-Why: Stateless video servers, millions of users
-Solution: 1000s of servers in data centers worldwide</p>
-<p>Scenario B: VERTICAL ✓
-Why: Database needs consistency, complex to split
-Solution: Upgrade to high-memory server</p>
-<p>Scenario C: HORIZONTAL ✓
-Why: Each image processed independently
-Solution: 50 servers processing in parallel</p>
-<p>Scenario D: BOTH!
-Why: Vertical to start, then horizontal with clustering
-Solution: Upgrade RAM first, then add cache nodes</p>
-<p>Scenario E: HORIZONTAL ✓
-Why: Stateless web servers, easy to duplicate
-Solution: 20+ identical web servers behind load balancer</p>
+<p>Scenario A: ROUND ROBIN ✓</p>
+<p>Why: Servers identical, simple is best</p>
+<p>Scenario B: LEAST CONNECTIONS ✓</p>
+<p>Why: Job duration varies widely, need dynamic balancing</p>
+<p>Scenario C: IP HASH ✓</p>
+<p>Why: Session persistence required for cart data</p>
+<p>Scenario D: WEIGHTED ✓</p>
+<p>Why: Different server capabilities</p>
+<p>Config: New server weight=5, old servers weight=2 each</p>
+<p>Scenario E: ROUND ROBIN or RANDOM ✓</p>
+<p>Why: Stateless, any algorithm works fine</p>
 <hr>
-<h3><strong>📈 The Scaling Progression: How Real Companies Grow</strong></h3>
-<p><strong>Watch a typical startup's scaling journey:</strong></p>
-<p>👶 STAGE 1: TINY STARTUP (0-1K users)
-═════════════════════════════════════</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650665/248_qdj6es.png" alt="img10"></p>
-<p>Strategy: Nothing! One server is fine.</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>📈 STAGE 2: GROWING (1K-10K users)</p>
-<p>═════════════════════════════════════</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650663/242_yrjhqk.png" alt="img11"></p>
-<p>Strategy: VERTICAL scaling of database</p>
-<p>Cost: $500/month</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>🚀 STAGE 3: POPULAR (10K-100K users)</p>
-<p>═════════════════════════════════════</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650664/241_b3u0hy.png" alt="img2"></p>
-<p>Strategy: HORIZONTAL apps + VERTICAL database</p>
-<p>Cost: $5,000/month</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>🌟 STAGE 4: MASSIVE (100K+ users)</p>
-<p>═════════════════════════════════════</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650665/245_cpuo1n.png" alt="img13"></p>
-<p>Strategy: BOTH everywhere!</p>
-<p>Cost: $50,000/month</p>
-<p>Companies: Netflix, Facebook, Twitter at this stage</p>
+<h3><strong>🎪 The Complete Picture: Load Balancer Features</strong></h3>
+<p>MODERN LOAD BALANCER CAPABILITIES</p>
+<p>═══════════════════════════════════════</p>
+<p>✅ Traffic Distribution</p>
+<p>├─ Round Robin</p>
+<p>├─ Least Connections</p>
+<p>├─ Weighted</p>
+<p>└─ IP Hash</p>
+<p>✅ Health Monitoring</p>
+<p>├─ HTTP health checks</p>
+<p>├─ TCP health checks</p>
+<p>├─ Custom health endpoints</p>
+<p>└─ Automatic server removal/re-addition</p>
+<p>✅ SSL/TLS Termination</p>
+<p>├─ Handle HTTPS encryption</p>
+<p>├─ Decrypt at load balancer</p>
+<p>└─ Send plain HTTP to backend
+(reduces server CPU load)</p>
+<p>✅ Sticky Sessions</p>
+<p>├─ Cookie-based routing</p>
+<p>└─ Keep user on same server</p>
+<p>✅ Rate Limiting</p>
+<p>├─ Protect from DDoS</p>
+<p>└─ Throttle aggressive clients</p>
+<p>✅ Geographic Routing</p>
+<p>├─ Route EU users to EU servers</p>
+<p>└─ Minimize latency</p>
+<p>✅ Content-Based Routing</p>
+<p>├─ /api/* → API servers</p>
+<p>├─ /images/* → Image servers</p>
+<p>└─ /admin/* → Admin servers</p>
+<p>✅ Metrics &amp; Logging</p>
+<p>├─ Request counts</p>
+<p>├─ Response times</p>
+<p>└─ Error rates</p>
 <hr>
-<h3><strong>💰 Cost Comparison: The Reality Check</strong></h3>
-<p><strong>Example: Handling 10,000 requests/second</strong></p>
-<p>💸 VERTICAL SCALING COSTS</p>
-<p>═════════════════════════════════</p>
-<p>Single mega-server:</p>
-<p>• 64 CPUs</p>
-<p>• 512 GB RAM</p>
-<p>• 10 TB SSD</p>
-<p>Cloud cost: $5,000/month</p>
-<p>Problems:</p>
-<p>❌ Single point of failure</p>
-<p>❌ Expensive</p>
-<p>❌ Can't grow beyond physical limits</p>
-<p>❌ Maintenance downtime affects everyone</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>💸 HORIZONTAL SCALING COSTS</p>
-<p>═════════════════════════════════</p>
-<p>10 medium servers:</p>
-<p>• 8 CPUs each</p>
-<p>• 64 GB RAM each</p>
-<p>• 1 TB SSD each</p>
-<p>Cloud cost: $3,000/month (cheaper!)</p>
-<p>Benefits:</p>
-<p>✅ One fails? 9 others continue</p>
-<p>✅ Cost effective</p>
-<p>✅ Can add more easily</p>
-<p>✅ Update one at a time (no downtime)</p>
-<p>Winner: Horizontal! 🎉</p>
-<hr>
-<h3><strong>🎪 The Ultimate Comparison Table</strong></h3>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650665/247_tynxaf.png" alt="img14"></p>
-<p>Key Insight: Start vertical, grow horizontal!</p>
-<hr>
-<h3><strong>🔑 The Hybrid Approach: Best of Both Worlds</strong></h3>
-<p><strong>Real-world wisdom:</strong> Most large systems use BOTH!</p>
-<p>Modern Architecture:</p>
-<p>═══════════════════</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764650664/241_b3u0hy.png" alt="img15"></p>
-<p>Strategy:</p>
-<p>• Scale web/app servers horizontally (easy!)</p>
-<p>• Scale database vertically first (simpler)</p>
-<p>• Add database read replicas horizontally later</p>
-<p>• Use caching layer (horizontal) to reduce DB load</p>
+<h3><strong>🔑 Key Takeaways: Load Balancing</strong></h3>
+<p>📝 REMEMBER:</p>
+<p>═══════════════════════════════════════</p>
+<p>1️⃣ Load balancers distribute traffic across servers</p>
+<p>2️⃣ Multiple algorithms for different needs:</p>
+<p>• Round Robin → Simple rotation</p>
+<p>• Least Connections → Dynamic balancing</p>
+<p>• Weighted → Different server capabilities</p>
+<p>• IP Hash → Session persistence</p>
+<p>3️⃣ Health checks prevent routing to dead servers</p>
+<p>4️⃣ Layer 4 = Fast &amp; simple (TCP/IP)
+Layer 7 = Smart &amp; content-aware (HTTP)</p>
+<p>5️⃣ Load balancers themselves need redundancy!</p>
+<p>6️⃣ Essential for horizontal scaling</p>
+<p>🎯 One sentence: &quot;Load balancers are traffic directors
+that ensure no server gets overwhelmed and every
+request reaches a healthy server&quot;</p>
 </body>
     </html>
