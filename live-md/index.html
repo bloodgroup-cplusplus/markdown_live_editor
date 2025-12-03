@@ -1,305 +1,163 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h2><strong>Load Balancing Basics - The Traffic Director</strong></h2>
-<h3><strong>🎯 Challenge 4: The Restaurant Host Problem</strong></h3>
-<p><strong>Scenario:</strong> You own a restaurant with 5 identical dining rooms. Customers arrive at the entrance.</p>
-<p><strong>Without a host:</strong></p>
-<p>Entrance
-│</p>
-<pre><code>        ▼
-</code></pre>
-<p>Room 1: ████████████ (packed, 30 min wait)</p>
-<p>Room 2: ████         (some people)</p>
-<p>Room 3: ████████████ (packed)</p>
-<p>Room 4: ██           (almost empty!)</p>
-<p>Room 5: ████████████ (packed)</p>
-<p>Problem: Customers just pick random rooms!
-Result: Long waits, unhappy customers, empty tables</p>
-<p><strong>With a smart host:</strong></p>
-<p>Entrance</p>
-<p>│</p>
-<p>▼</p>
-<p>Host (sees all rooms, directs customers smartly)</p>
-<p>├─→ Room 1: ██████  (balanced)</p>
-<p>├─→ Room 2: ██████  (balanced)</p>
-<p>├─→ Room 3: ██████  (balanced)</p>
-<p>├─→ Room 4: ██████  (balanced)</p>
-<p>└─→ Room 5: ██████  (balanced)</p>
-<p>Result: No waits, happy customers, efficient!</p>
-<p><strong>This is exactly what a Load Balancer does!</strong></p>
+      <body><h2><strong>Single Point of Failure (SPOF): The One Bridge Problem</strong></h2>
+<h3><strong>The Island Town Story</strong></h3>
+<p>Let me tell you about a town built on an island. Beautiful place—homes, shops, schools, everything. But there's one problem:</p>
+<p><strong><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764778260/270_grsrda.png" alt="img1"></strong></p>
+<p><strong>Only ONE bridge</strong> connects the island to the mainland.</p>
+<p>Now imagine what happens when:</p>
+<p><strong>Scenario 1: Bridge Under Maintenance</strong></p>
+<p>Monday 9 AM:
+&quot;Bridge closed for repairs&quot;</p>
+<p>Result:
+- No one can get to work
+- No food deliveries
+- No emergency services
+- Town is isolated</p>
+<p>The entire town stops functioning because of ONE bridge!</p>
+<p>This bridge is a <strong>Single Point of Failure (SPOF)</strong>—one component whose failure brings down the entire system.</p>
+<h3><strong>Let's See This in Real Software Systems</strong></h3>
+<p><strong>Example 1: The Single Database Disaster</strong></p>
+<p>Imagine you're running a social media app:</p>
+<p>Your Architecture (Dangerous):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764778260/273_yxceau.png" alt="img2"></p>
+<p><strong>What happens when the database fails?</strong></p>
+<p>2:00 AM - Database server crashes
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>2:00:01 AM - All 1000 servers can't reach database
+2:00:02 AM - Every user request fails
+2:00:03 AM - Error alerts flooding your phone
+2:00:05 AM - Website shows: &quot;Service unavailable&quot;</p>
+<p>Impact:
+❌ Can't log in
+❌ Can't post
+❌ Can't load feed
+❌ Can't do ANYTHING</p>
+<p>Lost revenue: $10,000/minute
+Angry users: Millions
+Your phone: Exploding with alerts 📱💥</p>
+<p>Duration: Until you fix the database (hours? days?)</p>
+<p><strong>The Fix: Eliminate the SPOF</strong></p>
+<p>Improved Architecture (Resilient):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764778259/266_pieq4l.png" alt="img3"></p>
+<p>All databases sync continuously
+If primary fails → replica takes over
+No downtime!</p>
+<p><strong>Now when failure happens:</strong></p>
+<p>2:00 AM - Primary database crashes
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>2:00:01 AM - Automatic failover detected
+2:00:02 AM - Replica promoted to primary
+2:00:03 AM - Traffic routed to new primary
+2:00:05 AM - Users don't notice anything</p>
+<p>Impact:
+✓ Seamless transition
+✓ No downtime
+✓ Business continues</p>
+<p>Lost revenue: $0
+Angry users: 0
+Your sleep: Undisturbed 😴</p>
+<h3><strong>Real-World SPOF Examples (And How to Fix Them)</strong></h3>
+<p><strong>SPOF #1: Single Load Balancer</strong></p>
+<p>The Problem:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764778259/271_kec8pn.png" alt="img4"></p>
+<p>The Solution:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764778260/272_yahcpj.png" alt="img5"></p>
+<p>If LB1 fails → LB2 takes over automatically</p>
+<p><strong>SPOF #2: Single Internet Connection</strong></p>
+<p>The Problem:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764778259/267_zxsg3p.png" alt="img6"></p>
+<p>ISP has outage → You're offline</p>
+<p>The Solution:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764778261/268_vuyqra.png" alt="img7"></p>
+<p>Multiple ISPs → If one fails, other takes over</p>
+<p><strong>SPOF #3: Single Payment Provider</strong></p>
+<p>The Problem:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764778259/265_dyib6z.png" alt="img8"></p>
+<p>Stripe down → Can't process ANY payments</p>
+<p>The Solution:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764778259/264_tlqhi7.png" alt="img9"></p>
+<p>Try Stripe → If fails, try PayPal</p>
+<h3><strong>The SPOF Identification Exercise</strong></h3>
+<p>Let’s  find SPOFs in any system. Look at this architecture:</p>
+<p>System Architecture:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764778259/269_v7imcb.png" alt="img10"></p>
+<p><strong>Question: In the diagram above</strong>  How many SPOFs can you identify?</p>
+<p><strong>Answer:</strong> FIVE SPOFs! Let me show you:</p>
+<p>SPOF #1: DNS Server
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Problem: Users can't resolve your domain
+Impact: Website unreachable
+Fix: Multiple DNS providers (Route53 + Cloudflare)</p>
+<p>SPOF #2: Load Balancer
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Problem: Can't distribute traffic
+Impact: All servers unreachable
+Fix: Active-Active or Active-Standby LB pair</p>
+<p>SPOF #3: The Servers (as a group)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Problem: All in same data center
+Impact: Data center outage = total failure
+Fix: Multi-region deployment</p>
+<p>SPOF #4: Database
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Problem: Single database instance
+Impact: No data access
+Fix: Primary-Replica setup with auto-failover</p>
+<p>SPOF #5: File Storage
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Problem: Single storage server
+Impact: Can't serve images/files
+Fix: Distributed storage (S3, multiple regions)</p>
+<h3><strong>The Cost-Benefit Analysis</strong></h3>
+<p><strong>Here's the truth:</strong> Eliminating every SPOF is expensive. Let me show you the tradeoffs:</p>
+<p>Scenario: Small Startup ($1M revenue/year)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Option A: Single Database
+Cost: $500/month
+Downtime risk: 2 hours/year
+Lost revenue: $230/hour = $460/year
+Total cost: $6,460/year</p>
+<p>Option B: Database Cluster (No SPOF)
+Cost: $3,000/month = $36,000/year
+Downtime risk: 5 minutes/year
+Lost revenue: $20
+Total cost: $36,020/year</p>
+<p>Is the extra $30,000 worth it? Maybe not!</p>
+<p>Scenario: Large Company ($100M revenue/year)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Option A: Single Database
+Lost revenue: $23,000/hour × 2 hours = $46,000/year</p>
+<p>Option B: Database Cluster
+Extra cost: $36,000/year
+Savings: $46,000 - $20 = $45,980</p>
+<p>Now the extra $36,000 is worth it! ✓</p>
+<p><strong>The Decision Framework:</strong></p>
+<p>Should you eliminate this SPOF?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Ask yourself:
+1. What's the probability of failure?
+- High (&gt;1%/year) → Eliminate it
+- Low (&lt;0.1%/year) → Maybe acceptable</p>
+<p>2. What's the business impact?
+- Critical (losing customers) → Eliminate it
+- Minor (slight inconvenience) → Maybe acceptable</p>
+<p>3. What's the cost to fix?
+- Cheap (2x server cost) → Do it
+- Expensive (10x infrastructure) → Evaluate carefully</p>
+<p>4. Can users tolerate downtime?
+- No (healthcare, finance) → Eliminate ALL SPOFs
+- Yes (personal blog) → Some SPOFs OK</p>
 <hr>
-<h3><strong>🏗️ What is Load Balancing?</strong></h3>
-<p><strong>Definition:</strong> A load balancer is like a smart traffic director that distributes incoming requests across multiple servers.</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771695/262_rajp5f.png" alt="img1"></p>
-<p>All servers: Happy and balanced!</p>
-<p><strong>Key Insight:</strong> Load balancers prevent any single server from being overwhelmed!</p>
-<hr>
-<h3><strong>🎮 Interactive Exercise: Load Balancing Algorithms</strong></h3>
-<p><strong>Scenario:</strong> You have 3 servers. 9 requests arrive. How do you distribute them?</p>
-<p>Let's explore different strategies:</p>
-<h4><strong>Algorithm 1: Round Robin 🔄</strong></h4>
-<p><strong>How it works:</strong> &quot;Take turns, like dealing cards&quot;</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771695/254_ggpk1u.png" alt="img2"></p>
-<p>Perfect equality!</p>
-<p><strong>Pros:</strong> Simple, fair, easy to implement <strong>Cons:</strong> Doesn't consider server load or speed</p>
-<p><strong>Real-world example:</strong> Like handing out homework to students in seat order</p>
-<hr>
-<h4><strong>Algorithm 2: Least Connections 📊</strong></h4>
-<p><strong>How it works:</strong> &quot;Send to whoever is least busy right now&quot;</p>
-<p>Starting state:</p>
-<p>Server 1: 2 active connections</p>
-<p>Server 2: 5 active connections</p>
-<p>Server 3: 1 active connection</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764773305/load_balance_zj4bnd.png" alt="img3"></p>
-<p>New request arrives:</p>
-<p>→ Check all servers</p>
-<p>→ Server 3 has fewest connections (1)</p>
-<p>→ Send request to Server 3!</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771696/258_e36d0v.png" alt="img4"></p>
-<p><strong>Pros:</strong> Accounts for different request durations</p>
-<p><strong>Cons:</strong> Slightly more complex, needs to track connections</p>
-<p><strong>Real-world example:</strong> Like a grocery store checkout - you join the shortest line!</p>
-<hr>
-<h4><strong>Algorithm 3: Weighted Distribution ⚖️</strong></h4>
-<p><strong>How it works:</strong> &quot;Better servers get more work&quot;</p>
-<p>Server setup:</p>
-<p>Server 1: Power rating 5 (newest, most powerful)</p>
-<p>Server 2: Power rating 3 (medium)</p>
-<p>Server 3: Power rating 2 (older, slower)</p>
-<p>Total power: 10</p>
-<p>Distribution ratio: 5:3:2</p>
-<p>For 100 requests:</p>
-<p>Server 1 gets: 50 requests (50%)</p>
-<p>Server 2 gets: 30 requests (30%)</p>
-<p>Server 3 gets: 20 requests (20%)</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771695/256_ax9fjr.png" alt="img5"></p>
-<p><strong>Pros:</strong> Utilizes hardware differences efficiently</p>
-<p><strong>Cons:</strong> Requires knowing server capabilities</p>
-<p><strong>Real-world example:</strong> Like a restaurant assigning more tables to experienced waiters</p>
-<hr>
-<h4><strong>Algorithm 4: IP Hash 🔐</strong></h4>
-<p><strong>How it works:</strong> &quot;Same client always goes to same server&quot;</p>
-<p>How hashing works:</p>
-<p>User IP: 192.168.1.100</p>
-<p>→ Hash function: hash(192.168.1.100) = 347</p>
-<p>→ 347 % 3 = 2  (modulo number of servers)</p>
-<p>→ Always routes to Server 2!</p>
-<p>Same user's next request:</p>
-<p>→ hash(192.168.1.100) = 347  (same!)</p>
-<p>→ 347 % 3 = 2</p>
-<p>→ Server 2 again!</p>
-<p>Different user IP: 192.168.1.101</p>
-<p>→ hash(192.168.1.101) = 892</p>
-<p>→ 892 % 3 = 1</p>
-<p>→ Routes to Server 1</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771695/261_cklgsr.png" alt="img6">)</p>
-<p><strong>Pros:</strong></p>
-<ul>
-<li>Session persistence (user's data cached on one server)</li>
-<li>Predictable routing</li>
-</ul>
-<p><strong>Cons:</strong></p>
-<ul>
-<li>Uneven distribution if many users from same IP range</li>
-<li>Server failure requires rehashing</li>
-</ul>
-<p><strong>Real-world example:</strong> Like having a regular doctor - you always see the same one who knows your history</p>
-<hr>
-<h3><strong>💡 Types of Load Balancers: Layer 4 vs Layer 7</strong></h3>
-<p>🔌 LAYER 4 (Network Load Balancer)</p>
-<p>═══════════════════════════════════════</p>
-<p>Works at: TCP/UDP level</p>
-<p>Sees: IP addresses, ports</p>
-<p>Fast: Very (just forwards packets)</p>
-<p>Smart: Not very</p>
-<p>Example decision:</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771696/257_ikxhju.png" alt="img7"></p>
-<p>Use when: Raw speed needed, simple TCP routing</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>🌐 LAYER 7 (Application Load Balancer)</p>
-<p>═══════════════════════════════════════</p>
-<p>Works at: HTTP/HTTPS level</p>
-<p>Sees: URLs, headers, cookies, content</p>
-<p>Fast: Slower (must read HTTP)</p>
-<p>Smart: Very!</p>
-<p>Example decision:
-&quot;This request is for /api/users&quot;
-→ Route to API servers</p>
-<p>&quot;This request is for /images/cat.jpg&quot;
-→ Route to image servers</p>
-<pre><code>  Internet
-     │
-     ▼
-┌─────────┐
-│ Layer 7 │  &quot;GET /api/users&quot;
-│   LB    │  → Route to API cluster
-└─────────┘
-     │       &quot;GET /static/logo.png&quot;
-     │       → Route to CDN servers
-     │
-┌────┴─────┐
-▼          ▼
-</code></pre>
-<p>[API Servers] [Static Servers]</p>
-<p>Use when: Need smart routing by content</p>
-<p><strong>Real-world comparison:</strong></p>
-<ul>
-<li>
-<p><strong>Layer 4:</strong> Like a highway toll booth - just directs cars, doesn't care what's inside</p>
-</li>
-<li>
-<p><strong>Layer 7:</strong> Like a smart receptionist - reads your request and directs you to the right department</p>
-</li>
-</ul>
-<h3><strong>🚨 Common Misconception: &quot;Load Balancers Never Fail&quot;</strong></h3>
-<p><strong>You might think:</strong> &quot;Great! Load balancer solves everything!&quot;</p>
-<p><strong>The Reality:</strong> Load balancers themselves can fail or become bottlenecks!</p>
-<p><strong>The Solution: Multiple Load Balancers!</strong></p>
-<p>❌ SINGLE LOAD BALANCER (Risky!)</p>
-<p>═════════════════════════════════</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771696/257_ikxhju.png" alt="img8"></p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>✅ REDUNDANT LOAD BALANCERS (Safe!)</p>
-<p>═════════════════════════════════</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771695/255_i2kk9d.png" alt="img9"></p>
-<p>Safety: If LB 1 fails, LB 2 continues!</p>
-<hr>
-<h3><strong>🎪 Real-World Load Balancing Architecture</strong></h3>
-<p><strong>Let's see how a real company like Netflix might structure their load balancing:</strong></p>
-<p>🌍 GLOBAL ARCHITECTURE</p>
-<p>═══════════════════════════════════════════</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764771696/260_rfic9f.png" alt="img10"></p>
-<p>Each zone has:</p>
-<p>├─ Layer 4 Load Balancer (Network LB) ← Third layer: TCP routing</p>
-<p>├─ 50+ Web Servers</p>
-<p>├─ 20+ API Servers</p>
-<p>└─ 10+ Database Read Replicas</p>
-<p><strong>Why multiple layers?</strong></p>
-<ol>
-<li>
-<p><strong>DNS Layer:</strong> Routes by geography (latency optimization)</p>
-</li>
-<li>
-<p><strong>Application Layer (L7):</strong> Routes by URL path, HTTP headers</p>
-</li>
-<li>
-<p><strong>Network Layer (L4):</strong> Raw TCP connection distribution</p>
-</li>
-</ol>
-<hr>
-<h3><strong>🔍 Investigation: What Happens When a Server Dies?</strong></h3>
-<p><strong>Scenario:</strong> You have 4 servers behind a load balancer. Server 3 crashes.</p>
-<p><strong>Without Health Checks:</strong></p>
-<p>Load Balancer: &quot;Round robin time!&quot;</p>
-<p>Request 1 → Server 1 ✅ (works)</p>
-<p>Request 2 → Server 2 ✅ (works)</p>
-<p>Request 3 → Server 3 ❌ (DEAD! User sees error)</p>
-<p>Request 4 → Server 4 ✅ (works)</p>
-<p>Request 5 → Server 1 ✅ (works)</p>
-<p>Request 6 → Server 2 ✅ (works)</p>
-<p>Request 7 → Server 3 ❌ (STILL DEAD! Another error)</p>
-<p>Result: 25% of requests fail! 😡</p>
-<p><strong>With Health Checks (Smart!):</strong></p>
-<p>Health Check Configuration:</p>
-<p>- Check every 10 seconds</p>
-<p>- Send HTTP GET to /health</p>
-<p>- Expect 200 OK response</p>
-<p>- If fails 3 times → Mark unhealthy</p>
-<p>Timeline:
-10:00:00 - Server 3 crashes</p>
-<p>10:00:10 - Health check fails (1/3)</p>
-<p>10:00:20 - Health check fails (2/3)</p>
-<p>10:00:30 - Health check fails (3/3) → REMOVED!</p>
-<p>Load Balancer: &quot;Server 3 is out! Skip it!&quot;</p>
-<p>Request 1 → Server 1 ✅</p>
-<p>Request 2 → Server 2 ✅</p>
-<p>Request 3 → Server 4 ✅ (skipped dead Server 3!)</p>
-<p>Request 4 → Server 1 ✅</p>
-<p>Request 5 → Server 2 ✅</p>
-<p>Result: 0% failures! 🎉</p>
-<p>10:05:00 - Server 3 comes back online
-10:05:10 - Health check succeeds (1/3)
-10:05:20 - Health check succeeds (2/3)
-10:05:30 - Health check succeeds (3/3) → ADDED BACK!</p>
-<p>Load Balancer: &quot;Welcome back, Server 3!&quot;</p>
-<p><strong>Key Insight:</strong> Health checks are CRITICAL for reliability!</p>
-<hr>
-<hr>
-<h3><strong>🎯 Decision Game: Choose Your Algorithm</strong></h3>
-<p><strong>For each scenario, pick the best load balancing algorithm:</strong></p>
-<p><strong>Scenario A:</strong> Simple website, all servers identical</p>
-<p><strong>Scenario B:</strong> Video encoding - jobs take 5 seconds to 5 minutes</p>
-<p><strong>Scenario C:</strong> Shopping cart - need same user to hit same server</p>
-<p><strong>Scenario D:</strong> 1 new powerful server + 2 older slower servers</p>
-<p><strong>Scenario E:</strong> API with completely independent requests</p>
-<p><strong>Think carefully...</strong></p>
-<hr>
-<p><strong>ANSWERS:</strong></p>
-<p>Scenario A: ROUND ROBIN ✓</p>
-<p>Why: Servers identical, simple is best</p>
-<p>Scenario B: LEAST CONNECTIONS ✓</p>
-<p>Why: Job duration varies widely, need dynamic balancing</p>
-<p>Scenario C: IP HASH ✓</p>
-<p>Why: Session persistence required for cart data</p>
-<p>Scenario D: WEIGHTED ✓</p>
-<p>Why: Different server capabilities</p>
-<p>Config: New server weight=5, old servers weight=2 each</p>
-<p>Scenario E: ROUND ROBIN or RANDOM ✓</p>
-<p>Why: Stateless, any algorithm works fine</p>
-<hr>
-<h3><strong>🎪 The Complete Picture: Load Balancer Features</strong></h3>
-<p>MODERN LOAD BALANCER CAPABILITIES</p>
-<p>═══════════════════════════════════════</p>
-<p>✅ Traffic Distribution</p>
-<p>├─ Round Robin</p>
-<p>├─ Least Connections</p>
-<p>├─ Weighted</p>
-<p>└─ IP Hash</p>
-<p>✅ Health Monitoring</p>
-<p>├─ HTTP health checks</p>
-<p>├─ TCP health checks</p>
-<p>├─ Custom health endpoints</p>
-<p>└─ Automatic server removal/re-addition</p>
-<p>✅ SSL/TLS Termination</p>
-<p>├─ Handle HTTPS encryption</p>
-<p>├─ Decrypt at load balancer</p>
-<p>└─ Send plain HTTP to backend
-(reduces server CPU load)</p>
-<p>✅ Sticky Sessions</p>
-<p>├─ Cookie-based routing</p>
-<p>└─ Keep user on same server</p>
-<p>✅ Rate Limiting</p>
-<p>├─ Protect from DDoS</p>
-<p>└─ Throttle aggressive clients</p>
-<p>✅ Geographic Routing</p>
-<p>├─ Route EU users to EU servers</p>
-<p>└─ Minimize latency</p>
-<p>✅ Content-Based Routing</p>
-<p>├─ /api/* → API servers</p>
-<p>├─ /images/* → Image servers</p>
-<p>└─ /admin/* → Admin servers</p>
-<p>✅ Metrics &amp; Logging</p>
-<p>├─ Request counts</p>
-<p>├─ Response times</p>
-<p>└─ Error rates</p>
-<hr>
-<h3><strong>🔑 Key Takeaways: Load Balancing</strong></h3>
-<p>📝 REMEMBER:</p>
-<p>═══════════════════════════════════════</p>
-<p>1️⃣ Load balancers distribute traffic across servers</p>
-<p>2️⃣ Multiple algorithms for different needs:</p>
-<p>• Round Robin → Simple rotation</p>
-<p>• Least Connections → Dynamic balancing</p>
-<p>• Weighted → Different server capabilities</p>
-<p>• IP Hash → Session persistence</p>
-<p>3️⃣ Health checks prevent routing to dead servers</p>
-<p>4️⃣ Layer 4 = Fast &amp; simple (TCP/IP)
-Layer 7 = Smart &amp; content-aware (HTTP)</p>
-<p>5️⃣ Load balancers themselves need redundancy!</p>
-<p>6️⃣ Essential for horizontal scaling</p>
-<p>🎯 One sentence: &quot;Load balancers are traffic directors
-that ensure no server gets overwhelmed and every
-request reaches a healthy server&quot;</p>
 </body>
     </html>
