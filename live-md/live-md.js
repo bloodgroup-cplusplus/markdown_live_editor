@@ -4,7 +4,7 @@ const chokidar = require("chokidar");
 const browserSync = require("browser-sync").create();
 
 function render() {
-  const content = fs.readFileSync("software_testing_smoke.md", "utf8");
+  const content = fs.readFileSync("functional_testing.md", "utf8");
   const html = `
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
@@ -16,7 +16,7 @@ function render() {
 render();
 browserSync.init({ server: ".", files: ["index.html"] });
 
-chokidar.watch("software_testing_smoke.md").on("change", () => {
+chokidar.watch("functional_testing.md").on("change", () => {
   render();
   browserSync.reload();
 });

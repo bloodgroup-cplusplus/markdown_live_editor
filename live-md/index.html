@@ -1,145 +1,100 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h1><strong>Software Testing:</strong></h1>
-<h1><strong>The New Car Mystery</strong></h1>
-<p>Imagine you just built a car from scratch. Before selling it, what would you test?</p>
-<p><strong>Think about different scenarios:</strong></p>
-<ul>
-<li>Does the engine start? (Basic functionality)</li>
-<li>Do all doors open? (Individual components)</li>
-<li>Can it drive on the highway? (Complete journey)</li>
-<li>Does the radio work while driving? (Components working together)</li>
-<li>What happens in a 10-car pile-up? (Extreme stress)</li>
-<li>Can it handle 100,000 miles? (Long-term reliability)</li>
-</ul>
-<p><strong>Pause and think:</strong></p>
-<p>Would you test these all at once?</p>
-<p>Would you test in a specific order?</p>
-<p>What if you only had time for one test before the customer arrives?</p>
-<h3><strong>The Answer: Different Testing Types for Different Goals</strong></h3>
-<p>Just like testing a car requires multiple approaches, software testing has different types for different purposes:</p>
-<p><strong>Smoke Testing:</strong></p>
-<p>&quot;Does it turn on?&quot;</p>
-<p><strong>Functional Testing:</strong></p>
-<p>&quot;Does each feature work?&quot;</p>
-<p><strong>Integration Testing:</strong></p>
-<p>&quot;Do parts work together?&quot;</p>
-<p><strong>System Testing:</strong></p>
-<p>&quot;Does the complete system work?&quot;</p>
-<p><strong>API Testing:</strong></p>
-<p>&quot;Do the interfaces work correctly?&quot;</p>
-<p><strong>E2E Testing:</strong></p>
-<p>&quot;Can a user complete their journey?&quot;</p>
-<p><strong>Stress Testing:</strong></p>
-<p>&quot;What breaks it?&quot;</p>
-<p><strong>Chaos Testing:</strong></p>
-<p>&quot;Can it survive disasters?&quot;</p>
-<p><strong>Key Insight:</strong> No single test type is enough! You need a testing strategy that combines different approaches at different stages!</p>
-<hr>
-<h2><strong>🏗️ The Testing Pyramid: Foundation of Test Strategy</strong></h2>
-<p>Before diving into each type, understand how they relate:</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764819905/275_z7ajk7.png" alt="img1"></p>
-<p><strong>Mental model:</strong> Like building inspections:</p>
-<ul>
-<li><strong>Bottom (Unit/Functional):</strong> Individual bricks are solid</li>
-<li><strong>Middle (Integration):</strong> Walls are properly connected</li>
-<li><strong>Top (System/E2E):</strong> Entire building is safe to occupy</li>
-<li><strong>Stress/Chaos:</strong> Building survives earthquakes</li>
-</ul>
-<hr>
-<h2><strong>💨 Smoke Testing: &quot;Does It Even Work?&quot;</strong></h2>
-<h3><strong>What is Smoke Testing?</strong></h3>
-<p>Smoke testing (aka sanity testing) is the <strong>quickest, most basic check</strong> to verify the software isn't fundamentally broken.</p>
-<p><strong>Origin of the name:</strong> When hardware engineers power on a circuit board, they check if smoke comes out. No smoke = safe to proceed with more tests!</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764819905/274_zlzbo5.png" alt="img2"></p>
+      <body><h2><strong>✅ Functional Testing: &quot;Does Each Feature Work Correctly?&quot;</strong></h2>
+<h3><strong>What is Functional Testing?</strong></h3>
+<p>Functional testing verifies that <strong>each individual feature</strong> works according to requirements, testing ONE thing at a time.</p>
+<p>Feature: User Login</p>
+<p>Test Cases:</p>
+<p>1. Valid username + valid password → Success ✅</p>
+<p>2. Valid username + wrong password → Error message ✅</p>
+<p>3. Invalid username → Error message ✅</p>
+<p>4. Empty fields → Validation error ✅</p>
+<p>5. Password with special chars → Success ✅</p>
+<p>6. SQL injection attempt → Blocked ✅</p>
 <h3><strong>Real-World Analogy:</strong></h3>
-<p><strong>Like checking a house before showing it to buyers:</strong></p>
-<p>Quick 5-minute walkthrough:</p>
-<p>✓ Does the front door open?</p>
-<p>✓ Do lights turn on?</p>
-<p>✓ Is there electricity?</p>
-<p>✓ Does water run?</p>
-<p>If YES →</p>
-<p>Show the house</p>
-<p>If NO →</p>
-<p>Fix critical issues first!</p>
-<h3><strong>Smoke Test Examples:</strong></h3>
-<h4><strong>Web Application:</strong></h4>
-<p>Smoke Test Suite (runs in 2 minutes):</p>
-<p>1. Can user load homepage?</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">GET https://app.com/   Expected: 200 OK ✅</th>
-</tr>
-</thead>
-</table>
-<p>2. Can user log in?</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">POST /login with valid credentials   Expected: Redirect to dashboard ✅</th>
-</tr>
-</thead>
-</table>
-<p>3. Can user see their data?</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">GET /api/user/profile   Expected: Returns user JSON ✅</th>
-</tr>
-</thead>
-</table>
-<p>4. Is database responding?</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Simple query: SELECT 1   Expected: Returns result ✅</th>
-</tr>
-</thead>
-</table>
-<p>If ALL pass → Deploy to QA environment
-If ANY fail → Roll back immediately!</p>
-<h4><strong>E-commerce Platform:</strong></h4>
-<p>Critical path smoke tests:</p>
-<p>□ Homepage loads</p>
-<p>□ Search works</p>
-<p>□ Product page displays</p>
-<p>□ Add to cart functions</p>
-<p>□ Checkout button appears</p>
-<p>If these fail, nothing else matters!</p>
-<h3><strong>When to Run Smoke Tests:</strong></h3>
-<p>Development Pipeline:</p>
-<ol>
-<li>
-<p>Code Commit</p>
-</li>
-<li>
-<p>Build</p>
-</li>
-<li>
-<p>[Smoke Tests]</p>
-</li>
-<li>
-<p>Pass? → Full Test Suite</p>
-<p>↓</p>
-<p>FAIL</p>
-<p>↓</p>
-</li>
-<li>
-<p>Notify developer immediately!</p>
-</li>
-<li>
-<p>Don't waste time on broken build</p>
-</li>
-</ol>
+<p><strong>Like testing each appliance in a kitchen separately:</strong></p>
+<p>Refrigerator:</p>
+<p>✓ Does it cool to 40°F?</p>
+<p>✓ Does freezer reach 0°F?</p>
+<p>✓ Does ice maker work?</p>
+<p>✓ Do shelves hold weight?</p>
+<p>Oven:</p>
+<p>✓ Does it heat to 350°F?</p>
+<p>✓ Does timer work?</p>
+<p>✓ Do burners light?</p>
+<p>✓ Does auto-shutoff work?</p>
+<p>Each appliance tested independently!</p>
+<h3><strong>Functional Testing Example: Password Reset Feature</strong></h3>
+<p>Feature Requirements:</p>
+<p>- User enters email</p>
+<p>- System sends reset link</p>
+<p>- Link expires in 24 hours</p>
+<p>- User sets new password</p>
+<p>- Old password no longer works</p>
+<p>Test Cases:</p>
+<p>TC-001: Valid Email Reset
+Input: registered@email.com
+Expected:</p>
+<p>✅ Success message displayed</p>
+<p>✅ Email sent with reset link</p>
+<p>✅ Link works within 24 hours</p>
+<p>TC-002: Unregistered Email</p>
+<p>Input: notindb@email.com</p>
+<p>Expected:</p>
+<p>✅ Generic success message (security - don't reveal if email exists)</p>
+<p>✅ No email sent</p>
+<p>TC-003: Expired Link</p>
+<p>Setup: Generate link, wait 25 hours</p>
+<p>Expected:</p>
+<p>✅ &quot;Link expired&quot; message</p>
+<p>✅ Option to request new link</p>
+<p>TC-004: Link Used Twice</p>
+<p>Setup: Use valid link once
+Expected:</p>
+<p>✅ First use: Password changed ✅</p>
+<p>✅ Second use: &quot;Link already used&quot; error</p>
+<p>TC-005: Password Requirements</p>
+<p>Input: Various passwords</p>
+<p>Expected:</p>
+<p>✅ &quot;12345&quot; → Rejected (too weak)</p>
+<p>✅ &quot;MyP@ssw0rd123&quot; → Accepted</p>
+<p>✅ Password must meet complexity rules</p>
+<h3><strong>Functional vs. Unit Testing:</strong></h3>
+<p>Unit Testing (Developer perspective):</p>
+<p>&quot;Does this function return correct output?&quot;</p>
+<pre><code class="language-js"> function validateEmail(email) {
+
+    return email.includes('@')
+
+ }
+
+// Test:
+ validateEmail(&quot;test@test.com&quot;) === true ✅
+</code></pre>
+<p>Functional Testing (User perspective):</p>
+<p>&quot;Can the user actually reset their password?&quot;</p>
+<p>1. User enters email</p>
+<p>2. Clicks submit</p>
+<p>3. Checks email inbox</p>
+<p>4. Clicks link</p>
+<p>5. Enters new password</p>
+<p>6. Logs in with new password</p>
+<p>All steps work from UI → API → Database → Email ✅</p>
 <p><strong>Key characteristics:</strong></p>
 <ul>
-<li>⚡ <strong>Fast:</strong> 2-10 minutes maximum</li>
-<li>🎯 <strong>Critical path only:</strong> Test what matters most</li>
-<li>🚨 <strong>First line of defense:</strong> Catch obvious breaks</li>
-<li>🔄 <strong>Run frequently:</strong> After every build/deploy</li>
+<li>
+<p>🎯 <strong>Black box:</strong> Test from user perspective, not code perspective</p>
+</li>
+<li>
+<p>📋 <strong>Requirements-based:</strong> Each test maps to a requirement</p>
+</li>
+<li>
+<p>🔍 <strong>One feature at a time:</strong> Isolated testing</p>
+</li>
+<li>
+<p>📊 <strong>Many test cases:</strong> Cover positive, negative, edge cases</p>
+</li>
 </ul>
 </body>
     </html>
