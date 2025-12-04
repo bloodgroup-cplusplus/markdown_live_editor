@@ -1,100 +1,110 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h2><strong>✅ Functional Testing: &quot;Does Each Feature Work Correctly?&quot;</strong></h2>
-<h3><strong>What is Functional Testing?</strong></h3>
-<p>Functional testing verifies that <strong>each individual feature</strong> works according to requirements, testing ONE thing at a time.</p>
-<p>Feature: User Login</p>
-<p>Test Cases:</p>
-<p>1. Valid username + valid password → Success ✅</p>
-<p>2. Valid username + wrong password → Error message ✅</p>
-<p>3. Invalid username → Error message ✅</p>
-<p>4. Empty fields → Validation error ✅</p>
-<p>5. Password with special chars → Success ✅</p>
-<p>6. SQL injection attempt → Blocked ✅</p>
+      <body><h2><strong>Integration Testing: &quot;Do Components Work Together?&quot;</strong></h2>
+<h3><strong>What is Integration Testing?</strong></h3>
+<p>Integration testing verifies that <strong>different modules/services communicate correctly</strong> when combined.</p>
+<p>Component A works alone ✅</p>
+<p>Component B works alone ✅</p>
+<p>But do A and B work TOGETHER? ← Integration Test</p>
 <h3><strong>Real-World Analogy:</strong></h3>
-<p><strong>Like testing each appliance in a kitchen separately:</strong></p>
-<p>Refrigerator:</p>
-<p>✓ Does it cool to 40°F?</p>
-<p>✓ Does freezer reach 0°F?</p>
-<p>✓ Does ice maker work?</p>
-<p>✓ Do shelves hold weight?</p>
-<p>Oven:</p>
-<p>✓ Does it heat to 350°F?</p>
-<p>✓ Does timer work?</p>
-<p>✓ Do burners light?</p>
-<p>✓ Does auto-shutoff work?</p>
-<p>Each appliance tested independently!</p>
-<h3><strong>Functional Testing Example: Password Reset Feature</strong></h3>
-<p>Feature Requirements:</p>
-<p>- User enters email</p>
-<p>- System sends reset link</p>
-<p>- Link expires in 24 hours</p>
-<p>- User sets new password</p>
-<p>- Old password no longer works</p>
-<p>Test Cases:</p>
-<p>TC-001: Valid Email Reset
-Input: registered@email.com
-Expected:</p>
-<p>✅ Success message displayed</p>
-<p>✅ Email sent with reset link</p>
-<p>✅ Link works within 24 hours</p>
-<p>TC-002: Unregistered Email</p>
-<p>Input: notindb@email.com</p>
-<p>Expected:</p>
-<p>✅ Generic success message (security - don't reveal if email exists)</p>
-<p>✅ No email sent</p>
-<p>TC-003: Expired Link</p>
-<p>Setup: Generate link, wait 25 hours</p>
-<p>Expected:</p>
-<p>✅ &quot;Link expired&quot; message</p>
-<p>✅ Option to request new link</p>
-<p>TC-004: Link Used Twice</p>
-<p>Setup: Use valid link once
-Expected:</p>
-<p>✅ First use: Password changed ✅</p>
-<p>✅ Second use: &quot;Link already used&quot; error</p>
-<p>TC-005: Password Requirements</p>
-<p>Input: Various passwords</p>
-<p>Expected:</p>
-<p>✅ &quot;12345&quot; → Rejected (too weak)</p>
-<p>✅ &quot;MyP@ssw0rd123&quot; → Accepted</p>
-<p>✅ Password must meet complexity rules</p>
-<h3><strong>Functional vs. Unit Testing:</strong></h3>
-<p>Unit Testing (Developer perspective):</p>
-<p>&quot;Does this function return correct output?&quot;</p>
-<pre><code class="language-js"> function validateEmail(email) {
-
-    return email.includes('@')
-
- }
-
-// Test:
- validateEmail(&quot;test@test.com&quot;) === true ✅
-</code></pre>
-<p>Functional Testing (User perspective):</p>
-<p>&quot;Can the user actually reset their password?&quot;</p>
-<p>1. User enters email</p>
-<p>2. Clicks submit</p>
-<p>3. Checks email inbox</p>
-<p>4. Clicks link</p>
-<p>5. Enters new password</p>
-<p>6. Logs in with new password</p>
-<p>All steps work from UI → API → Database → Email ✅</p>
+<p><strong>Like testing a new bridge between two cities:</strong></p>
+<p>Individual Tests:</p>
+<p>✓ City A's road system works</p>
+<p>✓ City B's road system works</p>
+<p>✓ Bridge structure is sound</p>
+<p>Integration Test:</p>
+<p>? Can cars actually drive from City A to City B via bridge?</p>
+<p>? Do traffic signals coordinate properly?</p>
+<p>? Do road signs align at connection points?</p>
+<h3><strong>Integration Testing Example: E-commerce Order</strong></h3>
+<p>Components involved:</p>
+<p>1. [Frontend] - User Interface</p>
+<p>2. [Auth Service] - User authentication</p>
+<p>3. [Product Service] - Product catalog</p>
+<p>4. [Cart Service] - Shopping cart</p>
+<p>5. [Payment Service] - Payment processing</p>
+<p>6. [Inventory Service] - Stock management</p>
+<p>7. [Email Service] - Order confirmation</p>
+<p>Integration Test: &quot;Place an Order&quot;</p>
+<p>Step 1: Frontend → Auth Service</p>
+<p>Action: User logs in</p>
+<p>Verify: Auth token returned</p>
+<p>Verify: Frontend stores token ✅</p>
+<p>Step 2: Frontend → Product Service</p>
+<p>Action: User searches products</p>
+<p>Verify: Product list returned with prices</p>
+<p>Verify: Frontend displays correctly ✅</p>
+<p>Step 3: Frontend → Cart Service (with Auth)</p>
+<p>Action: User adds product to cart</p>
+<p>Verify: Auth token validated</p>
+<p>Verify: Item added to user's cart</p>
+<p>Verify: Cart total calculated ✅</p>
+<p>Step 4: Cart Service → Inventory Service</p>
+<p>Action: Check stock availability</p>
+<p>Verify: Real-time stock checked</p>
+<p>Verify: Cart shows &quot;In Stock&quot; or &quot;Low Stock&quot; ✅</p>
+<p>Step 5: Frontend → Payment Service</p>
+<p>Action: User enters payment info</p>
+<p>Verify: Payment processed</p>
+<p>Verify: Transaction ID returned ✅</p>
+<p>Step 6: Payment Service → Inventory Service</p>
+<p>Action: Deduct inventory</p>
+<p>Verify: Stock count decremented</p>
+<p>Verify: No overselling ✅</p>
+<p>Step 7: Order Service → Email Service</p>
+<p>Action: Send confirmation email</p>
+<p>Verify: Email contains order details</p>
+<p>Verify: User receives email ✅</p>
+<p>Integration points tested:</p>
+<p>✓ Auth token passed between services</p>
+<p>✓ Product IDs match across services</p>
+<p>✓ Price consistency</p>
+<p>✓ Transaction atomicity (all or nothing)</p>
+<p>✓ Data format compatibility</p>
+<h3><strong>Types of Integration Testing:</strong></h3>
+<h4><strong>1. Big Bang Integration</strong></h4>
+<p>Test all components together at once:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764833883/276_pibpxc.png" alt="img1"></p>
+<p>Pros: Fast to set up</p>
+<p>Cons: Hard to debug when something fails</p>
+<h4><strong>2. Incremental Integration</strong></h4>
+<p>Test pairs,</p>
+<p>then gradually add more:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764833883/277_dzscwo.png" alt="img2"></p>
+<p>Pros: Easy to isolate issues</p>
+<p>Cons: Takes more time</p>
+<h4><strong>3. Top-Down Integration</strong></h4>
+<p>Start from UI, stub lower components:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764833883/278_uju7ez.png" alt="img3"></p>
+<p>Test top-level flow first, replace stubs incrementally</p>
+<h4><strong>4. Bottom-Up Integration</strong></h4>
+<p>Start from database, build up:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764833883/279_jjhxyt.png" alt="img4"></p>
+<h3><strong>Common Integration Issues Caught:</strong></h3>
+<p>❌ Data format mismatch</p>
+<p>Service A sends: { &quot;date&quot;: &quot;2024-01-15&quot; }</p>
+<p>Service B expects: { &quot;date&quot;: &quot;01/15/2024&quot; }</p>
+<p>Result: Parse error! 💥</p>
+<p>❌ Authentication token expired</p>
+<p>Service A: Calls Service B after 1 hour</p>
+<p>Service B: &quot;Token expired&quot;</p>
+<p>Result: Request fails! 💥</p>
+<p>❌ Race condition</p>
+<p>Service A: Updates inventory</p>
+<p>Service B: Reads inventory (at same time)</p>
+<p>Result: Wrong stock count! 💥</p>
+<p>❌ Timeout</p>
+<p>Service A: Waits for Service B response</p>
+<p>Service B: Takes 60 seconds</p>
+<p>Service A: Timeout at 30 seconds</p>
+<p>Result: Request fails! 💥</p>
 <p><strong>Key characteristics:</strong></p>
 <ul>
-<li>
-<p>🎯 <strong>Black box:</strong> Test from user perspective, not code perspective</p>
-</li>
-<li>
-<p>📋 <strong>Requirements-based:</strong> Each test maps to a requirement</p>
-</li>
-<li>
-<p>🔍 <strong>One feature at a time:</strong> Isolated testing</p>
-</li>
-<li>
-<p>📊 <strong>Many test cases:</strong> Cover positive, negative, edge cases</p>
-</li>
+<li>🔗 <strong>Component interaction:</strong> Focus on interfaces between services</li>
+<li>🎭 <strong>Can use mocks/stubs:</strong> Replace some components during testing</li>
+<li>🐛 <strong>Catches integration bugs:</strong> Finds issues unit tests miss</li>
+<li>⚙️ <strong>API contracts:</strong> Verifies services speak same language</li>
 </ul>
 </body>
     </html>
