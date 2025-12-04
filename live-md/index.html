@@ -1,110 +1,153 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h2><strong>Integration Testing: &quot;Do Components Work Together?&quot;</strong></h2>
-<h3><strong>What is Integration Testing?</strong></h3>
-<p>Integration testing verifies that <strong>different modules/services communicate correctly</strong> when combined.</p>
-<p>Component A works alone ✅</p>
-<p>Component B works alone ✅</p>
-<p>But do A and B work TOGETHER? ← Integration Test</p>
+      <body><h2><strong>API Testing: &quot;Do Interfaces Work Correctly?&quot;</strong></h2>
+<h3><strong>What is API Testing?</strong></h3>
+<p>API testing verifies that <strong>endpoints return correct responses</strong> for various inputs, focusing on the interface layer.</p>
+<p>What API Testing Checks:</p>
+<p>✓ Correct HTTP status codes (200, 404, 500)</p>
+<p>✓ Response format (JSON structure)</p>
+<p>✓ Response time (performance)</p>
+<p>✓ Authentication/Authorization</p>
+<p>✓ Error handling</p>
+<p>✓ Data validation</p>
 <h3><strong>Real-World Analogy:</strong></h3>
-<p><strong>Like testing a new bridge between two cities:</strong></p>
-<p>Individual Tests:</p>
-<p>✓ City A's road system works</p>
-<p>✓ City B's road system works</p>
-<p>✓ Bridge structure is sound</p>
-<p>Integration Test:</p>
-<p>? Can cars actually drive from City A to City B via bridge?</p>
-<p>? Do traffic signals coordinate properly?</p>
-<p>? Do road signs align at connection points?</p>
-<h3><strong>Integration Testing Example: E-commerce Order</strong></h3>
-<p>Components involved:</p>
-<p>1. [Frontend] - User Interface</p>
-<p>2. [Auth Service] - User authentication</p>
-<p>3. [Product Service] - Product catalog</p>
-<p>4. [Cart Service] - Shopping cart</p>
-<p>5. [Payment Service] - Payment processing</p>
-<p>6. [Inventory Service] - Stock management</p>
-<p>7. [Email Service] - Order confirmation</p>
-<p>Integration Test: &quot;Place an Order&quot;</p>
-<p>Step 1: Frontend → Auth Service</p>
-<p>Action: User logs in</p>
-<p>Verify: Auth token returned</p>
-<p>Verify: Frontend stores token ✅</p>
-<p>Step 2: Frontend → Product Service</p>
-<p>Action: User searches products</p>
-<p>Verify: Product list returned with prices</p>
-<p>Verify: Frontend displays correctly ✅</p>
-<p>Step 3: Frontend → Cart Service (with Auth)</p>
-<p>Action: User adds product to cart</p>
-<p>Verify: Auth token validated</p>
-<p>Verify: Item added to user's cart</p>
-<p>Verify: Cart total calculated ✅</p>
-<p>Step 4: Cart Service → Inventory Service</p>
-<p>Action: Check stock availability</p>
-<p>Verify: Real-time stock checked</p>
-<p>Verify: Cart shows &quot;In Stock&quot; or &quot;Low Stock&quot; ✅</p>
-<p>Step 5: Frontend → Payment Service</p>
-<p>Action: User enters payment info</p>
-<p>Verify: Payment processed</p>
-<p>Verify: Transaction ID returned ✅</p>
-<p>Step 6: Payment Service → Inventory Service</p>
-<p>Action: Deduct inventory</p>
-<p>Verify: Stock count decremented</p>
-<p>Verify: No overselling ✅</p>
-<p>Step 7: Order Service → Email Service</p>
-<p>Action: Send confirmation email</p>
-<p>Verify: Email contains order details</p>
-<p>Verify: User receives email ✅</p>
-<p>Integration points tested:</p>
-<p>✓ Auth token passed between services</p>
-<p>✓ Product IDs match across services</p>
-<p>✓ Price consistency</p>
-<p>✓ Transaction atomicity (all or nothing)</p>
-<p>✓ Data format compatibility</p>
-<h3><strong>Types of Integration Testing:</strong></h3>
-<h4><strong>1. Big Bang Integration</strong></h4>
-<p>Test all components together at once:</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764833883/276_pibpxc.png" alt="img1"></p>
-<p>Pros: Fast to set up</p>
-<p>Cons: Hard to debug when something fails</p>
-<h4><strong>2. Incremental Integration</strong></h4>
-<p>Test pairs,</p>
-<p>then gradually add more:</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764833883/277_dzscwo.png" alt="img2"></p>
-<p>Pros: Easy to isolate issues</p>
-<p>Cons: Takes more time</p>
-<h4><strong>3. Top-Down Integration</strong></h4>
-<p>Start from UI, stub lower components:</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764833883/278_uju7ez.png" alt="img3"></p>
-<p>Test top-level flow first, replace stubs incrementally</p>
-<h4><strong>4. Bottom-Up Integration</strong></h4>
-<p>Start from database, build up:</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1764833883/279_jjhxyt.png" alt="img4"></p>
-<h3><strong>Common Integration Issues Caught:</strong></h3>
-<p>❌ Data format mismatch</p>
-<p>Service A sends: { &quot;date&quot;: &quot;2024-01-15&quot; }</p>
-<p>Service B expects: { &quot;date&quot;: &quot;01/15/2024&quot; }</p>
-<p>Result: Parse error! 💥</p>
-<p>❌ Authentication token expired</p>
-<p>Service A: Calls Service B after 1 hour</p>
-<p>Service B: &quot;Token expired&quot;</p>
-<p>Result: Request fails! 💥</p>
-<p>❌ Race condition</p>
-<p>Service A: Updates inventory</p>
-<p>Service B: Reads inventory (at same time)</p>
-<p>Result: Wrong stock count! 💥</p>
-<p>❌ Timeout</p>
-<p>Service A: Waits for Service B response</p>
-<p>Service B: Takes 60 seconds</p>
-<p>Service A: Timeout at 30 seconds</p>
-<p>Result: Request fails! 💥</p>
+<p><strong>Like testing a restaurant's ordering window:</strong></p>
+<p>Customer: &quot;One burger, please&quot;</p>
+<p>Window: Returns burger + receipt ✅</p>
+<p>Customer: &quot;Ten burgers&quot;</p>
+<p>Window: Returns 10 burgers ✅</p>
+<p>Customer: &quot;One dragon&quot; (invalid order)</p>
+<p>Window: &quot;Sorry, we don't have that&quot; ✅</p>
+<p>Customer: (no payment)</p>
+<p>Window: &quot;Payment required&quot; ✅</p>
+<p>Test the window interface thoroughly!</p>
+<h3><strong>API Test Example: User Management API</strong></h3>
+<p>Endpoint: GET /api/users/{id}</p>
+<p>Test Case 1: Valid User ID</p>
+<pre><code class="language-json">Request: GET /api/users/123
+Response:
+  Status: 200 OK ✅
+  Body: {&quot;id&quot;: 123,
+  &quot;name&quot;: &quot;John Doe&quot;,
+  &quot;email&quot;: &quot;john@example.com&quot;
+  }
+Headers: Content-Type: application/json ✅
+
+Time: &lt; 200ms ✅
+</code></pre>
+<p>Test Case 2: Invalid User ID</p>
+<p>Request: GET /api/users/999999</p>
+<pre><code class="language-json">
+Response:
+
+Status: 404 Not Found ✅
+
+Body: {    &quot;error&quot;: &quot;User not found&quot;,    &quot;code&quot;: &quot;USER_NOT_FOUND&quot; }
+
+Time: &lt; 100ms ✅
+</code></pre>
+<p>Test Case 3: No Authentication</p>
+<p>Request: GET /api/users/123 (no auth header)</p>
+<p>Response:</p>
+<pre><code class="language-json">
+Status: 401 Unauthorized ✅
+
+Body: {    &quot;error&quot;: &quot;Authentication required&quot; }
+
+
+</code></pre>
+<p>Test Case 4: Malformed Request</p>
+<p>Request: GET /api/users/abc (non-numeric ID)</p>
+<p>Response:</p>
+<p>Status: 400 Bad Request ✅</p>
+<pre><code class="language-json">Body: { &quot;error&quot;: &quot;Invalid user ID format&quot;,    &quot;code&quot;: &quot;INVALID_FORMAT&quot;  }
+</code></pre>
+<h3><strong>API Testing Types:</strong></h3>
+<h4><strong>1. Contract Testing</strong></h4>
+<p>Verify API matches documented contract:</p>
+<p>Contract says:</p>
+<p>POST /api/users</p>
+<pre><code class="language-json">Body: { &quot;name&quot;: string, &quot;email&quot;: string }Returns: { &quot;id&quot;: number, &quot;name&quot;: string, &quot;email&quot;: string }
+</code></pre>
+<p>Test:</p>
+<p>✓ Request with correct fields → 201 Created</p>
+<p>✓ Response has all required fields</p>
+<p>✓ Field types match contract</p>
+<p>✗ Request with extra fields → How does API handle?</p>
+<p>✗ Request missing required field → 400 Bad Request?</p>
+<p>Contract must match reality!</p>
+<h4><strong>2. Security Testing</strong></h4>
+<p>Endpoint: DELETE /api/users/{id}</p>
+<p>Security Tests:</p>
+<p>✓ Without auth token →</p>
+<p>401 Unauthorized</p>
+<p>✓ With regular user token →</p>
+<p>403 Forbidden (can't delete others)</p>
+<p>✓ With admin token →</p>
+<p>200 OK (allowed)</p>
+<p>✓ SQL injection attempt:</p>
+<p>DELETE /api/users/1' OR '1' ='1 → Blocked</p>
+<p>✓ XSS attempt:</p>
+<p>POST /api/users {name: &quot;&lt;script&gt;alert('xss')&lt;/script&gt;&quot;} → Sanitized</p>
+<p>✓ Rate limiting: 1000 requests in 1 second →</p>
+<p>429 Too Many Requests</p>
+<h4><strong>3. Performance Testing</strong></h4>
+<p>Endpoint: GET /api/products</p>
+<p>Performance Requirements:</p>
+<ul>
+<li>
+<p>Response time &lt; 200ms (95th percentile)</p>
+</li>
+<li>
+<p>Can handle 1000 requests/second</p>
+</li>
+<li>
+<p>Response size &lt; 100KB</p>
+</li>
+</ul>
+<p>Tests:</p>
+<p>✓ Single request: 150ms ✅</p>
+<p>✓ 100 concurrent requests: Average 180ms ✅</p>
+<p>✓ 1000 req/sec sustained: Average 195ms ✅</p>
+<p>✓ Response compression enabled: 45KB ✅</p>
+<h3><strong>API Testing Tools:</strong></h3>
+<p>Popular Tools:</p>
+<p>1. Postman</p>
+<p>- GUI interface</p>
+<p>- Collection runner</p>
+<p>- Environment variables</p>
+<p>- Automated testing</p>
+<p>2. curl (Command line)</p>
+<pre><code class="language-bash">   curl \-X POST  https://api.example.com/users  \
+-H &quot;Content-Type: application/json&quot; \
+-d '{&quot;name&quot;:&quot;John&quot;,&quot;email&quot;:&quot;john@example.com&quot;}'
+</code></pre>
+<p>3. REST Assured (Java)</p>
+<pre><code class="language-java">   given()
+    .auth().oauth2(token)
+    .when()
+      .get(&quot;/api/users/123&quot;)
+    .then()
+      .statusCode(200)
+      .body(&quot;name&quot;, equalTo(&quot;John&quot;))
+</code></pre>
+<p>4. Pytest + Requests (Python)</p>
+<pre><code class="language-python">  def test_get_user():
+    response = requests.get
+
+    ('https://api.example.com/users/123')
+
+    assert response.status_code == 200
+
+    assert response.json()['name'] == 'John'
+</code></pre>
 <p><strong>Key characteristics:</strong></p>
 <ul>
-<li>🔗 <strong>Component interaction:</strong> Focus on interfaces between services</li>
-<li>🎭 <strong>Can use mocks/stubs:</strong> Replace some components during testing</li>
-<li>🐛 <strong>Catches integration bugs:</strong> Finds issues unit tests miss</li>
-<li>⚙️ <strong>API contracts:</strong> Verifies services speak same language</li>
+<li>🔌 <strong>Interface focused:</strong> Test the API layer specifically</li>
+<li>📊 <strong>Multiple scenarios:</strong> Happy path, errors, edge cases</li>
+<li>🔒 <strong>Security crucial:</strong> Authentication, authorization, injection</li>
+<li>⚡ <strong>Performance matters:</strong> Response time, throughput</li>
 </ul>
 </body>
     </html>
