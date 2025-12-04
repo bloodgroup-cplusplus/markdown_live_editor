@@ -13,7 +13,13 @@ Imagine you just built a car from scratch. Before selling it, what would you tes
 * What happens in a 10-car pile-up? (Extreme stress)
 * Can it handle 100,000 miles? (Long-term reliability)
 
-**Pause and think:** Would you test these all at once? Would you test in a specific order? What if you only had time for one test before the customer arrives?
+**Pause and think:**
+
+Would you test these all at once?
+
+Would you test in a specific order?
+
+What if you only had time for one test before the customer arrives?
 
 ### **The Answer: Different Testing Types for Different Goals**
 
@@ -60,7 +66,7 @@ Just like testing a car requires multiple approaches, software testing has diffe
 Before diving into each type, understand how they relate:
 
 
-![][image1]
+![img1](https://res.cloudinary.com/dretwg3dy/image/upload/v1764819905/275_z7ajk7.png)
 
 **Mental model:** Like building inspections:
 
@@ -79,20 +85,29 @@ Smoke testing (aka sanity testing) is the **quickest, most basic check** to veri
 
 **Origin of the name:** When hardware engineers power on a circuit board, they check if smoke comes out. No smoke \= safe to proceed with more tests\!
 
-![][image2]
+![img2](https://res.cloudinary.com/dretwg3dy/image/upload/v1764819905/274_zlzbo5.png)
 
 ### **Real-World Analogy:**
 
 **Like checking a house before showing it to buyers:**
 
 Quick 5-minute walkthrough:
+
 ✓ Does the front door open?
+
 ✓ Do lights turn on?
+
 ✓ Is there electricity?
+
 ✓ Does water run?
 
-If YES → Show the house
-If NO → Fix critical issues first\!
+If YES →
+
+Show the house
+
+If NO →
+
+Fix critical issues first\!
 
 ### **Smoke Test Examples:**
 
@@ -130,10 +145,15 @@ If ANY fail → Roll back immediately\!
 #### **E-commerce Platform:**
 
 Critical path smoke tests:
+
 □ Homepage loads
+
 □ Search works
+
 □ Product page displays
+
 □ Add to cart functions
+
 □ Checkout button appears
 
 If these fail, nothing else matters\!
@@ -142,12 +162,23 @@ If these fail, nothing else matters\!
 
 Development Pipeline:
 
-Code Commit → Build → \[Smoke Tests\] → Pass? → Full Test Suite
-                            ↓
-                          FAIL
-                            ↓
-                    Notify developer immediately\!
-                    Don't waste time on broken build
+1) Code Commit
+
+2) Build
+
+3) [Smoke Tests]
+
+4) Pass? → Full Test Suite
+
+    ↓
+
+   FAIL
+
+    ↓
+
+5) Notify developer immediately\!
+
+6) Don't waste time on broken build
 
 **Key characteristics:**
 
