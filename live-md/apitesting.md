@@ -113,6 +113,7 @@ Contract says:
  ```json
  Body: { "name": string, "email": string }Returns: { "id": number, "name": string, "email": string }
  ```
+
 Test:
 
 ✓ Request with correct fields → 201 Created

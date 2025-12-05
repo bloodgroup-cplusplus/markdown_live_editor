@@ -1,153 +1,426 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h2><strong>API Testing: &quot;Do Interfaces Work Correctly?&quot;</strong></h2>
-<h3><strong>What is API Testing?</strong></h3>
-<p>API testing verifies that <strong>endpoints return correct responses</strong> for various inputs, focusing on the interface layer.</p>
-<p>What API Testing Checks:</p>
-<p>✓ Correct HTTP status codes (200, 404, 500)</p>
-<p>✓ Response format (JSON structure)</p>
-<p>✓ Response time (performance)</p>
-<p>✓ Authentication/Authorization</p>
-<p>✓ Error handling</p>
-<p>✓ Data validation</p>
-<h3><strong>Real-World Analogy:</strong></h3>
-<p><strong>Like testing a restaurant's ordering window:</strong></p>
-<p>Customer: &quot;One burger, please&quot;</p>
-<p>Window: Returns burger + receipt ✅</p>
-<p>Customer: &quot;Ten burgers&quot;</p>
-<p>Window: Returns 10 burgers ✅</p>
-<p>Customer: &quot;One dragon&quot; (invalid order)</p>
-<p>Window: &quot;Sorry, we don't have that&quot; ✅</p>
-<p>Customer: (no payment)</p>
-<p>Window: &quot;Payment required&quot; ✅</p>
-<p>Test the window interface thoroughly!</p>
-<h3><strong>API Test Example: User Management API</strong></h3>
-<p>Endpoint: GET /api/users/{id}</p>
-<p>Test Case 1: Valid User ID</p>
-<pre><code class="language-json">Request: GET /api/users/123
-Response:
-  Status: 200 OK ✅
-  Body: {&quot;id&quot;: 123,
-  &quot;name&quot;: &quot;John Doe&quot;,
-  &quot;email&quot;: &quot;john@example.com&quot;
-  }
-Headers: Content-Type: application/json ✅
+      <body><h1><strong>Logging Basics: Your System's Diary</strong></h1>
+<p>Imagine if you had amnesia—you wake up every day with no memory of yesterday. Terrifying, right? Without logging, your servers have amnesia. Let’s give your system a perfect memory.</p>
+<h3><strong>The Crime Scene Investigation Analogy</strong></h3>
+<p>A crime happens in a building:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Without logs (No cameras, no witnesses):
+Detective: &quot;Something happened here...&quot;
+Evidence: None
+Result: Unsolvable ❌</p>
+<p>With logs (Cameras everywhere):
+Detective: &quot;Let me review the footage...&quot;
+Evidence:
+- 2:34 PM: Person A entered</p>
+<p>- 2:37 PM: Person B entered</p>
+<p>- 2:40 PM: Loud noise</p>
+<p>- 2:41 PM: Person B exited quickly</p>
+<p>Result: Solvable! ✓</p>
+<p>Same with your app:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Without logs:</p>
+<p>&quot;The app crashed at 3 AM&quot;</p>
+<p>No idea why ❌</p>
+<p>With logs:</p>
+<p>&quot;Let me check what happened...&quot;</p>
+<p>03:00:01 - User 12345 placed order</p>
+<p>03:00:02 - Payment processing started</p>
+<p>03:00:03 - ERROR: Database connection timeout</p>
+<p>03:00:04 - System crashed</p>
+<p>Result: Found the problem! ✓</p>
+<h3><strong>The Five Log Levels Explained</strong></h3>
+<p>Think of log levels like severity levels in a hospital:</p>
+<p><strong>1. DEBUG - The Detailed Diary</strong></p>
+<p>Hospital Analogy: Recording vitals of the patients every 5 minutes</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>&quot;Patient's blood pressure: 120/80&quot;</p>
+<p>&quot;Patient's heart rate: 72 bpm&quot;</p>
+<p>&quot;Patient turned over at 2:15 PM&quot;</p>
+<p>Useful for: Detailed diagnosis
+Too much for: Daily review</p>
+<p>Code Example:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<pre><code class="language-js">
+logger.debug(&quot;User authentication started&quot;);
+logger.debug(&quot;Checking user_id: 12345&quot;);
 
-Time: &lt; 200ms ✅
+logger.debug(&quot;Database query: SELECT * FROM users WHERE id = 12345&quot;);
+
+logger.debug(&quot;Query returned 1 result&quot;);
+
+logger.debug(&quot;Password hash comparison starting&quot;);
+
+logger.debug(&quot;Password matches\!&quot;);
+
+logger.debug(&quot;Generating JWT token&quot;);
+
+logger.debug(&quot;Token: eyJhbGc...&quot;);
+
+logger.debug(&quot;Authentication completed successfully&quot;);
+
 </code></pre>
-<p>Test Case 2: Invalid User ID</p>
-<p>Request: GET /api/users/999999</p>
-<pre><code class="language-json">
-Response:
+<pre><code class="language-bash">Output when enabled:
+[DEBUG] 2025-10-19 14:30:01.234
 
-Status: 404 Not Found ✅
+- User authentication started
 
-Body: {    &quot;error&quot;: &quot;User not found&quot;,    &quot;code&quot;: &quot;USER_NOT_FOUND&quot; }
+[DEBUG] 2025-10-19 14:30:01.235
 
-Time: &lt; 100ms ✅
+Checking user_id: 12345
+
+[DEBUG] 2025-10-19 14:30:01.236 - Database query: SELECT * FROM users...
+
+[DEBUG] 2025-10-19 14:30:01.240
+
+- Query returned 1 result
+
+[DEBUG] 2025-10-19 14:30:01.241
+
+Password hash comparison starting
+
+[DEBUG] 2025-10-19 14:30:01.245
+
+- Password matches
+
+[DEBUG] 2025-10-19 14:30:01.246 - Generating JWT token
+
+[DEBUG] 2025-10-19 14:30:01.250 - Token: eyJhbGc...
+
+[DEBUG] 2025-10-19 14:30:01.251 -
 </code></pre>
-<p>Test Case 3: No Authentication</p>
-<p>Request: GET /api/users/123 (no auth header)</p>
-<p>Response:</p>
-<pre><code class="language-json">
-Status: 401 Unauthorized ✅
-
-Body: {    &quot;error&quot;: &quot;Authentication required&quot; }
-
-
-</code></pre>
-<p>Test Case 4: Malformed Request</p>
-<p>Request: GET /api/users/abc (non-numeric ID)</p>
-<p>Response:</p>
-<p>Status: 400 Bad Request ✅</p>
-<pre><code class="language-json">Body: { &quot;error&quot;: &quot;Invalid user ID format&quot;,    &quot;code&quot;: &quot;INVALID_FORMAT&quot;  }
-</code></pre>
-<h3><strong>API Testing Types:</strong></h3>
-<h4><strong>1. Contract Testing</strong></h4>
-<p>Verify API matches documented contract:</p>
-<p>Contract says:</p>
-<p>POST /api/users</p>
-<pre><code class="language-json">Body: { &quot;name&quot;: string, &quot;email&quot;: string }Returns: { &quot;id&quot;: number, &quot;name&quot;: string, &quot;email&quot;: string }
-</code></pre>
-<p>Test:</p>
-<p>✓ Request with correct fields → 201 Created</p>
-<p>✓ Response has all required fields</p>
-<p>✓ Field types match contract</p>
-<p>✗ Request with extra fields → How does API handle?</p>
-<p>✗ Request missing required field → 400 Bad Request?</p>
-<p>Contract must match reality!</p>
-<h4><strong>2. Security Testing</strong></h4>
-<p>Endpoint: DELETE /api/users/{id}</p>
-<p>Security Tests:</p>
-<p>✓ Without auth token →</p>
-<p>401 Unauthorized</p>
-<p>✓ With regular user token →</p>
-<p>403 Forbidden (can't delete others)</p>
-<p>✓ With admin token →</p>
-<p>200 OK (allowed)</p>
-<p>✓ SQL injection attempt:</p>
-<p>DELETE /api/users/1' OR '1' ='1 → Blocked</p>
-<p>✓ XSS attempt:</p>
-<p>POST /api/users {name: &quot;&lt;script&gt;alert('xss')&lt;/script&gt;&quot;} → Sanitized</p>
-<p>✓ Rate limiting: 1000 requests in 1 second →</p>
-<p>429 Too Many Requests</p>
-<h4><strong>3. Performance Testing</strong></h4>
-<p>Endpoint: GET /api/products</p>
-<p>Performance Requirements:</p>
+<p>Authentication completed successfully</p>
+<p><strong>When to use DEBUG:</strong></p>
 <ul>
 <li>
-<p>Response time &lt; 200ms (95th percentile)</p>
+<p>Development environment</p>
 </li>
 <li>
-<p>Can handle 1000 requests/second</p>
+<p>Troubleshooting specific issues</p>
 </li>
 <li>
-<p>Response size &lt; 100KB</p>
+<p>Understanding code flow</p>
+</li>
+<li>
+<p><strong>Never in production</strong> (too much data involved !)</p>
 </li>
 </ul>
-<p>Tests:</p>
-<p>✓ Single request: 150ms ✅</p>
-<p>✓ 100 concurrent requests: Average 180ms ✅</p>
-<p>✓ 1000 req/sec sustained: Average 195ms ✅</p>
-<p>✓ Response compression enabled: 45KB ✅</p>
-<h3><strong>API Testing Tools:</strong></h3>
-<p>Popular Tools:</p>
-<p>1. Postman</p>
-<p>- GUI interface</p>
-<p>- Collection runner</p>
-<p>- Environment variables</p>
-<p>- Automated testing</p>
-<p>2. curl (Command line)</p>
-<pre><code class="language-bash">   curl \-X POST  https://api.example.com/users  \
--H &quot;Content-Type: application/json&quot; \
--d '{&quot;name&quot;:&quot;John&quot;,&quot;email&quot;:&quot;john@example.com&quot;}'
+<p><strong>2. INFO - The Normal Operations Log</strong></p>
+<p>Hospital Analogy: Recording routine events about the patients</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>&quot;Patient admitted at 9:00 AM&quot;</p>
+<p>&quot;Medication administered at 10:00 AM&quot;</p>
+<p>&quot;Patient discharged at 5:00 PM&quot;</p>
+<p>Useful for: Understanding normal flow
+Not for: Every tiny detail</p>
+<p>Code Example:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<pre><code class="language-js"> logger.info(&quot;User 12345 logged in successfully&quot;);
+logger.info(&quot;User 12345 viewed product page: iPhone 15&quot;);
+logger.info(&quot;User 12345 added item to cart&quot;);
+logger.info(&quot;User 12345 initiated checkout&quot;);
+logger.info(&quot;Payment processed successfully for order #789&quot;);
+logger.info(&quot;User 12345 logged out&quot;);
 </code></pre>
-<p>3. REST Assured (Java)</p>
-<pre><code class="language-java">   given()
-    .auth().oauth2(token)
-    .when()
-      .get(&quot;/api/users/123&quot;)
-    .then()
-      .statusCode(200)
-      .body(&quot;name&quot;, equalTo(&quot;John&quot;))
+<pre><code class="language-bash">
+Output:[INFO] 2025-10-19 14:30:01 - User 12345 logged in successfully [INFO]
+
+2025-10-19 14:32:15 - User 12345 viewed product page: iPhone 15
+
+[INFO] 2025-10-19 14:33:20
+
+- User 12345 added item to cart
+
+[INFO] 2025-10-19 14:35:10
+
+- User 12345 initiated checkout
+
+[INFO] 2025-10-19 14:35:45
+
+- Payment processed for order #789
+
+[INFO] 2025-10-19 14:36:00
+
+- User 12345 logged out
 </code></pre>
-<p>4. Pytest + Requests (Python)</p>
-<pre><code class="language-python">  def test_get_user():
-    response = requests.get
-
-    ('https://api.example.com/users/123')
-
-    assert response.status_code == 200
-
-    assert response.json()['name'] == 'John'
-</code></pre>
-<p><strong>Key characteristics:</strong></p>
+<p><strong>When to use INFO:</strong></p>
 <ul>
-<li>🔌 <strong>Interface focused:</strong> Test the API layer specifically</li>
-<li>📊 <strong>Multiple scenarios:</strong> Happy path, errors, edge cases</li>
-<li>🔒 <strong>Security crucial:</strong> Authentication, authorization, injection</li>
-<li>⚡ <strong>Performance matters:</strong> Response time, throughput</li>
+<li>Use it in production environment ✓</li>
+<li>Use to track important business events</li>
+<li>Keep audit trail</li>
+<li>Normal operations</li>
 </ul>
+<p><strong>3. WARN - The Concerning But Not Critical</strong></p>
+<p>Hospital Analogy: Potential problems</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>&quot;Patient's temperature slightly elevated (99.5°F)&quot;</p>
+<p>&quot;Patient hasn't eaten full meal&quot;</p>
+<p>&quot;Unusual blood pressure reading&quot;</p>
+<p>Useful for: Catching issues early
+Status: Watch closely, but not emergency</p>
+<p>Code Example:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<pre><code class="language-js">
+ logger.warn(&quot;Database connection pool 80% full&quot;);
+
+ logger.warn(&quot;API rate limit approaching (450/500 calls)&quot;);
+
+ logger.warn(&quot;Disk space low: 15% remaining&quot;);
+
+ logger.warn(&quot;Slow query detected: took 2.5s (threshold: 1s)&quot;);
+
+ logger.warn(&quot;Failed login attempt \#3 for user: john@example.com&quot;);
+
+ logger.warn(&quot;Cache miss rate high: 45% (normal: \&lt;20%)&quot;);
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-bash">
+[WARN] 2025-10-19 14:30:01 - Database connection pool 80% full
+
+[WARN] 2025-10-19 14:31:22 - API rate limit approaching (450/500)
+
+[WARN] 2025-10-19 14:32:10 - Disk space low: 15% remaining
+
+[WARN] 2025-10-19 14:33:45
+
+- Slow query detected: 2.5s
+
+[WARN] 2025-10-19 14:35:20
+
+- Failed login attempt
+
+\#3: john@example.com
+
+[WARN] 2025-10-19 14:36:15
+
+- Cache miss rate high: 45%
+</code></pre>
+<p><strong>When to use WARN:</strong></p>
+<ul>
+<li>Something unusual happened</li>
+<li>Not breaking, but concerning</li>
+<li>Might need attention soon</li>
+<li>Preview of future problems</li>
+</ul>
+<p><strong>Real-World WARN Example:</strong></p>
+<p>Scenario: E-commerce site</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>| 14:00 - [INFO] Server started</p>
+<p>14:15 - [INFO] 100 requests/minute (normal)</p>
+<p>14:30 - [WARN] 300 requests/minute (unusual spike)</p>
+<p>14:45 - [WARN] 500 requests/minute (concerning)</p>
+<p>15:00 - [ERROR] 1000 requests/minute - Server overloaded! |</p>
+<p>The WARNs gave you 30 minutes to act!
+Could have scaled up servers before ERROR!</p>
+<p><strong>4. ERROR - The Problem Log</strong></p>
+<p>Hospital Analogy: Medical emergencies</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>&quot;Patient's heart rate dropped to 40 bpm&quot;
+&quot;Medication allergy detected&quot;
+&quot;Patient fell out of bed&quot;</p>
+<p>Status: Immediate attention required!
+Action: Doctors respond now</p>
+<p>Code Example:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<pre><code class="language-bash">
+14:00 - [INFO] Server started
+
+14:15 - [INFO] 100 requests/minute (normal)
+
+14:30 - [WARN] 300 requests/minute (unusual spike)
+
+14:45 - [WARN] 500 requests/minute (concerning)
+
+15:00 - [ERROR] 1000 requests/minute - Server overloaded\!t
+
+at /app/database.js:45:12
+
+at /app/server.js:120:5
+
+[ERROR] 2025-10-19 14:32:15 - Payment processing failed
+
+Error: Card declined - Insufficient funds
+
+at PaymentProcessor.charge
+
+at /app/payment.js:78:10
+
+at /app/checkout.js:234:8
+
+[ERROR] 2025-10-19 14:35:20 - External API returned 500
+
+
+Error: Internal Server Error
+
+at HttpClient.request
+
+at /app/api-client.js:56:7
+</code></pre>
+<p><strong>When to use ERROR:</strong></p>
+<ul>
+<li>Operation failed</li>
+<li>User affected</li>
+<li>Needs immediate investigation</li>
+<li>Feature broken</li>
+</ul>
+<p><strong>The Key Distinction:</strong></p>
+<p>WARN vs ERROR:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>| WARN:
+&quot;Payment took 5 seconds (slow but succeeded)&quot; ⚠️</p>
+<p>ERROR: &quot;Payment failed - user got error message&quot; ❌</p>
+<p>WARN: &quot;Database query slow (800ms)&quot; ⚠️</p>
+<p>ERROR: &quot;Database connection lost&quot; ❌</p>
+<p>WARN: &quot;Disk 85% full&quot; ⚠️</p>
+<p>ERROR: &quot;Disk 100% full - can't write files&quot; ❌</p>
+<p>WARN: Things still work, but concerning</p>
+<p>ERROR: Things broke, user impacted</p>
+<p><strong>5. FATAL/CRITICAL - The System Killer</strong></p>
+<p>Hospital Analogy: Code Blue</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>&quot;Patient cardiac arrest!&quot;</p>
+<p>&quot;Critical system failure&quot;</p>
+<p>Status: Life-threatening</p>
+<p>Action: All hands on deck, emergency protocol</p>
+<p>Code Example:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<pre><code class="language-js">
+logger.fatal(&quot;Unable to bind to port 3000 - port already in use&quot;);
+
+logger.fatal(&quot;Critical configuration missing - cannot start server&quot;);
+
+logger.fatal(&quot;Out of memory - application crashing&quot;);
+
+logger.fatal(&quot;Database cluster completely unavailable&quot;);
+
+logger.fatal(&quot;Unrecoverable error in main thread&quot;, error);
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-bash">
+[FATAL] 2025-10-19 14:30:01 - Unable to bind to port 3000
+
+Application cannot start. Exiting with code 1
+
+[FATAL] 2025-10-19 14:32:15 - Out of memory
+
+Error: JavaScript heap out of memory
+
+Process will terminate.
+
+[FATAL] 2025-10-19 14:35:20 - Database cluster unavailable
+
+Cannot operate without database. Shutting down.
+
+</code></pre>
+<p><strong>When to use FATAL:</strong></p>
+<ul>
+<li>Application cannot continue</li>
+<li>About to crash/exit</li>
+<li>System-level failure</li>
+<li>Complete service outage</li>
+</ul>
+<h3><strong>Structured Logging: The Modern Way</strong></h3>
+<p>Old Way (String Logging):</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>logger.info(&quot;User john@example.com placed order 789 for $99.99&quot;);</p>
+<p>Problem: Hard to search, parse, analyze</p>
+<p>New Way (Structured Logging):</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<pre><code class="language-js">logger.Info({
+event: &quot;order_placed&quot;,
+user_id: 12345,
+user_email: &quot;john@example.com&quot;,
+order_id: 789,
+amount: 99.99,
+currency: &quot;USD&quot;,
+items_count: 3,
+timestamp: &quot;2025-10-19T14:30:01.234Z&quot;});
+</code></pre>
+<p>Output (JSON):</p>
+<pre><code class="language-json">{  &quot;level&quot;: &quot;info&quot;,
+  &quot;event&quot;: &quot;order_placed&quot;,
+  &quot;user_id&quot;: 12345,
+  &quot;user_email&quot;: &quot;john@example.com&quot;,
+  &quot;order_id&quot;: 789,
+  &quot;amount&quot;: 99.99,
+  &quot;currency&quot;: &quot;USD&quot;,
+  &quot;items_count&quot;: 3,
+  &quot;timestamp&quot;: &quot;2025-10-19T14:30:01.234Z&quot;,
+  &quot;host&quot;: &quot;server-3&quot;,
+  &quot;service&quot;: &quot;checkout-service&quot;}
+}
+</code></pre>
+<p>Benefits:</p>
+<p>✓ Easy to search: &quot;Show all orders &gt; $100&quot;</p>
+<p>✓ Easy to aggregate: &quot;Total revenue today?&quot;</p>
+<p>✓ Machine-readable: Tools can parse automatically</p>
+<p>✓ Consistent format</p>
+<p><strong>Real-World Debugging Example:</strong></p>
+<p>Problem: &quot;Some users can't checkout!&quot;</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>With string logs (hard):</p>
+<p>❌ Grep through millions of lines</p>
+<p>❌ Parse text manually</p>
+<p>❌ Hard to find patterns</p>
+<p>With structured logs (easy):</p>
+<p>✓ Query: event = &quot;checkout_failed&quot;</p>
+<p>✓ Filter: last 24 hours</p>
+<p>✓ Group by: error_type</p>
+<p>Results:</p>
+<pre><code class="language-js"> {  &quot;payment_declined&quot;: 45occurrences,
+   &quot;timeout&quot;: 12 occurrences,
+   &quot;invalid_address&quot;: 8 occurrences,
+   &quot;inventory_unavailable&quot;: 3occurrences
+ }
+</code></pre>
+<p>Found it ! &quot;payment_declined&quot; is the main issue!</p>
+<p>Drill deeper:
+payment_declined errors →
+40 from same credit card processor
+→ Their API is down!
+→ Switch to backup processor ✓</p>
+<h3><strong>Log Best Practices</strong></h3>
+<p><strong>What to Log:</strong></p>
+<p>✓ DO Log:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>✓ User actions: login, purchase, upload</p>
+<p>✓ System events: startup, shutdown, deployment</p>
+<p>✓ External API calls: request, response, latency</p>
+<p>✓ Errors with context: what failed, why, when</p>
+<p>✓ Performance metrics: slow queries, high memory</p>
+<p>✓ Security events: failed logins, suspicious activity</p>
+<p>❌ DON'T Log:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>❌ Passwords (NEVER!)</p>
+<p>❌ Credit card numbers</p>
+<p>❌ Social security numbers</p>
+<p>❌ API keys, secrets, tokens</p>
+<p>❌ Personal health information</p>
+<p>❌ Anything sensitive/private</p>
+<p>Example of what NOT to do:</p>
+<p>logger.info(`User logged in with  password: ${password}`); ❌❌❌</p>
+<p>THIS IS A SECURITY BREACH!</p>
+<p><strong>Log Retention:</strong></p>
+<p>How Long to Keep Logs:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>DEBUG logs: 1-7 days (huge volume)</p>
+<p>INFO logs: 30-90 days (moderate volume)</p>
+<p>WARN logs: 90-365 days (important patterns)</p>
+<p>ERROR logs: 1-2 years (compliance, analysis)</p>
+<p>AUDIT logs: 7+ years (legal requirements)</p>
+<p>Storage cost example:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>1 million requests/day</p>
+<p>Each request: 2 log entries</p>
+<p>Each entry: 1 KB</p>
+<p>Daily logs: 2 GB</p>
+<p>Monthly logs: 60 GB</p>
+<p>Yearly logs: 730 GB</p>
+<p>At $0.023/GB/month (AWS S3):</p>
+<p>Monthly cost: $16.80</p>
+<p>Yearly cost: $201.60</p>
+<p>Worth it for debugging? YES! ✓</p>
+<hr>
 </body>
     </html>
