@@ -1,426 +1,159 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h1><strong>Logging Basics: Your System's Diary</strong></h1>
-<p>Imagine if you had amnesia—you wake up every day with no memory of yesterday. Terrifying, right? Without logging, your servers have amnesia. Let’s give your system a perfect memory.</p>
-<h3><strong>The Crime Scene Investigation Analogy</strong></h3>
-<p>A crime happens in a building:</p>
+      <body><h2><strong>What is Observability? Seeing Inside Your System</strong></h2>
+<p>Logging is like having a diary. Observability is like having X-ray vision, a time machine, and a crystal ball all together.</p>
+<h3><strong>The Difference Between Monitoring and Observability</strong></h3>
+<p>Monitoring (The Known Unknowns):</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Without logs (No cameras, no witnesses):
-Detective: &quot;Something happened here...&quot;
-Evidence: None
-Result: Unsolvable ❌</p>
-<p>With logs (Cameras everywhere):
-Detective: &quot;Let me review the footage...&quot;
-Evidence:
-- 2:34 PM: Person A entered</p>
-<p>- 2:37 PM: Person B entered</p>
-<p>- 2:40 PM: Loud noise</p>
-<p>- 2:41 PM: Person B exited quickly</p>
-<p>Result: Solvable! ✓</p>
-<p>Same with your app:</p>
+<p>&quot;I know what can go wrong, so I check for it&quot;</p>
+<p>Examples:</p>
+<p>- Is the server up? ✓/❌</p>
+<p>- Is CPU usage &lt;80%? ✓/❌</p>
+<p>- Is disk space &gt;20%? ✓/❌</p>
+<p>- Are errors &lt;1%? ✓/❌</p>
+<p>Like a car dashboard:</p>
+<p>🌡️ Engine temperature: Normal</p>
+<p>⛽ Fuel: 3/4 tank</p>
+<p>⚠️ Check engine: Off</p>
+<p>Problem: Only shows what you expected to check!</p>
+<p>Observability (The Unknown Unknowns):</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>&quot;I can investigate anything, even problems I didn't anticipate&quot;</p>
+<p>Examples:</p>
+<p>- Why is THIS specific user seeing errors?</p>
+<p>- What happened in the 5 minutes before the crash?</p>
+<p>- Which code path led to this slow request?</p>
+<p>- How are these services interacting?</p>
+<p>Like a flight recorder:</p>
+<p>📊 Every instrument reading</p>
+<p>🎙️ Every conversation</p>
+<p>📹 Every action</p>
+<p>⏱️ Every timestamp</p>
+<p>You can investigate ANYTHING after the fact!</p>
+<h3><strong>The Three Pillars of Observability</strong></h3>
+<p><strong>Pillar 1: Logs (What happened)</strong></p>
+<p>The Story:</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Without logs:</p>
-<p>&quot;The app crashed at 3 AM&quot;</p>
-<p>No idea why ❌</p>
-<p>With logs:</p>
-<p>&quot;Let me check what happened...&quot;</p>
-<p>03:00:01 - User 12345 placed order</p>
-<p>03:00:02 - Payment processing started</p>
-<p>03:00:03 - ERROR: Database connection timeout</p>
-<p>03:00:04 - System crashed</p>
-<p>Result: Found the problem! ✓</p>
-<h3><strong>The Five Log Levels Explained</strong></h3>
-<p>Think of log levels like severity levels in a hospital:</p>
-<p><strong>1. DEBUG - The Detailed Diary</strong></p>
-<p>Hospital Analogy: Recording vitals of the patients every 5 minutes</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>&quot;Patient's blood pressure: 120/80&quot;</p>
-<p>&quot;Patient's heart rate: 72 bpm&quot;</p>
-<p>&quot;Patient turned over at 2:15 PM&quot;</p>
-<p>Useful for: Detailed diagnosis
-Too much for: Daily review</p>
-<p>Code Example:</p>
+<p>[INFO] User 12345 clicked &quot;Buy Now&quot;</p>
+<p>[INFO] Checking inventory for product 789</p>
+<p>[WARN] Inventory low: only 2 items left</p>
+<p>[INFO] Reserving item for user 12345</p>
+<p>[ERROR] Payment processing failed: Card declined</p>
+<p>[INFO] Rolling back inventory reservation</p>
+<p>Logs tell you THE STORY of what happened.</p>
+<p><strong>Connection to Previous Section:</strong> This is why we learned log levels! Logs are the foundation of observability.</p>
+<p><strong>Pillar 2: Metrics (How much/many)</strong></p>
+<p>The Numbers:</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<pre><code class="language-js">
-logger.debug(&quot;User authentication started&quot;);
-logger.debug(&quot;Checking user_id: 12345&quot;);
+<p>requests_per_second: 1250</p>
+<p>average_response_time: 145ms</p>
+<p>error_rate: 0.5%</p>
+<p>cpu_usage: 45%</p>
+<p>memory_usage: 3.2GB</p>
+<p>active_users: 10,543</p>
+<p>Metrics tell you QUANTITATIVE data.</p>
+<p>Time-series data you can graph!</p>
+<p><strong>Pillar 3: Traces (The journey)</strong></p>
+<p>The Path:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Request ID: abc123</p>
+<p>User Request → API Gateway (20ms)</p>
+<pre><code>└→ Auth Service (50ms)
 
-logger.debug(&quot;Database query: SELECT * FROM users WHERE id = 12345&quot;);
+    └→ Database query (30ms)
 
-logger.debug(&quot;Query returned 1 result&quot;);
+└→ Product Service (100ms)
 
-logger.debug(&quot;Password hash comparison starting&quot;);
+    └→ Database query (80ms)
 
-logger.debug(&quot;Password matches\!&quot;);
+    └→ Cache check (5ms)
 
-logger.debug(&quot;Generating JWT token&quot;);
+└→ Payment Service (200ms)
 
-logger.debug(&quot;Token: eyJhbGc...&quot;);
+    └→ External API (180ms) ← SLOW\!
 
-logger.debug(&quot;Authentication completed successfully&quot;);
-
+└→ Return Response
 </code></pre>
-<pre><code class="language-bash">Output when enabled:
-[DEBUG] 2025-10-19 14:30:01.234
+<p>Total: 370ms</p>
+<p>Traces show you THE PATH through your system.</p>
+<h3><strong>Real-World Observability Example</strong></h3>
+<p>Problem Report: &quot;Checkout is slow!&quot;</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Step 1: Check Metrics (Is it slow?)</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Average checkout time:</p>
+<p>- Yesterday: 500ms ✓</p>
+<p>- Today: 3000ms ❌</p>
+<p>Confirmed! 6x slower!</p>
+<p>Step 2: Check Logs (What's happening?)</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Filter: service=checkout, time=last_hour</p>
+<p>[WARN] Payment service timeout (2000ms exceeded)</p>
+<p>[WARN] Payment service timeout (2000ms exceeded)</p>
+<p>[WARN] Payment service timeout (2000ms exceeded)... 127 more warnings |</p>
+<p>Pattern found! Payment service timing out!</p>
+<p>Step 3: Check Traces (Where exactly?)</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Sample trace of slow request:</p>
+<p>Checkout Request (total: 3200ms)</p>
+<p>├─ Validate cart (50ms) ✓</p>
+<p>├─ Check inventory (80ms) ✓</p>
+<p>├─ Calculate tax (30ms) ✓</p>
+<p>└─ Process payment (3000ms) ❌</p>
+<pre><code>├─ Call Stripe API (2900ms) ❌❌❌
 
-- User authentication started
+│   └─ HTTP request timeout
 
-[DEBUG] 2025-10-19 14:30:01.235
-
-Checking user_id: 12345
-
-[DEBUG] 2025-10-19 14:30:01.236 - Database query: SELECT * FROM users...
-
-[DEBUG] 2025-10-19 14:30:01.240
-
-- Query returned 1 result
-
-[DEBUG] 2025-10-19 14:30:01.241
-
-Password hash comparison starting
-
-[DEBUG] 2025-10-19 14:30:01.245
-
-- Password matches
-
-[DEBUG] 2025-10-19 14:30:01.246 - Generating JWT token
-
-[DEBUG] 2025-10-19 14:30:01.250 - Token: eyJhbGc...
-
-[DEBUG] 2025-10-19 14:30:01.251 -
+└─ Retry logic (100ms)
 </code></pre>
-<p>Authentication completed successfully</p>
-<p><strong>When to use DEBUG:</strong></p>
-<ul>
-<li>
-<p>Development environment</p>
-</li>
-<li>
-<p>Troubleshooting specific issues</p>
-</li>
-<li>
-<p>Understanding code flow</p>
-</li>
-<li>
-<p><strong>Never in production</strong> (too much data involved !)</p>
-</li>
-</ul>
-<p><strong>2. INFO - The Normal Operations Log</strong></p>
-<p>Hospital Analogy: Recording routine events about the patients</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>&quot;Patient admitted at 9:00 AM&quot;</p>
-<p>&quot;Medication administered at 10:00 AM&quot;</p>
-<p>&quot;Patient discharged at 5:00 PM&quot;</p>
-<p>Useful for: Understanding normal flow
-Not for: Every tiny detail</p>
-<p>Code Example:</p>
+<p>Found it ! Stripe API is slowing down!</p>
+<p>Step 4: Check External Service Status</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Visit: status.stripe.com</p>
+<p>Status: &quot;Degraded Performance - Investigating&quot;</p>
+<p>Confirmed! It's Stripe, not us!</p>
+<p>Step 5: Fix</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<pre><code class="language-js"> logger.info(&quot;User 12345 logged in successfully&quot;);
-logger.info(&quot;User 12345 viewed product page: iPhone 15&quot;);
-logger.info(&quot;User 12345 added item to cart&quot;);
-logger.info(&quot;User 12345 initiated checkout&quot;);
-logger.info(&quot;Payment processed successfully for order #789&quot;);
-logger.info(&quot;User 12345 logged out&quot;);
-</code></pre>
-<pre><code class="language-bash">
-Output:[INFO] 2025-10-19 14:30:01 - User 12345 logged in successfully [INFO]
-
-2025-10-19 14:32:15 - User 12345 viewed product page: iPhone 15
-
-[INFO] 2025-10-19 14:33:20
-
-- User 12345 added item to cart
-
-[INFO] 2025-10-19 14:35:10
-
-- User 12345 initiated checkout
-
-[INFO] 2025-10-19 14:35:45
-
-- Payment processed for order #789
-
-[INFO] 2025-10-19 14:36:00
-
-- User 12345 logged out
-</code></pre>
-<p><strong>When to use INFO:</strong></p>
-<ul>
-<li>Use it in production environment ✓</li>
-<li>Use to track important business events</li>
-<li>Keep audit trail</li>
-<li>Normal operations</li>
-</ul>
-<p><strong>3. WARN - The Concerning But Not Critical</strong></p>
-<p>Hospital Analogy: Potential problems</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>&quot;Patient's temperature slightly elevated (99.5°F)&quot;</p>
-<p>&quot;Patient hasn't eaten full meal&quot;</p>
-<p>&quot;Unusual blood pressure reading&quot;</p>
-<p>Useful for: Catching issues early
-Status: Watch closely, but not emergency</p>
-<p>Code Example:</p>
+<p>Options:
+A. Wait for Stripe to fix ❌ (users suffering now)</p>
+<p>B. Switch to backup payment processor ✓</p>
+<p>C. Show better error message ✓</p>
+<p>Implemented:
+- Failover to backup processor</p>
+<p>- Better timeout handling (1000ms instead of 3000ms)</p>
+<p>- User-friendly error: &quot;Payment processing slow, trying backup...&quot;</p>
+<p>Result: Checkout time back to 600ms ✓</p>
+<h3><strong>Observability Tools</strong></h3>
+<p><strong>Popular Observability Platforms:</strong></p>
+<p>1. DataDog</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<pre><code class="language-js">
- logger.warn(&quot;Database connection pool 80% full&quot;);
-
- logger.warn(&quot;API rate limit approaching (450/500 calls)&quot;);
-
- logger.warn(&quot;Disk space low: 15% remaining&quot;);
-
- logger.warn(&quot;Slow query detected: took 2.5s (threshold: 1s)&quot;);
-
- logger.warn(&quot;Failed login attempt \#3 for user: john@example.com&quot;);
-
- logger.warn(&quot;Cache miss rate high: 45% (normal: \&lt;20%)&quot;);
-</code></pre>
-<p>Output:</p>
-<pre><code class="language-bash">
-[WARN] 2025-10-19 14:30:01 - Database connection pool 80% full
-
-[WARN] 2025-10-19 14:31:22 - API rate limit approaching (450/500)
-
-[WARN] 2025-10-19 14:32:10 - Disk space low: 15% remaining
-
-[WARN] 2025-10-19 14:33:45
-
-- Slow query detected: 2.5s
-
-[WARN] 2025-10-19 14:35:20
-
-- Failed login attempt
-
-\#3: john@example.com
-
-[WARN] 2025-10-19 14:36:15
-
-- Cache miss rate high: 45%
-</code></pre>
-<p><strong>When to use WARN:</strong></p>
-<ul>
-<li>Something unusual happened</li>
-<li>Not breaking, but concerning</li>
-<li>Might need attention soon</li>
-<li>Preview of future problems</li>
-</ul>
-<p><strong>Real-World WARN Example:</strong></p>
-<p>Scenario: E-commerce site</p>
+<p>✓ All-in-one: Logs + Metrics + Traces</p>
+<p>✓ Great dashboards</p>
+<p>✓ Easy setup</p>
+<p>❌ Expensive at scale</p>
+<p>Use for: Production systems</p>
+<p>2. Prometheus + Grafana</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>| 14:00 - [INFO] Server started</p>
-<p>14:15 - [INFO] 100 requests/minute (normal)</p>
-<p>14:30 - [WARN] 300 requests/minute (unusual spike)</p>
-<p>14:45 - [WARN] 500 requests/minute (concerning)</p>
-<p>15:00 - [ERROR] 1000 requests/minute - Server overloaded! |</p>
-<p>The WARNs gave you 30 minutes to act!
-Could have scaled up servers before ERROR!</p>
-<p><strong>4. ERROR - The Problem Log</strong></p>
-<p>Hospital Analogy: Medical emergencies</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>&quot;Patient's heart rate dropped to 40 bpm&quot;
-&quot;Medication allergy detected&quot;
-&quot;Patient fell out of bed&quot;</p>
-<p>Status: Immediate attention required!
-Action: Doctors respond now</p>
-<p>Code Example:</p>
+<p>✓ Open source (free!)</p>
+<p>✓ Powerful querying</p>
+<p>✓ Great for metrics</p>
+<p>❌ Logs/traces separate tools</p>
+<p>Use for: Cost-conscious startups</p>
+<p>3. ELK Stack (Elasticsearch, Logstash, Kibana)</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>✓ Powerful log search</p>
+<p>✓ Open source</p>
+<p>✓ Great for debugging</p>
+<p>❌ Complex to set up</p>
+<p>Use for: Log-heavy applications</p>
+<p>4. New Relic</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<pre><code class="language-bash">
-14:00 - [INFO] Server started
-
-14:15 - [INFO] 100 requests/minute (normal)
-
-14:30 - [WARN] 300 requests/minute (unusual spike)
-
-14:45 - [WARN] 500 requests/minute (concerning)
-
-15:00 - [ERROR] 1000 requests/minute - Server overloaded\!t
-
-at /app/database.js:45:12
-
-at /app/server.js:120:5
-
-[ERROR] 2025-10-19 14:32:15 - Payment processing failed
-
-Error: Card declined - Insufficient funds
-
-at PaymentProcessor.charge
-
-at /app/payment.js:78:10
-
-at /app/checkout.js:234:8
-
-[ERROR] 2025-10-19 14:35:20 - External API returned 500
-
-
-Error: Internal Server Error
-
-at HttpClient.request
-
-at /app/api-client.js:56:7
-</code></pre>
-<p><strong>When to use ERROR:</strong></p>
-<ul>
-<li>Operation failed</li>
-<li>User affected</li>
-<li>Needs immediate investigation</li>
-<li>Feature broken</li>
-</ul>
-<p><strong>The Key Distinction:</strong></p>
-<p>WARN vs ERROR:</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>| WARN:
-&quot;Payment took 5 seconds (slow but succeeded)&quot; ⚠️</p>
-<p>ERROR: &quot;Payment failed - user got error message&quot; ❌</p>
-<p>WARN: &quot;Database query slow (800ms)&quot; ⚠️</p>
-<p>ERROR: &quot;Database connection lost&quot; ❌</p>
-<p>WARN: &quot;Disk 85% full&quot; ⚠️</p>
-<p>ERROR: &quot;Disk 100% full - can't write files&quot; ❌</p>
-<p>WARN: Things still work, but concerning</p>
-<p>ERROR: Things broke, user impacted</p>
-<p><strong>5. FATAL/CRITICAL - The System Killer</strong></p>
-<p>Hospital Analogy: Code Blue</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>&quot;Patient cardiac arrest!&quot;</p>
-<p>&quot;Critical system failure&quot;</p>
-<p>Status: Life-threatening</p>
-<p>Action: All hands on deck, emergency protocol</p>
-<p>Code Example:</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<pre><code class="language-js">
-logger.fatal(&quot;Unable to bind to port 3000 - port already in use&quot;);
-
-logger.fatal(&quot;Critical configuration missing - cannot start server&quot;);
-
-logger.fatal(&quot;Out of memory - application crashing&quot;);
-
-logger.fatal(&quot;Database cluster completely unavailable&quot;);
-
-logger.fatal(&quot;Unrecoverable error in main thread&quot;, error);
-</code></pre>
-<p>Output:</p>
-<pre><code class="language-bash">
-[FATAL] 2025-10-19 14:30:01 - Unable to bind to port 3000
-
-Application cannot start. Exiting with code 1
-
-[FATAL] 2025-10-19 14:32:15 - Out of memory
-
-Error: JavaScript heap out of memory
-
-Process will terminate.
-
-[FATAL] 2025-10-19 14:35:20 - Database cluster unavailable
-
-Cannot operate without database. Shutting down.
-
-</code></pre>
-<p><strong>When to use FATAL:</strong></p>
-<ul>
-<li>Application cannot continue</li>
-<li>About to crash/exit</li>
-<li>System-level failure</li>
-<li>Complete service outage</li>
-</ul>
-<h3><strong>Structured Logging: The Modern Way</strong></h3>
-<p>Old Way (String Logging):</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>logger.info(&quot;User john@example.com placed order 789 for $99.99&quot;);</p>
-<p>Problem: Hard to search, parse, analyze</p>
-<p>New Way (Structured Logging):</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<pre><code class="language-js">logger.Info({
-event: &quot;order_placed&quot;,
-user_id: 12345,
-user_email: &quot;john@example.com&quot;,
-order_id: 789,
-amount: 99.99,
-currency: &quot;USD&quot;,
-items_count: 3,
-timestamp: &quot;2025-10-19T14:30:01.234Z&quot;});
-</code></pre>
-<p>Output (JSON):</p>
-<pre><code class="language-json">{  &quot;level&quot;: &quot;info&quot;,
-  &quot;event&quot;: &quot;order_placed&quot;,
-  &quot;user_id&quot;: 12345,
-  &quot;user_email&quot;: &quot;john@example.com&quot;,
-  &quot;order_id&quot;: 789,
-  &quot;amount&quot;: 99.99,
-  &quot;currency&quot;: &quot;USD&quot;,
-  &quot;items_count&quot;: 3,
-  &quot;timestamp&quot;: &quot;2025-10-19T14:30:01.234Z&quot;,
-  &quot;host&quot;: &quot;server-3&quot;,
-  &quot;service&quot;: &quot;checkout-service&quot;}
-}
-</code></pre>
-<p>Benefits:</p>
-<p>✓ Easy to search: &quot;Show all orders &gt; $100&quot;</p>
-<p>✓ Easy to aggregate: &quot;Total revenue today?&quot;</p>
-<p>✓ Machine-readable: Tools can parse automatically</p>
-<p>✓ Consistent format</p>
-<p><strong>Real-World Debugging Example:</strong></p>
-<p>Problem: &quot;Some users can't checkout!&quot;</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>With string logs (hard):</p>
-<p>❌ Grep through millions of lines</p>
-<p>❌ Parse text manually</p>
-<p>❌ Hard to find patterns</p>
-<p>With structured logs (easy):</p>
-<p>✓ Query: event = &quot;checkout_failed&quot;</p>
-<p>✓ Filter: last 24 hours</p>
-<p>✓ Group by: error_type</p>
-<p>Results:</p>
-<pre><code class="language-js"> {  &quot;payment_declined&quot;: 45occurrences,
-   &quot;timeout&quot;: 12 occurrences,
-   &quot;invalid_address&quot;: 8 occurrences,
-   &quot;inventory_unavailable&quot;: 3occurrences
- }
-</code></pre>
-<p>Found it ! &quot;payment_declined&quot; is the main issue!</p>
-<p>Drill deeper:
-payment_declined errors →
-40 from same credit card processor
-→ Their API is down!
-→ Switch to backup processor ✓</p>
-<h3><strong>Log Best Practices</strong></h3>
-<p><strong>What to Log:</strong></p>
-<p>✓ DO Log:</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>✓ User actions: login, purchase, upload</p>
-<p>✓ System events: startup, shutdown, deployment</p>
-<p>✓ External API calls: request, response, latency</p>
-<p>✓ Errors with context: what failed, why, when</p>
-<p>✓ Performance metrics: slow queries, high memory</p>
-<p>✓ Security events: failed logins, suspicious activity</p>
-<p>❌ DON'T Log:</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>❌ Passwords (NEVER!)</p>
-<p>❌ Credit card numbers</p>
-<p>❌ Social security numbers</p>
-<p>❌ API keys, secrets, tokens</p>
-<p>❌ Personal health information</p>
-<p>❌ Anything sensitive/private</p>
-<p>Example of what NOT to do:</p>
-<p>logger.info(`User logged in with  password: ${password}`); ❌❌❌</p>
-<p>THIS IS A SECURITY BREACH!</p>
-<p><strong>Log Retention:</strong></p>
-<p>How Long to Keep Logs:</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>DEBUG logs: 1-7 days (huge volume)</p>
-<p>INFO logs: 30-90 days (moderate volume)</p>
-<p>WARN logs: 90-365 days (important patterns)</p>
-<p>ERROR logs: 1-2 years (compliance, analysis)</p>
-<p>AUDIT logs: 7+ years (legal requirements)</p>
-<p>Storage cost example:</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>1 million requests/day</p>
-<p>Each request: 2 log entries</p>
-<p>Each entry: 1 KB</p>
-<p>Daily logs: 2 GB</p>
-<p>Monthly logs: 60 GB</p>
-<p>Yearly logs: 730 GB</p>
-<p>At $0.023/GB/month (AWS S3):</p>
-<p>Monthly cost: $16.80</p>
-<p>Yearly cost: $201.60</p>
-<p>Worth it for debugging? YES! ✓</p>
+<p>✓ APM (Application Performance Monitoring)</p>
+<p>✓ Easy to get started</p>
+<p>✓ Good for beginners</p>
+<p>❌ Can get expensive</p>
+<p>Use for: Quick setup needed</p>
 <hr>
 </body>
     </html>
