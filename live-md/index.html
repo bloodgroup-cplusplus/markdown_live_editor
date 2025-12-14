@@ -1,176 +1,544 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h2><strong>🎭 End-to-End Testing: &quot;Can Users Complete Their Journey?&quot;</strong></h2>
-<h3><strong>What is E2E Testing?</strong></h3>
-<p>E2E testing simulates <strong>real user scenarios</strong> from start to finish, using the actual UI/interface.</p>
-<p>E2E = User's Complete Journey</p>
-<p>Not: &quot;Does API work?&quot;
-But: &quot;Can user actually accomplish their goal?&quot;</p>
-<h3><strong>Real-World Analogy:</strong></h3>
-<p><strong>Like mystery shopping at your own store:</strong></p>
-<p>You hire someone who doesn't work there to:
-1. Walk into store (like a real customer)
-2. Browse products
-3. Ask employee questions
-4. Add items to cart
-5. Go through checkout
-6. Complete purchase
-7. Receive receipt</p>
-<p>Test the ENTIRE customer experience!</p>
-<h3><strong>E2E Test Example: E-commerce Purchase</strong></h3>
-<p>Scenario: &quot;New User Makes First Purchase&quot;</p>
-<p>Automated E2E Test Script (using Selenium/Playwright):</p>
-<p>// Step 1: User visits website</p>
-<pre><code class="language-js"> browser.goto('https://shop.example.com')
-assert(page.title === 'Example Shop') ✅
+      <body><p><strong>Event Streams:</strong></p>
+<p>The Never-Ending Data River (Time Travel for Your Application)</p>
+<p>🎯 Challenge 1: The Bank Statement Problem Imagine this scenario: You need to know your current bank balance.</p>
+<p>Traditional Database Approach:</p>
+<p>Database Table:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1765696687/285_alobpa.png" alt="img1"></p>
+<p>Questions you CAN'T answer:</p>
+<p>❌ How did we get to $1,542?</p>
+<p>❌ What transactions happened last month?</p>
+<p>❌ Can we audit the account history?</p>
+<p>❌ What if we need to recalculate?</p>
+<p>Event Stream Approach:</p>
+<p>Event Log (Immutable):
+[Deposited $1,000] → [Withdrew $200] → [Deposited $500] → [Withdrew $50] → [Paid $8 fee] ...</p>
+<p>Current balance = $1,000 - $200 + $500 - $50 - $8 = $1,542 ✓</p>
+<p>Questions you CAN answer:</p>
+<p>✅ Replay all transactions to verify</p>
+<p>✅ Query any time period</p>
+<p>✅ Audit trail for compliance</p>
+<p>✅ Rebuild balance at any point in time</p>
+<p>✅ Multiple views (by month, by category, etc.)</p>
+<p>Pause and think: What if instead of storing current state, you stored every event that ever happened?</p>
+<p>The Answer: Event Streams are immutable, append-only logs of events! They're like a video recording vs. a snapshot:</p>
+<p>✅ Never delete events (permanent record)</p>
+<p>✅ Events  are in chronological order (time-ordered)</p>
+<p>✅ Can replay from any point (time travel!)</p>
+<p>✅ Multiple consumers read independently (parallel processing)</p>
+<p>✅ Source of truth for what happened (audit trail)</p>
+<p>Key Insight: Event streams transform &quot;What is the current state?&quot; into &quot;What happened, in order?&quot;</p>
+<p>🎬 Interactive Exercise: Snapshot vs Event Stream</p>
+<p>Database Snapshot (Current State):</p>
+<p>Users Table:
+<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1765696687/282_tjqmqb.png" alt="img2"></p>
+<p>What you know:
+- Alice's current status is Active
+- Her current email</p>
+<p>What you DON'T know:</p>
+<p>❌ When did she join?</p>
+<p>❌ Did she ever change her email?</p>
+<p>❌ Was she ever inactive?</p>
+<p>❌ What was her journey?</p>
+<p>Event Stream (Complete History):</p>
+<p>Event Log:</p>
+<pre><code class="language-bash">
+10:00 UserCreated:
+
+{id: 1, name: &quot;Alice&quot;, email: &quot;alice@old.com&quot;}
+
+10:15 EmailUpdated:
+
+{id: 1, email: &quot;alice@new.com&quot;}
+
+10:30 AccountSuspended: {id: 1, reason:&quot;&quot;payment_failed&quot;}
+
+11:00 PaymentReceived: {id: 1, amount: 50}
+
+11:05 AccountReactivated: {id: 1}
+
+12:00 EmailUpdated: {id: 1, email: &quot;alice@example.com&quot;}
 </code></pre>
-<p>// Step 2: User creates account</p>
-<pre><code class="language-js"> click('#sign-up-button')
- fill('#email', 'newuser@test.com')
- fill('#password', 'SecurePass123!')
- fill('#confirm-password', 'SecurePass123!')
- click('#create-account')
- waitFor('#welcome-message')
- assert(text('Welcome, newuser!')) ✅
+<p>Current State (computed from events):</p>
+<p>- Name: Alice</p>
+<p>- Email: alice@example.com (changed 2 times!)</p>
+<p>- Status: Active (was suspended for 35 minutes!)</p>
+<p>What you KNOW:</p>
+<p>✅ Complete timeline</p>
+<p>✅ All state changes</p>
+<p>✅ Can answer &quot;what happened at 10:45?&quot;</p>
+<p>✅ Can rebuild state at any timestamp</p>
+<p>✅ Perfect audit trail</p>
+<p>Real-world parallel: Database is like a photograph (one moment). Event stream is like a video recording (the whole story).</p>
+<p>🏗️ Core Event Stream Concepts</p>
+<ol>
+<li>Events (The Facts):</li>
+</ol>
+<p>An event is an immutable fact about what happened:</p>
+<p>Event structure:</p>
+<pre><code class="language-json">{  &quot;eventId&quot;: &quot;evt-12345&quot;,  &quot;eventType&quot;:
+  &quot;OrderPlaced&quot;,  &quot;timestamp&quot;:
+
+  &quot;2024-01-15T10:30:00.000Z&quot;,  &quot;streamId&quot;: &quot;order-789&quot;,
+
+  &quot;data&quot;: {    &quot;orderId&quot;: &quot;789&quot;,    &quot;customerId&quot;: &quot;456&quot;,    &quot;items&quot;: [...],    &quot;total&quot;: 99.99  },
+
+  &quot;metadata&quot;: {    &quot;userId&quot;: &quot;user-123&quot;,    &quot;source&quot;: &quot;web-app&quot;,   &quot;version&quot;: 1  }}
+
+
 </code></pre>
-<p>// Step 3: User searches for product</p>
-<pre><code class="language-js">
- fill('#search-box', 'wireless headphones')
- click('#search-button')
- waitFor('.product-grid')
- assert(count('.product-card') &gt; 0) ✅
-</code></pre>
-<p>// Step 4: User selects product</p>
-<pre><code class="language-js"> click('.product-card:first-child')
- waitFor('#product-details')
- assert(text('Wireless Headphones XR-500')) ✅
- assert('#price').text === '$79.99' ✅
-</code></pre>
-<p>// Step 5: User adds to cart</p>
-<pre><code class="language-js"> click('#add-to-cart')
- waitFor('.notification')
- assert(text('Added to cart')) ✅
- assert('#cart-count').text === '1' ✅
-</code></pre>
-<p>// Step 6: User views cart</p>
-<pre><code class="language-js"> click('#cart-icon')
- waitFor('#cart-page')
- assert(text('Wireless Headphones XR-500')) ✅
- assert('#cart-total').text === '$79.99' ✅
-</code></pre>
-<p>// Step 7: User proceeds to checkout</p>
-<pre><code class="language-js"> click('#checkout-button')
- waitFor('#checkout-page')
-</code></pre>
-<p>// Step 8: User fills shipping info</p>
-<pre><code class="language-js">
- fill('#address', '123 Main St')
- fill('#city', 'New York')
- select('#state', 'NY')
- fill('#zip', '10001')
- click('#continue-to-payment')
-</code></pre>
-<p>// Step 9: User enters payment</p>
-<pre><code class="language-js">
-fill('#card-number', '4242424242424242')
-// Test card
-fill('#expiry', '12/25')
-fill('#cvv', '123')
-click('#place-order') |
-</code></pre>
-<p>// Step 10: Verify order confirmation</p>
-<pre><code class="language-js">
- waitFor('#order-confirmation', { timeout: 30000 })
- assert(text('Order confirmed!')) ✅
- assert(text('Order #')) ✅
- saveOrderNumber('#order-number') |
-</code></pre>
-<p>// Step 11: Verify email received (check email service)</p>
-<pre><code class="language-js"> email = waitForEmail('newuser@test.com', { subject: 'Order Confirmation' })
- assert(email.body.includes('Wireless Headphones')) ✅ |
-</code></pre>
-<p>// Step 12: Verify account order history</p>
-<pre><code class="language-js"> click('#my-account')
- click('#order-history')
- assert(text('Wireless Headphones XR-500')) ✅
- assert(orderStatus \=== 'Processing') ✅
-</code></pre>
-<p>Complete user journey tested! ✅</p>
-<h3><strong>E2E vs Integration vs System Testing:</strong></h3>
-<p>Integration Testing:
-Focus: Component interfaces
-Example: &quot;API calls Database correctly&quot;
-Scope: 2-3 components</p>
-<p>System Testing:
-Focus: Entire system functionality
-Example: &quot;Transfer money workflow works&quot;
-Scope: All backend components
-Interface: Often API-level</p>
-<p>E2E Testing:
-Focus: Complete user journey
-Example: &quot;User can buy product via website&quot;
-Scope: Frontend → Backend → Database → Email
-Interface: Actual UI (browser automation)</p>
-<h3><strong>E2E Testing Challenges:</strong></h3>
-<p>Challenge 1: Flaky Tests
-Problem:
-Test passes locally, fails in CI
-Test sometimes passes, sometimes fails</p>
-<p>Causes:
-❌ Timing issues (element not loaded yet)</p>
-<p>❌ Network delays</p>
-<p>❌ Animation/transition delays</p>
-<p>❌ Race conditions</p>
-<p>Solutions:</p>
-<p>✅ Use explicit waits (not sleep())</p>
-<p>✅ Retry mechanisms</p>
-<p>✅ Stable test data</p>
-<p>✅ Isolate tests (don't share state)</p>
-<p>Challenge 2: Slow Execution</p>
-<p>Problem:</p>
-<p>E2E suite takes 2 hours to run</p>
-<p>Blocks deployment pipeline</p>
-<p>Solutions:</p>
-<p>✅ Run in parallel (sharding)</p>
-<p>✅ Run only critical E2E tests in CI</p>
-<p>✅ Full suite nightly</p>
-<p>✅ Optimize test data setup</p>
-<p>Challenge 3: Environment Dependencies
-Problem:
-Tests need: Database, APIs, Email service, Payment gateway</p>
-<p>Solutions:</p>
-<p>✅ Docker compose for local development</p>
-<p>✅ Dedicated test environment</p>
-<p>✅ Mock external services</p>
-<p>✅ Test data fixtures</p>
-<h3><strong>E2E Testing Best Practices:</strong></h3>
-<p>1. Test Critical User Paths Only</p>
-<p>✅ User registration</p>
-<p>✅ Login</p>
-<p>✅ Purchase flow</p>
-<p>✅ Password reset</p>
-<p>❌ Don't test every button color</p>
-<p>2. Use Page Object Pattern
-LoginPage.login('user@test.com', 'password')
-ProductPage.addToCart()
-CartPage.checkout()</p>
-<p>(Encapsulate UI interactions)</p>
-<p>3. Separate Test Data
-Use unique data per test run
-Don't rely on existing data</p>
-<p>4. Implement Retry Logic
-Retry flaky steps (up to 3 times)
-Log failures for debugging</p>
-<p>5. Run Smoke Tests First
-If smoke tests fail, skip E2E
-(Don't waste time on broken build)</p>
-<p><strong>Key characteristics:</strong></p>
+<p>Characteristics:</p>
+<p>├── Past tense (&quot;OrderPlaced&quot; not &quot;PlaceOrder&quot;)</p>
+<p>├── Immutable (can never be changed)</p>
+<p>├── Timestamped (when it happened)</p>
+<p>└── Self-contained (all necessary context)</p>
+<ol start="2">
+<li>Stream (The River):</li>
+</ol>
+<p>A stream is an ordered sequence of events:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1765696687/283_qrek44.png" alt="img3"></p>
+<p>Time flows →</p>
+<p>Features:</p>
+<p>├── Append-only (can only add to end)</p>
+<p>├── Immutable (can't modify past events)</p>
+<p>├── Ordered (chronological)</p>
+<p>└── Infinite (never &quot;ends&quot;)</p>
+<ol start="3">
+<li>Offset/Position (The Bookmark):</li>
+</ol>
+<p>Each event has a position in the stream:</p>
+<p>Stream:
+<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1765696686/280_emi8wm.png" alt="img4"></p>
+<p>Each consumer tracks their own position!</p>
+<ol start="4">
+<li>Consumers (The Readers):</li>
+</ol>
+<p>Multiple independent readers:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1765696688/286_fdlpgk.png" alt="img5"></p>
+<p>Each consumer:</p>
+<p>├── Reads at their own pace</p>
+<p>├── Can replay from beginning</p>
+<p>├── Doesn't affect others</p>
+<p>└── Maintains their own offset</p>
+<p>Complete Flow:</p>
+<p>Producer writes events:
+Order Service → Stream &quot;orders&quot;</p>
+<p>[OrderPlaced]</p>
+<p>[PaymentReceived]</p>
+<p>[OrderShipped]</p>
+<p>[OrderDelivered]</p>
+<p>Events stored permanently (configurable retention)</p>
+<p>Consumers read independently:
+Email Service</p>
+<p>│ reads from position 0</p>
+<p>Analytics</p>
+<p>│ reads from position 2</p>
+<p>Data Warehouse</p>
+<p>│ reads all (batch processing)</p>
+<p>Audit System</p>
+<p>│ reads from position 1 (compliance)</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1765696687/281_ixrelb.png" alt="img6"></p>
+<p>New Consumer can join anytime:</p>
+<p>Say Recommendation Engine Joins:</p>
+<p>← Reads from beginning (builds full history)</p>
+<p>← Or starts from now (only new events)</p>
+<p>Real-world parallel:</p>
 <ul>
-<li>🎭 <strong>User perspective:</strong> Test like real users</li>
-<li>🖱️ <strong>Browser automation:</strong> Selenium, Playwright, Cypress</li>
-<li>🐌 <strong>Slowest tests:</strong> Takes longest to run</li>
-<li>🎯 <strong>High confidence:</strong> If E2E passes, system truly works</li>
+<li>
+<p>Event = Transaction on bank statement</p>
+</li>
+<li>
+<p>Stream = Bank statement (all transactions)</p>
+</li>
+<li>
+<p>Offset = Line number you're reading</p>
+</li>
+<li>
+<p>Consumers = Different people reading statement</p>
+</li>
+</ul>
+<p>🎮 Decision Game: Event Stream vs Traditional DB?</p>
+<p>Match the use case to the best approach:</p>
+<p>Scenarios:</p>
+<p>A. Store user's current profile</p>
+<p>B. Track all user actions for analytics</p>
+<p>C. Shopping cart contents</p>
+<p>D. Financial transaction ledger</p>
+<p>E. Show real-time stock price</p>
+<p>F. Audit trail for compliance</p>
+<p>G. Simple CRUD application</p>
+<p>H. Event sourcing system</p>
+<p>Options:</p>
+<ol>
+<li>Traditional Database (current state)</li>
+<li>Event Stream (complete history)</li>
+</ol>
+<p>Think about: Need history or just current state?</p>
+<p>Answers:</p>
+<p>A. User profile → Database (1)
+Only need current state, not history</p>
+<p>B. User actions → Event Stream (2)
+Analytics needs complete history</p>
+<p>C. Shopping cart → Database (1)
+Current items matter, not history</p>
+<p>D. Financial ledger → Event Stream (2)
+Audit trail critical, can't lose transactions</p>
+<p>E. Stock price → Database (1) + Stream (2)
+Current price in DB, history in stream</p>
+<p>F. Audit trail → Event Stream (2)
+By definition, need complete history</p>
+<p>G. CRUD app → Database (1)
+Simple create/read/update/delete</p>
+<p>H. Event sourcing → Event Stream (2)
+Events ARE the source of truth</p>
+<p>🚨 Common Misconception: &quot;Event Streams Are Just Logs... Right?&quot;</p>
+<p>You might think: &quot;Event streams are just application logs.&quot;</p>
+<p>The Reality: Event streams are a first-class data source!</p>
+<p>Application Logs (Different Purpose):</p>
+<pre><code class="language-bash">
+2024-01-15 10:30:00 INFO User 123 logged in
+
+2024-01-15 10:30:05 DEBUG Query took 45ms
+
+2024-01-15 10:30:10 ERROR Connection timeout
+</code></pre>
+<p>Purpose: Debugging, troubleshooting
+Format: Human-readable text
+Structure: Unstructured or semi-structured
+Retention: Days to weeks
+Consumption: Humans, log analysis tools</p>
+<p>Event Streams (Business Events):</p>
+<pre><code class="language-json">
+ {  &quot;eventType&quot;: &quot;UserLoggedIn&quot;,  &quot;userId&quot;: &quot;123&quot;
+
+   ,  &quot;timestamp&quot;: &quot;2024-01-15T10:30:00Z&quot;,
+
+   &quot;sessionId&quot;: &quot;abc&quot;,  &quot;device&quot;: &quot;mobile&quot;
+
+ }
+</code></pre>
+<p>Purpose: Business logic, data processing
+Format: Structured (JSON, Protobuf, Avro)
+Structure: Well-defined schema
+Retention: Months to forever
+Consumption: Services, analytics, ML models</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1765696687/284_rqqerk.png" alt="img7"></p>
+<p>Real-world parallel:</p>
+<ul>
+<li>App logs = Security camera footage (diagnostic)</li>
+<li>Event streams = Business transaction receipts (business data)</li>
+</ul>
+<p>📊 Event Stream Patterns</p>
+<p>Pattern 1: Event Sourcing</p>
+<p>Store events as source of truth, derive state:</p>
+<p>Event Stream:</p>
+<p>[AccountCreated: initial: $0]</p>
+<p>[MoneyDeposited: +$1000]</p>
+<p>[MoneyWithdrawn: -$200]</p>
+<p>[MoneyDeposited: +$500]</p>
+<p>Current State (computed):</p>
+<p>Balance = $0 + $1000 - $200 + $500 = $1,300 ✓</p>
+<p>Benefits:</p>
+<p>✅ Complete audit trail</p>
+<p>✅ Time travel (state at any point)</p>
+<p>✅ No data loss</p>
+<p>✅ Can add new views anytime</p>
+<p>Code example:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">class BankAccount:    def __init__(self):        self.balance = 0        self.events = []        def deposit(self, amount):        event = {            'type': 'MoneyDeposited',            'amount': amount,            'timestamp': now()        }        self.apply(event)        self.events.append(event)        stream.append(event)  # Store in stream        def apply(self, event):        if event['type'] == 'MoneyDeposited':            self.balance += event['amount']        elif event['type'] == 'MoneyWithdrawn':            self.balance -= event['amount']        @classmethod    def rebuild_from_stream(cls, events):        account = cls()        for event in events:            account.apply(event)        return account# Time travel!events_at_noon = stream.read_until('2024-01-15T12:00:00Z')account_state_at_noon = BankAccount.rebuild_from_stream(events_at_noon)</th>
+</tr>
+</thead>
+</table>
+<p>Pattern 2: Change Data Capture (CDC)</p>
+<p>Capture database changes as events:</p>
+<p>Database:</p>
+<pre><code class="language-sql">
+UPDATE users SET email = 'new@example.com' WHERE id = 123;
+</code></pre>
+<pre><code>       ↓
+</code></pre>
+<p>CDC captures change:</p>
+<pre><code>       ↓
+</code></pre>
+<p>Event Stream:</p>
+<pre><code class="language-json">{
+  &quot;operation&quot;: &quot;UPDATE&quot;,
+  &quot;table&quot;: &quot;users&quot;,
+  &quot;before&quot;: {&quot;id&quot;: 123, &quot;email&quot;: &quot;old@example.com&quot;},
+  &quot;after&quot;: {&quot;id&quot;: 123, &quot;email&quot;: &quot;new@example.com&quot;},
+  &quot;timestamp&quot;: &quot;2024-01-15T10:30:00Z&quot;
+}
+</code></pre>
+<p>Consumers react to database changes:</p>
+<p>├─ Search index updates</p>
+<p>├─ Cache invalidation</p>
+<p>├─ Data warehouse sync</p>
+<p>└─ Notification services</p>
+<p>Pattern 3: CQRS (Command Query Responsibility Segregation)</p>
+<p>Separate write and read models:</p>
+<p>Write Side (Commands):</p>
+<p>Command: &quot;Place Order&quot;</p>
+<p>↓</p>
+<p>[OrderPlaced] → Event Stream</p>
+<p>↓</p>
+<p>Update Write DB (normalized)</p>
+<p>Read Side (Queries):</p>
+<p>Event: [OrderPlaced]</p>
+<p>↓</p>
+<p>Update Read DB (denormalized)</p>
+<p>↓</p>
+<p>Query: &quot;Get order&quot;</p>
+<p>↓</p>
+<p>Read from optimized Read DB</p>
+<p>Benefits:</p>
+<p>✅ Optimize reads separately from writes</p>
+<p>✅ Multiple read models for different views</p>
+<p>✅ Scale reads independently</p>
+<p>Pattern 4: Stream Processing</p>
+<p>Process events in real-time:</p>
+<p>Event Stream:</p>
+<p>[Click] → [Click] → [Purchase] → [Click] → ...</p>
+<p>↓
+Stream Processor:</p>
+<p>├─ Window: Last 5 minutes</p>
+<p>├─ Count clicks per user</p>
+<p>├─ Detect patterns</p>
+<p>└─ Generate alerts</p>
+<p>Output Stream:</p>
+<p>[UserActiveAlert: user 123 had 50 clicks]</p>
+<p>[ConversionEvent: user 456 purchased]</p>
+<p>Technologies:</p>
+<p>├─ Apache Kafka Streams</p>
+<p>├─ Apache Flink</p>
+<p>├─ Apache Spark Streaming</p>
+<p>└─ AWS Kinesis Analytics</p>
+<p>Real-world parallel:</p>
+<ul>
+<li>
+<p>Event Sourcing = Accounting ledger (all transactions)</p>
+</li>
+<li>
+<p>CDC = Security camera (captures all changes)</p>
+</li>
+<li>
+<p>CQRS = Restaurant (separate kitchen and dining)</p>
+</li>
+<li>
+<p>Stream Processing = Real-time stock ticker</p>
+</li>
+</ul>
+<p>⚡ Event Stream Technologies</p>
+<ol>
+<li>Apache Kafka (Industry Standard):</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">from kafka import KafkaProducer, KafkaConsumer# Producerproducer = KafkaProducer(    bootstrap_servers='localhost:9092')# Write events to streamproducer.send('user-events', b'{&quot;type&quot;:&quot;UserLoggedIn&quot;,&quot;userId&quot;:123}')# Consumerconsumer = KafkaConsumer(    'user-events',    bootstrap_servers='localhost:9092',    auto_offset_reset='earliest',  # Read from beginning    group_id='analytics-service')for message in consumer:    event = json.loads(message.value)    process_event(event)</th>
+</tr>
+</thead>
+</table>
+<p>Features:</p>
+<p>├── High throughput (millions/sec)</p>
+<p>├── Horizontal scalability</p>
+<p>├── Persistent (configurable retention)</p>
+<p>├── Replay from any point</p>
+<p>└── Most popular streaming platform</p>
+<ol start="2">
+<li>AWS Kinesis (Managed):</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">import boto3kinesis = boto3.client('kinesis')# Write to streamkinesis.put_record(    StreamName='user-events',    Data=json.dumps({'type': 'UserLoggedIn', 'userId': 123}),    PartitionKey='user-123')# Read from streamresponse = kinesis.get_records(    ShardIterator=shard_iterator)for record in response['Records']:    event = json.loads(record['Data'])    process_event(event)</th>
+</tr>
+</thead>
+</table>
+<p>Features:</p>
+<p>├── Fully managed (no ops)</p>
+<p>├── Auto-scaling</p>
+<p>├── Integrates with AWS services</p>
+<p>└── Pay per use</p>
+<ol start="3">
+<li>Apache Pulsar (Next-Gen):</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">import pulsarclient = pulsar.Client('pulsar://localhost:6650')# Producerproducer = client.create_producer('user-events')producer.send(('{&quot;type&quot;:&quot;UserLoggedIn&quot;,&quot;userId&quot;:123}').encode('utf-8'))# Consumerconsumer = client.subscribe(    'user-events',    'analytics-service')while True:    msg = consumer.receive()    event = json.loads(msg.data())    process_event(event)    consumer.acknowledge(msg)</th>
+</tr>
+</thead>
+</table>
+<p>Features:</p>
+<p>├── Multi-tenancy support</p>
+<p>├── Geo-replication built-in</p>
+<p>├── Tiered storage</p>
+<p>└─ Queue and streaming in one</p>
+<ol start="4">
+<li>Event Store (Event Sourcing):</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">from eventstore import EventStorees = EventStore('localhost')# Write eventsstream_id = 'account-123'events = [    {'type': 'AccountCreated', 'data': {'owner': 'Alice'}},    {'type': 'MoneyDeposited', 'data': {'amount': 1000}}]es.append_to_stream(stream_id, events)# Read eventsstream = es.read_stream_events_forward(stream_id)for event in stream:    print(event.type, event.data)# Read from specific versionstream = es.read_stream_events_forward(stream_id, from_version=5)</th>
+</tr>
+</thead>
+</table>
+<p>Features:</p>
+<p>├── Optimized for event sourcing</p>
+<p>├── Stream projections</p>
+<p>├── Complex event processing</p>
+<p>└── Built-in event versioning</p>
+<p>Real-world parallel:</p>
+<ul>
+<li>Kafka = Highway system (high throughput)</li>
+<li>Kinesis = Managed toll road (easy, but AWS only)</li>
+<li>Pulsar = Modern transit system (advanced features)</li>
+<li>Event Store = Specialized vehicle (event sourcing focus)</li>
+</ul>
+<p>💪 Stream Processing Patterns</p>
+<p>Stateless Processing:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"># Transform each event independentlydef process_click_event(event):    return {        'userId': event['userId'],        'page': event['page'],        'timestamp': event['timestamp'],        'device': detect_device(event['userAgent'])    }# Process streamfor event in stream:    transformed = process_click_event(event)    output_stream.write(transformed)</th>
+</tr>
+</thead>
+</table>
+<p>Stateful Processing (Aggregations):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">from collections import defaultdictfrom datetime import datetime, timedelta# Count clicks per user in 5-minute windowswindow_size = timedelta(minutes=5)windows = defaultdict(lambda: {'count': 0, 'start': None})def process_with_windowing(event):    user_id = event['userId']    timestamp = datetime.fromisoformat(event['timestamp'])        # Get or create window    if windows[user_id]['start'] is None:        windows[user_id]['start'] = timestamp        # Check if event in current window    if timestamp - windows[user_id]['start'] &lt; window_size:        windows[user_id]['count'] += 1    else:        # Window complete, emit result        yield {            'userId': user_id,            'clickCount': windows[user_id]['count'],            'windowStart': windows[user_id]['start']        }        # Start new window        windows[user_id] = {'count': 1, 'start': timestamp}# Process streamfor event in stream:    for result in process_with_windowing(event):        output_stream.write(result)</th>
+</tr>
+</thead>
+</table>
+<p>Stream Joins:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"># Join clicks with purchasesclicks = stream('clicks')purchases = stream('purchases')def join_streams(click_event, purchase_event):    if (click_event['userId'] == purchase_event['userId'] and        click_event['productId'] == purchase_event['productId'] and        purchase_event['timestamp'] - click_event['timestamp'] &lt; timedelta(hours=1)):                return {            'userId': click_event['userId'],            'productId': click_event['productId'],            'clickTimestamp': click_event['timestamp'],            'purchaseTimestamp': purchase_event['timestamp'],            'timeToPurchase': purchase_event['timestamp'] - click_event['timestamp']        }# Kafka Streams examplebuilder = StreamsBuilder()clicks_stream = builder.stream('clicks')purchases_stream = builder.stream('purchases')joined = clicks_stream.join(    purchases_stream,    joiner=lambda click, purchase: join_streams(click, purchase),    window=JoinWindows.of(Duration.ofHours(1)))joined.to('conversion-events')Real-world parallel:</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li>Stateless = Assembly line worker (each item independent)</li>
+<li>Stateful = Cashier tallying sales (needs to remember)</li>
+<li>Joins = Detective connecting clues</li>
+</ul>
+<p>🛡️ Handling Late and Out-of-Order Events</p>
+<p>The Problem:</p>
+<p>Events arrive out of order:</p>
+<p>Expected order:
+[Event 1 @ 10:00] → [Event 2 @ 10:01] → [Event 3 @ 10:02]</p>
+<p>Actual arrival:
+[Event 1 @ 10:00] → [Event 3 @ 10:02] → [Event 2 @ 10:01] (late!)</p>
+<p>How to handle?</p>
+<p>Solution 1: Watermarks</p>
+<p>Define &quot;how late is acceptable&quot;:</p>
+<p>Watermark = Current time - 5 minutes</p>
+<p>Events before watermark:</p>
+<p>├─ On time → Process</p>
+<p>└─ Late → Discard (or send to late events stream)</p>
+<p>Example:
+Current time: 10:10
+Watermark: 10:05
+Event with timestamp 10:03 arrives → Too late! Discard
+Event with timestamp 10:07 arrives → Process ✓</p>
+<p>Solution 2: Grace Period</p>
+<p>Wait for late events before finalizing window:</p>
+<p>Window: 10:00 - 10:05
+Grace period: 2 minutes
+Close window at: 10:07</p>
+<p>Timeline:
+10:05 - Window &quot;ends&quot; but stays open
+10:06 - Late event arrives → Still accepted
+10:07 - Grace period over → Window closed, emit results</p>
+<p>Solution 3: Event Time vs Processing Time</p>
+<p>Event Time = When event actually happened
+Processing Time = When system processes it</p>
+<p>Use Event Time for correct results:</p>
+<p>Event: Click at 9:59 AM
+Arrives at: 10:01 AM (system was down)
+Count for: 9:00-10:00 window (based on event time)
+Not: 10:00-11:00 window (based on processing time)</p>
+<p>Code:
+window =
+event['timestamp']  # Event time ✓</p>
+<p># Not: window = now()  # Processing time ✗</p>
+<p>Real-world parallel:</p>
+<ul>
+<li>Watermarks = Postal deadlines (no Christmas cards after Dec 20)</li>
+<li>Grace period = Late submissions accepted (with penalty)</li>
+<li>Event time = When you wrote the letter vs. when it arrived</li>
+</ul>
+<p>💡 Final Synthesis Challenge: The Time Machine</p>
+<p>Complete this comparison: &quot;Traditional databases are like a photograph of right now. Event streams are like...&quot;</p>
+<p>Your answer should include:</p>
+<ul>
+<li>Historical data</li>
+<li>Replay capability</li>
+<li>Multiple consumers</li>
+<li>Immutability</li>
+</ul>
+<p>Take a moment to formulate your complete answer...</p>
+<p>The Complete Picture: Event streams are like a movie recording of everything that ever happened:</p>
+<p>✅ Never delete frames (immutable history)</p>
+<p>✅ Can rewind and replay (time travel)</p>
+<p>✅ Multiple people watch independently (parallel consumers)</p>
+<p>✅ See what happened at any timestamp (temporal queries)</p>
+<p>✅ Complete audit trail (compliance)</p>
+<p>✅ Add new viewers anytime (new consumers)</p>
+<p>✅ Fast-forward or slow-motion (read at any pace)</p>
+<p>✅ Derive current state from full history (event sourcing)</p>
+<p>This is why:</p>
+<ul>
+<li>LinkedIn uses Kafka for activity streams (invented it!)</li>
+<li>Netflix uses Kafka for viewing history</li>
+<li>Uber uses streams for ride events</li>
+<li>Banks use event sourcing for transactions</li>
+</ul>
+<p>Event streams transform ephemeral data into permanent, replayable business history!</p>
+<p>🎯 Quick Recap: Test Your Understanding Without looking back, can you explain:</p>
+<ol>
+<li>How do event streams differ from traditional databases?</li>
+<li>What is event sourcing and its benefits?</li>
+<li>How do multiple consumers read from the same stream?</li>
+<li>Why is event ordering important in streams?</li>
+</ol>
+<p>Mental check: If you can answer these clearly, you've mastered event stream fundamentals!</p>
+<p>🚀 Your Next Learning Adventure Now that you understand Event Streams, explore:</p>
+<p>Advanced Streaming:</p>
+<ul>
+<li>Stream processing with Kafka Streams</li>
+<li>Apache Flink for complex event processing</li>
+<li>Exactly-once semantics in streaming</li>
+<li>Stream-table duality</li>
+</ul>
+<p>Event Sourcing Deep Dive:</p>
+<ul>
+<li>Snapshotting for performance</li>
+<li>Event versioning strategies</li>
+<li>Handling schema evolution</li>
+<li>Projections and read models</li>
+</ul>
+<p>Stream Technologies:</p>
+<ul>
+<li>Kafka Connect (integrate external systems)</li>
+<li>Schema Registry (manage schemas)</li>
+<li>ksqlDB (SQL for streams)</li>
+<li>Debezium (CDC connector)</li>
+</ul>
+<p>Real-World Patterns:</p>
+<ul>
+<li>Building event-sourced microservices</li>
+<li>Real-time analytics pipelines</li>
+<li>Stream processing at scale</li>
+<li>CQRS in production</li>
 </ul>
 </body>
     </html>
