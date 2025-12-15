@@ -730,8 +730,28 @@ def process_with_windowing(event):
 
 Stream Joins:
 
-| \# Join clicks with purchasesclicks \= stream('clicks')purchases \= stream('purchases')def join\_streams(click\_event, purchase\_event):    if (click\_event\['userId'\] \== purchase\_event\['userId'\] and        click\_event\['productId'\] \== purchase\_event\['productId'\] and        purchase\_event\['timestamp'\] \- click\_event\['timestamp'\] \< timedelta(hours=1)):                return {            'userId': click\_event\['userId'\],            'productId': click\_event\['productId'\],            'clickTimestamp': click\_event\['timestamp'\],            'purchaseTimestamp': purchase\_event\['timestamp'\],            'timeToPurchase': purchase\_event\['timestamp'\] \- click\_event\['timestamp'\]        }\# Kafka Streams examplebuilder \= StreamsBuilder()clicks\_stream \= builder.stream('clicks')purchases\_stream \= builder.stream('purchases')joined \= clicks\_stream.join(    purchases\_stream,    joiner=lambda click, purchase: join\_streams(click, purchase),    window=JoinWindows.of(Duration.ofHours(1)))joined.to('conversion-events')Real-world parallel: |
-| :---- |
+# Join clicks with purchases
+```python
+clicks = stream('clicks')
+purchases = stream('purchases')
+def join_streams(click_event, purchase_event):
+
+  if (click_event['userId'] == purchase_event['userId'] and  click_event ['productId'] == purchase_event['productId'] and        purchase_event ['timestamp'] - click_event['timestamp'] < timedelta(hours=1)):
+
+  return {            'userId': click_event['userId'],            'productId': click_event['productId'],'clickTimestamp': click_event['timestamp'], 'purchaseTimestamp': purchase_event['timestamp'], 'timeToPurchase': purchase_event['timestamp'] - click_event['timestamp']}
+  # Kafka Streams example
+  builder = StreamsBuilder()
+  clicks_stream = builder.stream('clicks')
+  purchases_stream = builder.stream('purchases')
+
+  joined = clicks_stream.join(    purchases_stream,
+
+  joiner=lambda click, purchase: join_streams(click, purchase),
+  window=JoinWindows.of(Duration.ofHours(1)))
+  joined.to('conversion-events')
+
+  ```
+  Real-world parallel:
 
 * Stateless \= Assembly line worker (each item independent)
 * Stateful \= Cashier tallying sales (needs to remember)
