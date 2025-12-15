@@ -392,9 +392,44 @@ Benefits:
 ✅ Can add new views anytime
 
 Code example:
+```python
 
-| class BankAccount:    def \_\_init\_\_(self):        self.balance \= 0        self.events \= \[\]        def deposit(self, amount):        event \= {            'type': 'MoneyDeposited',            'amount': amount,            'timestamp': now()        }        self.apply(event)        self.events.append(event)        stream.append(event)  \# Store in stream        def apply(self, event):        if event\['type'\] \== 'MoneyDeposited':            self.balance \+= event\['amount'\]        elif event\['type'\] \== 'MoneyWithdrawn':            self.balance \-= event\['amount'\]        @classmethod    def rebuild\_from\_stream(cls, events):        account \= cls()        for event in events:            account.apply(event)        return account\# Time travel\!events\_at\_noon \= stream.read\_until('2024-01-15T12:00:00Z')account\_state\_at\_noon \= BankAccount.rebuild\_from\_stream(events\_at\_noon) |
-| :---- |
+ class BankAccount:
+  def __init__(self):
+    self.balance = 0
+    self.events = []
+  def deposit(self, amount):
+    event = {
+    'type': 'MoneyDeposited',
+    'amount': amount,
+    'timestamp': now()
+    }
+    self.apply(event)
+    self.events.append(event)
+    stream.append(event)
+    # Store in stream
+   def apply(self, event):
+    if event['type'] == 'MoneyDeposited':
+
+    self.balance += event['amount']
+
+    elif event['type'] == 'MoneyWithdrawn':
+
+      self.balance -= event['amount']
+
+  @classmethod
+  def rebuild_from_stream(cls, events):
+
+    account = cls()
+    for event in events:
+      account.apply(event)
+      return account
+
+# Time travel
+events_at_noon = stream.read_until('2024-01-15T12:00:00Z')
+account_state_at_noon = BankAccount.rebuild_from_stream(events_at_noon)
+```
+
 
 Pattern 2: Change Data Capture (CDC)
 
@@ -510,20 +545,35 @@ Technologies:
 
 Real-world parallel:
 
-* Event Sourcing \= Accounting ledger (all transactions)
+* Event Sourcing = Accounting ledger (all transactions)
 
-* CDC \= Security camera (captures all changes)
+* CDC = Security camera (captures all changes)
 
-* CQRS \= Restaurant (separate kitchen and dining)
+* CQRS = Restaurant (separate kitchen and dining)
 
-* Stream Processing \= Real-time stock ticker
+* Stream Processing = Real-time stock ticker
 
 ⚡ Event Stream Technologies
 
 1. Apache Kafka (Industry Standard):
 
-| from kafka import KafkaProducer, KafkaConsumer\# Producerproducer \= KafkaProducer(    bootstrap\_servers='localhost:9092')\# Write events to streamproducer.send('user-events', b'{"type":"UserLoggedIn","userId":123}')\# Consumerconsumer \= KafkaConsumer(    'user-events',    bootstrap\_servers='localhost:9092',    auto\_offset\_reset='earliest',  \# Read from beginning    group\_id='analytics-service')for message in consumer:    event \= json.loads(message.value)    process\_event(event) |
-| :---- |
+```python
+ from kafka import KafkaProducer, KafkaConsumer
+ # Producer
+ producer = KafkaProducer(    bootstrap_servers='localhost:9092')
+ # Write events to stream
+
+ producer.send('user-events', b'{"type":"UserLoggedIn","userId":123}'
+ # Consumer
+ consumer = KafkaConsumer('user-events',   bootstrap_servers='localhost:9092',
+ auto_offset_reset='earliest',
+ # Read from beginning
+ group_id='analytics-service')
+
+ for message in consumer:
+  event = json.loads(message.value)
+  process_event(event)
+  ```
 
 Features:
 
@@ -538,9 +588,19 @@ Features:
 └── Most popular streaming platform
 
 2. AWS Kinesis (Managed):
+```python
 
-| import boto3kinesis \= boto3.client('kinesis')\# Write to streamkinesis.put\_record(    StreamName='user-events',    Data=json.dumps({'type': 'UserLoggedIn', 'userId': 123}),    PartitionKey='user-123')\# Read from streamresponse \= kinesis.get\_records(    ShardIterator=shard\_iterator)for record in response\['Records'\]:    event \= json.loads(record\['Data'\])    process\_event(event) |
-| :---- |
+import boto3
+kinesis = boto3.client('kinesis')
+# Write to stream
+kinesis.put_record(StreamName='user-events',    Data=json.dumps({'type': 'UserLoggedIn', 'userId': 123}),
+PartitionKey='user-123')
+# Read from stream
+response = kinesis.get_records(    ShardIterator=shard_iterator)
+for record in response['Records']:
+  event = json.loads(record['Data'])
+  process_event(event)
+```
 
 Features:
 
@@ -554,8 +614,22 @@ Features:
 
 3. Apache Pulsar (Next-Gen):
 
-| import pulsarclient \= pulsar.Client('pulsar://localhost:6650')\# Producerproducer \= client.create\_producer('user-events')producer.send(('{"type":"UserLoggedIn","userId":123}').encode('utf-8'))\# Consumerconsumer \= client.subscribe(    'user-events',    'analytics-service')while True:    msg \= consumer.receive()    event \= json.loads(msg.data())    process\_event(event)    consumer.acknowledge(msg) |
-| :---- |
+```python
+import pulsar
+
+
+client = pulsar.Client('pulsar://localhost:6650')
+# Producer
+producer = client.create_producer('user-events')
+producer.send(('{"type":"UserLoggedIn","userId":123}').encode('utf-8'))
+# Consumer
+consumer = client.subscribe(    'user-events',    'analytics-service')
+while True:
+  msg = consumer.receive()
+  event = json.loads(msg.data())
+  process_event(event)
+  consumer.acknowledge(msg)
+  ```
 
 Features:
 
@@ -569,8 +643,21 @@ Features:
 
 4. Event Store (Event Sourcing):
 
-| from eventstore import EventStorees \= EventStore('localhost')\# Write eventsstream\_id \= 'account-123'events \= \[    {'type': 'AccountCreated', 'data': {'owner': 'Alice'}},    {'type': 'MoneyDeposited', 'data': {'amount': 1000}}\]es.append\_to\_stream(stream\_id, events)\# Read eventsstream \= es.read\_stream\_events\_forward(stream\_id)for event in stream:    print(event.type, event.data)\# Read from specific versionstream \= es.read\_stream\_events\_forward(stream\_id, from\_version=5) |
-| :---- |
+
+ from eventstore import EventStore
+ es = EventStore('localhost')
+ # Write events
+ stream_id = 'account-123'
+ events = [    {'type': 'AccountCreated', 'data': {'owner': 'Alice'}},    {'type': 'MoneyDeposited', 'data': {'amount': 1000}}]
+ es.append_to_stream(stream_id, events)
+
+ # Read events
+ stream = es.read_stream_events_forward(stream_id)
+
+ for event in stream:
+  print(event.type, event.data)
+# Read from specific version
+stream = es.read_stream_events_forward(stream_id, from_version=5)
 
 Features:
 
