@@ -680,13 +680,53 @@ Real-world parallel:
 
 Stateless Processing:
 
-| \# Transform each event independentlydef process\_click\_event(event):    return {        'userId': event\['userId'\],        'page': event\['page'\],        'timestamp': event\['timestamp'\],        'device': detect\_device(event\['userAgent'\])    }\# Process streamfor event in stream:    transformed \= process\_click\_event(event)    output\_stream.write(transformed) |
-| :---- |
+# Transform each event independently
+```python
+
+def process_click_event(event):
+  return {        'userId': event['userId'],        'page': event['page'],
+  'timestamp': event['timestamp'],
+  'device': detect_device(event['userAgent'])
+  }
+  # Process stream
+  for event in stream:
+    transformed = process_click_event(event)   output_stream.write(transformed)
+
+```
 
 Stateful Processing (Aggregations):
+```python
 
-| from collections import defaultdictfrom datetime import datetime, timedelta\# Count clicks per user in 5-minute windowswindow\_size \= timedelta(minutes=5)windows \= defaultdict(lambda: {'count': 0, 'start': None})def process\_with\_windowing(event):    user\_id \= event\['userId'\]    timestamp \= datetime.fromisoformat(event\['timestamp'\])        \# Get or create window    if windows\[user\_id\]\['start'\] is None:        windows\[user\_id\]\['start'\] \= timestamp        \# Check if event in current window    if timestamp \- windows\[user\_id\]\['start'\] \< window\_size:        windows\[user\_id\]\['count'\] \+= 1    else:        \# Window complete, emit result        yield {            'userId': user\_id,            'clickCount': windows\[user\_id\]\['count'\],            'windowStart': windows\[user\_id\]\['start'\]        }        \# Start new window        windows\[user\_id\] \= {'count': 1, 'start': timestamp}\# Process streamfor event in stream:    for result in process\_with\_windowing(event):        output\_stream.write(result) |
-| :---- |
+from collections import defaultdict
+from datetime import datetime, timedelta
+# Count clicks per user in 5-minute windows
+window_size = timedelta(minutes=5)
+windows = defaultdict(lambda: {'count': 0, 'start': None})
+
+def process_with_windowing(event):
+  user_id = event['userId']
+  timestamp = datetime.fromisoformat(event['timestamp'])
+  # Get or create window
+  if windows [user_id]['start'] is None:
+    windows[user_id]['start'] = timestamp
+    # Check if event in current window
+    if timestamp - windows[user_id]['start'] <
+
+        window_size:windows[user_id]['count']+= 1
+    else:
+        # Window complete, emit result
+        yield {            'userId': user_id,           'clickCount': windows[user_id]['count'],
+        'windowStart': windows[user_id]['start']
+        }
+        # Start new window
+        windows[user_id] = {'count': 1, 'start': timestamp}
+        # Process stream
+        for event in stream:
+            for result in process_with_windowing(event):
+                output_stream.write(result)
+
+
+```
 
 Stream Joins:
 
