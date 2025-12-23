@@ -1,200 +1,268 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h2><strong>⚡ Latency vs Throughput: The Highway Story</strong></h2>
-<p>This is one of the most misunderstood concepts in system design. Let's  clear it up with a story.</p>
-<h3><strong>The Road Trip Analogy</strong></h3>
-<p>Imagine you need to transport 100 people from City A to City B:</p>
-<p><strong>Scenario 1: The Ferrari Approach (Low Latency)</strong></p>
-<p>Use a Ferrari:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Speed: 200 mph (VERY FAST!)
-Seats: 2 people per trip</p>
-<p>Trip 1: Drive 2 people (30 minutes)</p>
-<p>Trip 2: Drive 2 people (30 minutes)</p>
-<p>Trip 3: Drive 2 people (30 minutes)</p>
-<p>...
-Trip 50: Drive last 2 people (30 minutes)</p>
-<p>Total time: 25 hours</p>
-<p>First person arrives: After 30 minutes ✓ (Low latency!)
-Last person arrives: After 25 hours ❌ (Low throughput!)</p>
-<p><strong>Latency:</strong></p>
-<p>How long ONE person takes to arrive (30 minutes)</p>
-<p>✓ <strong>Throughput:</strong> How many people arrive per hour (4 people/hour) ❌</p>
-<p><strong>Scenario 2: The Bus Approach (High Throughput)</strong></p>
-<p>Use a Bus:</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Speed: 60 mph (slower)</p>
-<p>Seats: 50 people per trip</p>
-<p>Trip 1: Drive 50 people (1 hour)</p>
-<p>Trip 2: Drive 50 people (1 hour)</p>
-<p>Total time: 2 hours</p>
-<p>First person arrives: After 1 hour ❌ (Higher latency!)</p>
-<p>Last person arrives: After 2 hours ✓ (High throughput!)</p>
-<p><strong>Latency:</strong> How long ONE person takes to arrive (1 hour)</p>
-<p>❌ <strong>Throughput:</strong> How many people arrive per hour (50 people/hour) ✓</p>
-<h3><strong>The Key Insight</strong></h3>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766473816/295_prpuky.png" alt="img1"></p>
-<p><strong>Think of it this way:</strong></p>
+      <body><h2><strong>🏢 Monolith vs Microservices: The Building Story</strong></h2>
+<p>Let’s learn about two companies building their office spaces.</p>
+<h3><strong>Company A: The Single Building (Monolith)</strong></h3>
+<p>Company A's Office:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489217/298_zsiz21.png" alt="img1"></p>
+<p>Everyone in ONE place:</p>
+<p>✓ Easy communication (walk to any floor)</p>
+<p>✓ Shared infrastructure (one server room)</p>
+<p>✓ Simple management (one building)</p>
+<p><strong>Advantages:</strong></p>
 <ul>
-<li><strong>Latency:</strong> The speed of ONE trip</li>
-<li><strong>Throughput:</strong> The volume over time</li>
+<li>Want to talk to marketing? Walk upstairs</li>
+<li>Need to check servers? Go to basement</li>
+<li>Problem with electricity? Fix once for everyone</li>
+<li>Building maintenance? One contract</li>
 </ul>
-<h3><strong>Real System Examples</strong></h3>
-<p><strong>Example 1: Web Server Comparison</strong></p>
-<p>Server A: Optimized for Low Latency</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Response time per request: 10ms (FAST!)
-Concurrent requests: 100
-Requests per second: 100 ÷ 0.01 = 10,000/sec</p>
-<p>Great for: Real-time applications, APIs
-Use case: Stock trading, gaming</p>
-<p>Server B: Optimized for High Throughput</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Response time per request: 100ms (slower)
-Concurrent requests: 10,000
-Requests per second: 10,000 ÷ 0.1 = 100,000/sec</p>
-<p>Great for: Batch processing, data pipelines
-Use case: Analytics, video encoding</p>
-<p><strong>Connection to TCP:</strong> Remember TCP's flow control with sliding windows? That's managing throughput! TCP adjusts how much data flows based on network capacity. But each individual packet still has latency (round-trip time). TCP optimizes for reliable throughput, not necessarily lowest latency.</p>
-<p><strong>Example 2: Database Query Design</strong></p>
-<p>Let's see  a real scenario:</p>
-<p>Task: Fetch 1 million user records</p>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li>Fire on floor 3? Evacuate ENTIRE building</li>
+<li>Renovating floor 4? Disrupts everyone</li>
+<li>Building at capacity? Can't expand easily</li>
+<li>Elevator breaks? No one can move between floors</li>
+</ul>
+<h3><strong>Company B: The Campus (Microservices)</strong></h3>
+<p>Company B's Campus:</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Approach A: Low Latency (One at a time)</p>
-<p>───────────────────────────────────────</p>
-<pre><code class="language-js">for (let i = 0; i &lt; 1000000; i++) {
-  const user = await db.query('SELECT * FROM users WHERE id = ?', i)
-  process(user)
-  // 1ms per user
-}
-</code></pre>
-<p>Latency per user: 5ms (2ms query + 1ms process + 2ms network)
-Throughput: 1,000,000 users ÷ 5ms = 200 users/second
-Total time: 5,000 seconds (83 minutes!) ❌</p>
-<p>Approach B: High Throughput (Batches)</p>
-<p>────────────────────────────────────</p>
-<pre><code class="language-js">const BATCH_SIZE = 10000;
-
-for (let offset = 0; offset &lt; 1000000; offset += BATCH_SIZE) {
-  const users = await db.query(
-    'SELECT * FROM users LIMIT ? OFFSET ?',
-    BATCH_SIZE,
-    offset
-  )
-  users.forEach(user =&gt; process(user))  // Process batch together
-}
-</code></pre>
-<p>Latency for first batch: 100ms (slower per user!)
-Throughput: 10,000 users/batch × 10 batches/sec = 100,000 users/sec
-Total time: 10 seconds (Much better!) ✓</p>
-<p><strong>The Tradeoff:</strong></p>
-<p>Individual user latency INCREASED (5ms → 100ms)
-But overall throughput INCREASED 500x!</p>
-<p>Sometimes you sacrifice latency for throughput!</p>
-<h3><strong>The Water Pipe Analogy</strong></h3>
-<p>This is a  way to explain it:</p>
-<p>Latency = How fast water flows through the pipe</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766473816/297_goc0k5.png" alt="img2"></p>
-<p>Throughput = How much total water flows</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766473816/296_f2j8u7.png" alt="img3"></p>
-<p>The Tradeoff:</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Thin pipe:  Fast flow (low latency), less volume (low throughput)
-Thick pipe: Slow flow (high latency), more volume (high throughput)</p>
-<p>You can have:
-Option A: Thin pipe with high pressure → Low latency, low throughput
-Option B: Thick pipe with normal pressure → Higher latency, high throughput
-Option C: Thick pipe with high pressure → Low latency AND high throughput!
-(But this is expensive! 💰)</p>
-<h3><strong>Real-World Optimization Examples</strong></h3>
-<p><strong>Case Study 1: Netflix Video Streaming</strong></p>
-<p>Netflix's Challenge:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489217/302_fc9sz1.png" alt="img2"></p>
+<p>Each building:</p>
+<p>✓ Independent utilities</p>
+<p>✓ Own entrance/exit</p>
+<p>✓ Can be renovated separately</p>
+<p>✓ Can scale individually</p>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>Fire in Sales building? Others keep working</li>
+<li>Renovate Engineering? Doesn't affect Marketing</li>
+<li>Engineering growing? Build bigger Engineering building</li>
+<li>Each building optimized for its needs</li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li>Cross-building meetings? Need to travel</li>
+<li>Coordination is harder (phone calls, emails)</li>
+<li>More maintenance contracts (one per building)</li>
+<li>More expensive (multiple infrastructures)</li>
+</ul>
+<h3><strong>Now Let's Apply This to Software</strong></h3>
+<p><strong>Monolithic Application Architecture:</strong></p>
+<p>E-Commerce Monolith:</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Serve 4K video to millions of users simultaneously</p>
-<p>Their Solution:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489219/304_a5htnq.png" alt="img3"></p>
+<p>All code in ONE repository
+ONE deployment
+ONE database
+ONE server (or replicas of the same thing)</p>
+<p><strong>Real-world flow:</strong></p>
+<p>User Action: &quot;Add item to cart&quot;</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Latency Optimization:
-- CDN edge servers near users (low latency to start stream)</p>
-<p>- First few seconds: High priority, low latency</p>
-<p>- User sees video in &lt;1 second ✓</p>
-<p>Throughput Optimization:</p>
-<p>- Pre-encode videos in multiple qualities</p>
-<p>- Stream large chunks (not individual frames)</p>
-<p>- Massive bandwidth pipes</p>
-<p>- Serves 250 million users simultaneously ✓</p>
-<p>Result: Fast start (low latency) + sustained streaming (high throughput)</p>
-<p><strong>Case Study 2: Google Search</strong></p>
-<p>Google's Approach:</p>
+<p>1. Request hits monolith</p>
+<p>2. Auth module checks user</p>
+<p>3. Catalog module validates product</p>
+<p>4. Cart module adds item</p>
+<p>5. Inventory module reserves stock</p>
+<p>6. All happens in ONE application</p>
+<p>7. All shares ONE database</p>
+<p>If ANY part fails → Entire request fails</p>
+<p><strong>Microservices Architecture:</strong></p>
+<p>E-Commerce Microservices:</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Latency Focus:</p>
-<p>- Search results in &lt;100ms</p>
-<p>- Users see results almost instantly</p>
-<p>- Distributed data centers worldwide</p>
-<p>- Aggressive caching</p>
-<p>Throughput:</p>
-<p>- Handles 8.5 billion searches/day</p>
-<p>- 100,000 queries/second</p>
-<p>- Scales horizontally</p>
-<p>They optimize for BOTH:
-Fast individual results + massive query volume</p>
-<h3><strong>The Design Decision Framework</strong></h3>
-<p>When designing systems, ask yourself:</p>
-<p>Decision Tree:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489219/300_y6haay.png" alt="img4"></p>
+<p>Each service:</p>
+<p>- Independent codebase</p>
+<p>- Independent database</p>
+<p>- Independent deployment</p>
+<p>- Independent scaling</p>
+<p><strong>Real-world flow:</strong></p>
+<p>User Action: &quot;Add item to cart&quot;</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Question 1: What matters more to your users?</p>
-<p>───────────────────────────────────────────</p>
-<p>A. &quot;I need results RIGHT NOW&quot;</p>
-<p>→ Optimize for LOW LATENCY</p>
-<p>Examples: Trading apps, games, real-time chat</p>
-<p>B. &quot;I need to process LOTS of data&quot;</p>
-<p>→ Optimize for HIGH THROUGHPUT</p>
-<p>Examples: Analytics, batch jobs, video encoding</p>
-<p>Question 2: What's your bottleneck?</p>
-<p>───────────────────────────────────</p>
-<p>A. Network speed</p>
-<p>→ Reduce latency: CDN, edge servers, compression</p>
-<p>B. Processing capacity</p>
-<p>→ Increase throughput: More workers, parallel processing</p>
-<p>C. Database</p>
-<p>→ Balance both: Caching (latency), read replicas (throughput)</p>
-<p>Question 3: What's your budget?
-───────────────────────────────</p>
-<p>A. Limited
-→ Pick one: Latency OR Throughput
-→ Can't have both cheaply</p>
-<p>B. Unlimited
-→ Get both: Fast AND scalable
-→ Expensive but possible</p>
-<h3><strong>Common Mistakes</strong></h3>
-<p><strong>Mistake 1: Confusing the Two</strong></p>
-<p>❌ Wrong thinking:
-&quot;My API is slow, so I'll add more servers&quot;</p>
-<p>Problem: If latency is the issue, more servers might not help!</p>
-<p>Example:
+<p>1. API Gateway receives request</p>
+<p>2. Gateway → Auth Service: &quot;Is user logged in?&quot;</p>
+<p>Auth Service: &quot;Yes, user_id: 42&quot; ✓</p>
+<p>3. Gateway → Product Service: &quot;Does product exist?&quot;</p>
+<p>Product Service: &quot;Yes, product_id: 789&quot; ✓</p>
+<p>4. Gateway → Cart Service: &quot;Add item to cart&quot;
+Cart Service: &quot;Added! Cart has 3 items&quot; ✓</p>
+<p>5. Gateway → Inventory Service: &quot;Reserve stock&quot;
+Inventory Service: &quot;Reserved!&quot; ✓</p>
+<p>6. Gateway → Notification Service: &quot;Send confirmation&quot;
+(Happens async, doesn't block response)</p>
+<p>Result sent to user: &quot;Item added!&quot; ✓</p>
+<p>Notice: Each service operates independently!</p>
+<h3><strong>The Evolution Story</strong></h3>
+<p>Let see how companies typically evolve:</p>
+<p><strong>Phase 1: The Startup (Monolith is Perfect)</strong></p>
+<p>Day 1: You and 3 co-founders</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Team: 3 engineers</p>
+<p>Users: 0 (you just launched!)</p>
+<p>Traffic: Maybe 100 requests/day</p>
+<p>Architecture:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489218/305_aj3hjg.png" alt="img5"></p>
+<p>Why monolith?</p>
+<p>✓ Fast to build</p>
+<p>✓ Easy to debug (everything in one place)</p>
+<p>✓ Simple deployment (one command)</p>
+<p>✓ Cheap ($50/month hosting)</p>
+<p>This is PERFECT for a startup! Don't overcomplicate!</p>
+<p><strong>Phase 2: Growing Pains (Monolith Struggles)</strong></p>
+<p>Year 2: Some Success!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Current: 1 server, 500ms per request
-Add: 10 servers, still 500ms per request!</p>
-<p>You increased throughput (10x more requests)
-But latency didn't improve (still 500ms each)</p>
-<p>✓ Correct approach for latency:</p>
-<p>- Optimize the slow code</p>
-<p>- Add caching</p>
-<p>- Use faster database queries</p>
-<p>- Reduce network hops</p>
-<p><strong>Mistake 2: Optimizing the Wrong Thing</strong></p>
-<p>Scenario: Batch Email System</p>
+<p>Team: 20 engineers
+Users: 100,000
+Traffic: 1 million requests/day</p>
+<p>Problems with monolith:</p>
+<p>❌ Deploy takes 30 minutes</p>
+<p>❌ One bug crashes everything</p>
+<p>❌ Can't scale individual features</p>
+<p>❌ Engineers step on each other's code</p>
+<p>❌ Tests take 1 hour to run</p>
+<p>Example problem:
+Engineer A fixes the checkout page
+Engineer B updates the product search
+Deploy: Both changes go together
+Result: If B's code has a bug, A's fix can't deploy!</p>
+<p>Team frustrated: &quot;We need microservices!&quot;</p>
+<p><strong>Phase 3: The Transition (Painful but Necessary)</strong></p>
+<p>Year 3: Breaking Apart the Monolith</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Current: Sends 100,000 emails in 1 hour
-Request: &quot;Make it faster!&quot;</p>
-<p>Engineer A: &quot;I'll reduce latency!&quot;
-Result: Each email sends in 10ms instead of 36ms
-Total time: Still ~50 minutes (minor improvement)</p>
-<p>Engineer B: &quot;I'll increase throughput!&quot;
-Result: Process 10 emails in parallel instead of 1
-Total time: 6 minutes! (10x improvement!) ✓</p>
-<p>For batch jobs: Throughput &gt; Latency</p>
+<p>Start extracting services one by one:</p>
+<p>Month 1: Extract Authentication</p>
+<p>┌──────────────────┐        ┌──────────┐</p>
+<p>│   Monolith       │───────▶│  Auth    │</p>
+<p>│   (minus auth)   │        │  Service │</p>
+<p>└──────────────────┘        └──────────┘</p>
+<p>Month 3: Extract Payments
+┌──────────────────┐   ┌──────────┐   ┌──────────┐</p>
+<p>│   Monolith       │──▶│  Auth    │   │ Payment  │</p>
+<p>│                  │   │  Service │   │ Service  │</p>
+<p>└──────────────────┘   └──────────┘   └──────────┘</p>
+<p>Month 6: Extract Product Catalog
+[Monolith] → [Auth] → [Payment] → [Catalog]</p>
+<p>Year end: Major services extracted
+Remaining: Some core logic in monolith (that's OK!)</p>
+<p><strong>Phase 4: Microservices at Scale (Complex but Powerful)</strong></p>
+<p>Year 5: Mature Microservices</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Team: 200 engineers (20 teams of 10)
+Users: 10 million
+Traffic: 1 billion requests/day</p>
+<p>Architecture: 50+ microservices
+Each team owns 2-3 services</p>
+<p>Benefits realized:</p>
+<p>✓ Payment team deploys 10x/day (independent!)</p>
+<p>✓ Search team scales separately (they have high traffic)</p>
+<p>✓ Bug in Reviews service? Everything else works</p>
+<p>✓ Can use different tech (Payment in Java, Search in Go)</p>
+<p>Challenges:</p>
+<p>❌ Complex debugging (&quot;Which service is slow?&quot;)</p>
+<p>❌ Need service mesh, monitoring, tracing</p>
+<p>❌ More expensive infrastructure</p>
+<p>❌ Requires DevOps expertise</p>
+<h3><strong>The Real-World Decision Matrix</strong></h3>
+<p><strong>When to Use Monolith:</strong></p>
+<p>Scenario 1: Brand New Startup</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>✓ Small team (&lt;10 engineers)</p>
+<p>✓ Validating product-market fit</p>
+<p>✓ Need to move FAST</p>
+<p>✓ Budget constrained</p>
+<p>Use monolith! Focus on product, not architecture.</p>
+<p>Scenario 2: Simple CRUD Application</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>✓ Basic operations (Create, Read, Update, Delete)</p>
+<p>✓ Low traffic (&lt;100k requests/day)</p>
+<p>✓ Predictable scaling needs</p>
+<p>Use monolith! Don't over-engineer.</p>
+<p>Scenario 3: Internal Tools</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>✓ Used by your own team</p>
+<p>✓ Infrequent changes</p>
+<p>✓ Not business-critical</p>
+<p>Use monolith! Simple is better.</p>
+<p><strong>When to Use Microservices:</strong></p>
+<p>Scenario 1: Scaling Different Features Differently</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Example: Video streaming platform</p>
+<p>- Video encoding: CPU-intensive, needs powerful servers</p>
+<p>- User profiles: Lightweight, needs many small servers</p>
+<p>- Recommendations: GPU-intensive, needs specialized hardware</p>
+<p>With microservices: Scale each independently! ✓</p>
+<p>With monolith: Must scale everything together ❌</p>
+<p>Scenario 2: Multiple Teams</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>✓ &gt;50 engineers</p>
+<p>✓ Teams want autonomy</p>
+<p>✓ Need parallel development</p>
+<p>Microservices enable team independence ✓</p>
+<p>Scenario 3: Different Technology Needs</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Example: E-commerce</p>
+<p>- Search: Best in Elasticsearch</p>
+<p>- Real-time chat: Best in Node.js</p>
+<p>- ML recommendations: Best in Python</p>
+<p>- Payment processing: Best in Java (security, libraries)</p>
+<p>Microservices let you use best tool for each job! ✓</p>
+<p>Scenario 4: High Availability Requirements</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>✓ Can't afford downtime</p>
+<p>✓ Need to deploy multiple times/day</p>
+<p>✓ One feature failing shouldn't affect others</p>
+<p>Microservices provide isolation! ✓</p>
+<h3><strong>The Hybrid Approach: Best of Both Worlds</strong></h3>
+<p>Here's what smart companies actually do:</p>
+<p>The &quot;Modular Monolith&quot; (Year 1-3)</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489217/303_o7ye2e.png" alt="img6"></p>
+<p>Same codebase, but organized into clear modules
+Each module has defined boundaries
+Easy to extract later if needed!</p>
+<p>This is what I recommend for most startups:
+- Simple like a monolith
+- Organized like microservices
+- Can evolve when necessary</p>
+<h3><strong>Common Mistakes</strong></h3>
+<p><strong>Mistake 1: Premature Microservices</strong></p>
+<p>❌ Startup with 3 engineers builds 15 microservices</p>
+<p>Result:</p>
+<p>- Spends 80% time on infrastructure</p>
+<p>- 20% on product features</p>
+<p>- Complex debugging</p>
+<p>- Slow development</p>
+<p>Outcome: Runs out of money before product-market fit</p>
+<p>✓ Better: Start with monolith</p>
+<p>- 90% time on product</p>
+<p>- 10% on infrastructure</p>
+<p>- Fast iteration</p>
+<p>- Find product-market fit</p>
+<p>- Then consider microservices</p>
+<p><strong>Mistake 2: Too Many Microservices</strong></p>
+<p>❌ Creating a service for every tiny feature</p>
+<p>Example:</p>
+<p>- User name service</p>
+<p>- User email service</p>
+<p>- User password service</p>
+<p>- User preferences service</p>
+<p>Problem: Network overhead exceeds benefits!</p>
+<p>To display user profile:
+4 API calls instead of 1
+4× latency
+4× potential points of failure</p>
+<p>✓ Better: Group related functionality
+- User service (handles all user data)</p>
+<p><strong>Mistake 3: Shared Database</strong></p>
+<p>❌ &quot;We have microservices!&quot;</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489218/301_fgbay6.png" alt="img7"></p>
+<p>Problem: Not real microservices!</p>
+<p>- Services still tightly coupled</p>
+<p>- Schema change affects all services</p>
+<p>- No independent scaling</p>
+<p>✓ Real microservices:
+Each service owns its data!</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489218/299_lmzouw.png" alt="img8"></p>
 </body>
     </html>
