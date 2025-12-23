@@ -4,7 +4,7 @@ const chokidar = require("chokidar");
 const browserSync = require("browser-sync").create();
 
 function render() {
-  const content = fs.readFileSync("smtp.md", "utf8");
+  const content = fs.readFileSync("latency_vs_throughput.md", "utf8");
   const html = `
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
@@ -16,7 +16,7 @@ function render() {
 render();
 browserSync.init({ server: ".", files: ["index.html"] });
 
-chokidar.watch("smtp.md").on("change", () => {
+chokidar.watch("latency_vs_throughput.md").on("change", () => {
   render();
   browserSync.reload();
 });
