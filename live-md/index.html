@@ -1,268 +1,214 @@
 
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
-      <body><h2><strong>🏢 Monolith vs Microservices: The Building Story</strong></h2>
-<p>Let’s learn about two companies building their office spaces.</p>
-<h3><strong>Company A: The Single Building (Monolith)</strong></h3>
-<p>Company A's Office:</p>
+      <body><h2><strong>👥 Client-Server Architecture: The Restaurant Revisited</strong></h2>
+<p>Remember our restaurant analogy from the REST API section? Let's dive deeper into the fundamental architecture pattern that powers the entire internet.</p>
+<h3><strong>The Historical Context</strong></h3>
+<p>Let’s look at history to understand why client-server architecture exists.</p>
+<p><strong>Before Client-Server (1970s): Mainframe Era</strong></p>
+<p>The Old Way:</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489217/298_zsiz21.png" alt="img1"></p>
-<p>Everyone in ONE place:</p>
-<p>✓ Easy communication (walk to any floor)</p>
-<p>✓ Shared infrastructure (one server room)</p>
-<p>✓ Simple management (one building)</p>
-<p><strong>Advantages:</strong></p>
-<ul>
-<li>Want to talk to marketing? Walk upstairs</li>
-<li>Need to check servers? Go to basement</li>
-<li>Problem with electricity? Fix once for everyone</li>
-<li>Building maintenance? One contract</li>
-</ul>
-<p><strong>Disadvantages:</strong></p>
-<ul>
-<li>Fire on floor 3? Evacuate ENTIRE building</li>
-<li>Renovating floor 4? Disrupts everyone</li>
-<li>Building at capacity? Can't expand easily</li>
-<li>Elevator breaks? No one can move between floors</li>
-</ul>
-<h3><strong>Company B: The Campus (Microservices)</strong></h3>
-<p>Company B's Campus:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766544683/307_qmabqw.png" alt="img1"></p>
+<p>Terminals: Just keyboards and screens</p>
+<p>- No processing power</p>
+<p>- No storage</p>
+<p>- Just display what mainframe sends</p>
+<p>Problem:</p>
+<p>❌ Expensive mainframe does EVERYTHING</p>
+<p>❌ Terminals are &quot;dumb&quot; (can't do anything alone)</p>
+<p>❌ No mainframe = no work for anyone</p>
+<p><strong>Client-Server Revolution (1980s-Present)</strong></p>
+<p>The New Way:</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489217/302_fc9sz1.png" alt="img2"></p>
-<p>Each building:</p>
-<p>✓ Independent utilities</p>
-<p>✓ Own entrance/exit</p>
-<p>✓ Can be renovated separately</p>
-<p>✓ Can scale individually</p>
-<p><strong>Advantages:</strong></p>
-<ul>
-<li>Fire in Sales building? Others keep working</li>
-<li>Renovate Engineering? Doesn't affect Marketing</li>
-<li>Engineering growing? Build bigger Engineering building</li>
-<li>Each building optimized for its needs</li>
-</ul>
-<p><strong>Disadvantages:</strong></p>
-<ul>
-<li>Cross-building meetings? Need to travel</li>
-<li>Coordination is harder (phone calls, emails)</li>
-<li>More maintenance contracts (one per building)</li>
-<li>More expensive (multiple infrastructures)</li>
-</ul>
-<h3><strong>Now Let's Apply This to Software</strong></h3>
-<p><strong>Monolithic Application Architecture:</strong></p>
-<p>E-Commerce Monolith:</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766544683/306_npmmv6.png" alt="img2"></p>
+<p>Clients: Smart devices</p>
+<p>✓ Can process data locally</p>
+<p>✓ Have their own storage</p>
+<p>✓ Work independently (sometimes)</p>
+<p>Server: Centralized resource</p>
+<p>✓ Manages shared data</p>
+<p>✓ Coordinates between clients</p>
+<p>✓ Enforces business rules</p>
+<h3><strong>Understanding the Roles</strong></h3>
+<p><strong>The Client's Job:</strong></p>
+<p>What Clients Do:</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489219/304_a5htnq.png" alt="img3"></p>
-<p>All code in ONE repository
-ONE deployment
-ONE database
-ONE server (or replicas of the same thing)</p>
-<p><strong>Real-world flow:</strong></p>
-<p>User Action: &quot;Add item to cart&quot;</p>
+<p>1. User Interface</p>
+<p>- Display information</p>
+<p>- Accept user input</p>
+<p>- Validate forms</p>
+<p>2. Request Making</p>
+<p>- Send requests to server</p>
+<p>- Handle responses</p>
+<p>- Manage errors</p>
+<p>3. Local Processing</p>
+<p>- Format data for display</p>
+<p>- Client-side validation</p>
+<p>- Caching for speed</p>
+<p>4. State Management</p>
+<p>- Remember user preferences</p>
+<p>- Track session</p>
+<p>- Store temporary data</p>
+<p>Example: Your Web Browser
+<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766544684/310_jt32bo.png" alt="img3"></p>
+<p><strong>Connection to TCP and HTTP:</strong> When your browser (client) makes a request, it uses HTTP over TCP. The TCP 3-way handshake establishes the connection, then HTTP request/response flows over that reliable TCP connection. The browser is the client, the web server is the server (we have already discussed these concepts in detail before)</p>
+<p><strong>The Server's Job:</strong></p>
+<p>What Servers Do:</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>1. Request hits monolith</p>
-<p>2. Auth module checks user</p>
-<p>3. Catalog module validates product</p>
-<p>4. Cart module adds item</p>
-<p>5. Inventory module reserves stock</p>
-<p>6. All happens in ONE application</p>
-<p>7. All shares ONE database</p>
-<p>If ANY part fails → Entire request fails</p>
-<p><strong>Microservices Architecture:</strong></p>
-<p>E-Commerce Microservices:</p>
+<p>1. Data Management</p>
+<p>- Store in database</p>
+<p>- Retrieve data</p>
+<p>- Update records</p>
+<p>2. Business Logic</p>
+<p>- Process payments</p>
+<p>- Validate rules</p>
+<p>- Calculate results</p>
+<p>3. Security</p>
+<p>- Authentication</p>
+<p>- Authorization</p>
+<p>- Encryption</p>
+<p>4. Coordination</p>
+<p>- Handle multiple clients</p>
+<p>- Manage concurrency</p>
+<p>- Ensure consistency</p>
+<p>Example: Facebook's Server</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766544684/311_v8bb8j.png" alt="img4"></p>
+<h3><strong>Different Flavors of Client-Server</strong></h3>
+<p><strong>Flavor 1: Thin Client (Web Apps)</strong></p>
+<p>Thin Client Architecture:</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489219/300_y6haay.png" alt="img4"></p>
-<p>Each service:</p>
-<p>- Independent codebase</p>
-<p>- Independent database</p>
-<p>- Independent deployment</p>
-<p>- Independent scaling</p>
-<p><strong>Real-world flow:</strong></p>
-<p>User Action: &quot;Add item to cart&quot;</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766544683/318_gghhmp.png" alt="img5"></p>
+<p>User clicks &quot;Send Email&quot;:</p>
+<p>1. Browser: &quot;POST /send&quot; → Server</p>
+<p>2. Server: Validates email, sends it, updates database</p>
+<p>3. Server: Generates new HTML</p>
+<p>4. Browser: Displays new HTML</p>
+<p>Almost everything happens on server!</p>
+<p><strong>Flavor 2: Thick Client (Desktop Apps)</strong></p>
+<p>Thick Client Architecture:</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>1. API Gateway receives request</p>
-<p>2. Gateway → Auth Service: &quot;Is user logged in?&quot;</p>
-<p>Auth Service: &quot;Yes, user_id: 42&quot; ✓</p>
-<p>3. Gateway → Product Service: &quot;Does product exist?&quot;</p>
-<p>Product Service: &quot;Yes, product_id: 789&quot; ✓</p>
-<p>4. Gateway → Cart Service: &quot;Add item to cart&quot;
-Cart Service: &quot;Added! Cart has 3 items&quot; ✓</p>
-<p>5. Gateway → Inventory Service: &quot;Reserve stock&quot;
-Inventory Service: &quot;Reserved!&quot; ✓</p>
-<p>6. Gateway → Notification Service: &quot;Send confirmation&quot;
-(Happens async, doesn't block response)</p>
-<p>Result sent to user: &quot;Item added!&quot; ✓</p>
-<p>Notice: Each service operates independently!</p>
-<h3><strong>The Evolution Story</strong></h3>
-<p>Let see how companies typically evolve:</p>
-<p><strong>Phase 1: The Startup (Monolith is Perfect)</strong></p>
-<p>Day 1: You and 3 co-founders</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Team: 3 engineers</p>
-<p>Users: 0 (you just launched!)</p>
-<p>Traffic: Maybe 100 requests/day</p>
-<p>Architecture:</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489218/305_aj3hjg.png" alt="img5"></p>
-<p>Why monolith?</p>
-<p>✓ Fast to build</p>
-<p>✓ Easy to debug (everything in one place)</p>
-<p>✓ Simple deployment (one command)</p>
-<p>✓ Cheap ($50/month hosting)</p>
-<p>This is PERFECT for a startup! Don't overcomplicate!</p>
-<p><strong>Phase 2: Growing Pains (Monolith Struggles)</strong></p>
-<p>Year 2: Some Success!
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Team: 20 engineers
-Users: 100,000
-Traffic: 1 million requests/day</p>
-<p>Problems with monolith:</p>
-<p>❌ Deploy takes 30 minutes</p>
-<p>❌ One bug crashes everything</p>
-<p>❌ Can't scale individual features</p>
-<p>❌ Engineers step on each other's code</p>
-<p>❌ Tests take 1 hour to run</p>
-<p>Example problem:
-Engineer A fixes the checkout page
-Engineer B updates the product search
-Deploy: Both changes go together
-Result: If B's code has a bug, A's fix can't deploy!</p>
-<p>Team frustrated: &quot;We need microservices!&quot;</p>
-<p><strong>Phase 3: The Transition (Painful but Necessary)</strong></p>
-<p>Year 3: Breaking Apart the Monolith</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Start extracting services one by one:</p>
-<p>Month 1: Extract Authentication</p>
-<p>┌──────────────────┐        ┌──────────┐</p>
-<p>│   Monolith       │───────▶│  Auth    │</p>
-<p>│   (minus auth)   │        │  Service │</p>
-<p>└──────────────────┘        └──────────┘</p>
-<p>Month 3: Extract Payments
-┌──────────────────┐   ┌──────────┐   ┌──────────┐</p>
-<p>│   Monolith       │──▶│  Auth    │   │ Payment  │</p>
-<p>│                  │   │  Service │   │ Service  │</p>
-<p>└──────────────────┘   └──────────┘   └──────────┘</p>
-<p>Month 6: Extract Product Catalog
-[Monolith] → [Auth] → [Payment] → [Catalog]</p>
-<p>Year end: Major services extracted
-Remaining: Some core logic in monolith (that's OK!)</p>
-<p><strong>Phase 4: Microservices at Scale (Complex but Powerful)</strong></p>
-<p>Year 5: Mature Microservices</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Team: 200 engineers (20 teams of 10)
-Users: 10 million
-Traffic: 1 billion requests/day</p>
-<p>Architecture: 50+ microservices
-Each team owns 2-3 services</p>
-<p>Benefits realized:</p>
-<p>✓ Payment team deploys 10x/day (independent!)</p>
-<p>✓ Search team scales separately (they have high traffic)</p>
-<p>✓ Bug in Reviews service? Everything else works</p>
-<p>✓ Can use different tech (Payment in Java, Search in Go)</p>
-<p>Challenges:</p>
-<p>❌ Complex debugging (&quot;Which service is slow?&quot;)</p>
-<p>❌ Need service mesh, monitoring, tracing</p>
-<p>❌ More expensive infrastructure</p>
-<p>❌ Requires DevOps expertise</p>
-<h3><strong>The Real-World Decision Matrix</strong></h3>
-<p><strong>When to Use Monolith:</strong></p>
-<p>Scenario 1: Brand New Startup</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>✓ Small team (&lt;10 engineers)</p>
-<p>✓ Validating product-market fit</p>
-<p>✓ Need to move FAST</p>
-<p>✓ Budget constrained</p>
-<p>Use monolith! Focus on product, not architecture.</p>
-<p>Scenario 2: Simple CRUD Application</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>✓ Basic operations (Create, Read, Update, Delete)</p>
-<p>✓ Low traffic (&lt;100k requests/day)</p>
-<p>✓ Predictable scaling needs</p>
-<p>Use monolith! Don't over-engineer.</p>
-<p>Scenario 3: Internal Tools</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>✓ Used by your own team</p>
-<p>✓ Infrequent changes</p>
-<p>✓ Not business-critical</p>
-<p>Use monolith! Simple is better.</p>
-<p><strong>When to Use Microservices:</strong></p>
-<p>Scenario 1: Scaling Different Features Differently</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Example: Video streaming platform</p>
-<p>- Video encoding: CPU-intensive, needs powerful servers</p>
-<p>- User profiles: Lightweight, needs many small servers</p>
-<p>- Recommendations: GPU-intensive, needs specialized hardware</p>
-<p>With microservices: Scale each independently! ✓</p>
-<p>With monolith: Must scale everything together ❌</p>
-<p>Scenario 2: Multiple Teams</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>✓ &gt;50 engineers</p>
-<p>✓ Teams want autonomy</p>
-<p>✓ Need parallel development</p>
-<p>Microservices enable team independence ✓</p>
-<p>Scenario 3: Different Technology Needs</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766544683/308_zc2pss.png" alt="img6">
+Example: Microsoft Word with OneDrive</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>User types document:</p>
+<p>1. Word: Processes locally (spell check, formatting)</p>
+<p>2. Word: Auto-saves to local disk</p>
+<p>3. Word: Syncs to OneDrive every few minutes</p>
+<p>4. Server: Just stores the file</p>
+<p>Most work happens on client!</p>
+<p><strong>Flavor 3: Hybrid (Modern Web Apps/SPAs)</strong></p>
+<p>Hybrid Architecture (Best of Both):</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>Example: E-commerce</p>
-<p>- Search: Best in Elasticsearch</p>
-<p>- Real-time chat: Best in Node.js</p>
-<p>- ML recommendations: Best in Python</p>
-<p>- Payment processing: Best in Java (security, libraries)</p>
-<p>Microservices let you use best tool for each job! ✓</p>
-<p>Scenario 4: High Availability Requirements</p>
-<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p>✓ Can't afford downtime</p>
-<p>✓ Need to deploy multiple times/day</p>
-<p>✓ One feature failing shouldn't affect others</p>
-<p>Microservices provide isolation! ✓</p>
-<h3><strong>The Hybrid Approach: Best of Both Worlds</strong></h3>
-<p>Here's what smart companies actually do:</p>
-<p>The &quot;Modular Monolith&quot; (Year 1-3)</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766544685/317_bzn2cs.png" alt="img7"></p>
+<p>Example: Modern Gmail</p>
 <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489217/303_o7ye2e.png" alt="img6"></p>
-<p>Same codebase, but organized into clear modules
-Each module has defined boundaries
-Easy to extract later if needed!</p>
-<p>This is what I recommend for most startups:
-- Simple like a monolith
-- Organized like microservices
-- Can evolve when necessary</p>
-<h3><strong>Common Mistakes</strong></h3>
-<p><strong>Mistake 1: Premature Microservices</strong></p>
-<p>❌ Startup with 3 engineers builds 15 microservices</p>
-<p>Result:</p>
-<p>- Spends 80% time on infrastructure</p>
-<p>- 20% on product features</p>
-<p>- Complex debugging</p>
-<p>- Slow development</p>
-<p>Outcome: Runs out of money before product-market fit</p>
-<p>✓ Better: Start with monolith</p>
-<p>- 90% time on product</p>
-<p>- 10% on infrastructure</p>
-<p>- Fast iteration</p>
-<p>- Find product-market fit</p>
-<p>- Then consider microservices</p>
-<p><strong>Mistake 2: Too Many Microservices</strong></p>
-<p>❌ Creating a service for every tiny feature</p>
+<p>User clicks &quot;Send Email&quot;:</p>
+<p>1. React app: Validates form locally ✓</p>
+<p>2. React app: Shows &quot;Sending...&quot; immediately</p>
+<p>3. React app: POST /api/send → Server</p>
+<p>4. Server: Actually sends email, updates DB</p>
+<p>5. Server: Returns JSON {success: true}</p>
+<p>6. React app: Updates UI (smooth transition)</p>
+<p>Work split intelligently between client and server!</p>
+<h3><strong>Real-World Example: Netflix</strong></h3>
+<p>Let me show you how Netflix uses client-server architecture:</p>
+<p>Netflix Architecture:</p>
+<p>The Flow:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>1. Client (TV): &quot;Show me action movies&quot;
+→ Server: Returns personalized list</p>
+<p>2. Client: User clicks &quot;Play&quot;
+→ Server: &quot;Here's the video URL&quot;</p>
+<p>3. Client: Connects to nearby CDN
+← CDN: Streams video chunks</p>
+<p>4. Client: Handles playback, buffering, quality
+(Smart client does a lot!)</p>
+<p>5. Client: Periodically reports back
+→ Server: &quot;User watching minute 24&quot;
+(For &quot;Continue Watching&quot; feature)</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766544683/309_cn07a0.png" alt="img8"></p>
+<h3><strong>The Communication Patterns</strong></h3>
+<p><strong>Pattern 1: Request-Response (Synchronous)</strong></p>
+<p>Classic Web Request:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766544684/313_wqui17.png" alt="img9"></p>
+<p>Timeline: ~100ms
+Client blocks waiting for response</p>
+<p><strong>Connection to Our Previous Topics:</strong></p>
+<ul>
+<li>
+<p>This is <strong>synchronous communication</strong> (we covered this earlier!)</p>
+</li>
+<li>
+<p>Uses <strong>HTTP methods</strong> (GET in this example)</p>
+</li>
+<li>
+<p>Can return various <strong>status codes</strong> (200 OK)</p>
+</li>
+<li>
+<p>May include <strong>authentication</strong> (JWT or session)</p>
+</li>
+</ul>
+<p><strong>Pattern 2: Long Polling</strong></p>
+<p>Chat Application:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766544684/312_dfjmsh.png" alt="img10"></p>
+<p>Server holds connection open until data available</p>
+<p><strong>Pattern 3: WebSockets (Bidirectional)</strong></p>
+<p>Real-Time Chat:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766546133/web_sockets_oykqms.png" alt="img11"></p>
+<p>Persistent connection, messages flow both ways
+No request-response limitation!</p>
+<p><strong>Pattern 4: Server-Sent Events (SSE)</strong></p>
+<p>Live Stock Prices:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766544684/314_ncbspc.png" alt="img12"></p>
+<p>Server pushes updates to client continuously
+Client doesn't need to request each time</p>
+<h3><strong>Security in Client-Server</strong></h3>
+<p><strong>The Trust Boundary</strong></p>
+<p>The Rule:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766544684/315_qvlopz.png" alt="img13"></p>
+<p>Bad Example (Trusting Client):</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Client: &quot;I'm paying $10 for this $100 item&quot;</p>
+<p>Server: &quot;Okay!&quot; ❌</p>
+<p>Result: Business loses money!</p>
+<p>Good Example (Validate on Server):</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Client: &quot;I'm buying item_id: 42&quot;</p>
+<p>Server: Looks up item in database</p>
+<p>Server: &quot;That's $100&quot;</p>
+<p>Server: Validates payment for $100 ✓</p>
+<p>Result: Business is protected!</p>
+<p><strong>Validation Rules:</strong></p>
+<p>Client-Side Validation:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Purpose: User experience</p>
+<p>- Immediate feedback</p>
+<p>- Prevent typos</p>
+<p>- Guide user</p>
+<p>Example:
+&quot;Email must contain @&quot;
+&quot;Password needs 8 characters&quot;</p>
+<p>BUT: Can be bypassed!</p>
+<p>Server-Side Validation:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>Purpose: Security &amp; data integrity</p>
+<p>- Enforce business rules</p>
+<p>- Prevent attacks</p>
+<p>- Ensure data quality</p>
 <p>Example:</p>
-<p>- User name service</p>
-<p>- User email service</p>
-<p>- User password service</p>
-<p>- User preferences service</p>
-<p>Problem: Network overhead exceeds benefits!</p>
-<p>To display user profile:
-4 API calls instead of 1
-4× latency
-4× potential points of failure</p>
-<p>✓ Better: Group related functionality
-- User service (handles all user data)</p>
-<p><strong>Mistake 3: Shared Database</strong></p>
-<p>❌ &quot;We have microservices!&quot;</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489218/301_fgbay6.png" alt="img7"></p>
-<p>Problem: Not real microservices!</p>
-<p>- Services still tightly coupled</p>
-<p>- Schema change affects all services</p>
-<p>- No independent scaling</p>
-<p>✓ Real microservices:
-Each service owns its data!</p>
-<p><img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766489218/299_lmzouw.png" alt="img8"></p>
+<p>Check email actually exists in database</p>
+<p>Verify password against hash</p>
+<p>Validate payment with bank</p>
+<p>REQUIRED: Cannot be bypassed!</p>
+<p>The Pattern:</p>
+<p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+<p>1. Validate on client (UX)</p>
+<p>2. Validate on server (Security)</p>
+<p>3. Never trust client alone!</p>
 </body>
     </html>
