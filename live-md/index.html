@@ -231,13 +231,14 @@ Redis: {
 <p>- Unread counts: &quot;user123:unread&quot; → 5</p>
 <p>- Online status: &quot;user123:online&quot; → true</p>
 <p>- Typing: &quot;room:456:typing&quot; → [&quot;user123&quot;]</p>
-<p>STEP 3: Message routing
-═══════════════════════════════════════
-Use message queue (RabbitMQ/Kafka):</p>
-<p>User A (on Server 1) sends message to User B (on Server 2):
-Server 1 → Queue → Server 2
-↓
-[Database] (permanent storage)</p>
+<p>STEP 3: Message routing</p>
+<p>═══════════════════════════════════════</p>
+<p>Use message queue (RabbitMQ/Kafka):</p>
+<p>User A (on Server 1) sends message to User B (on Server 2):</p>
+<p>Server 1 → Queue → Server 2</p>
+<pre><code>          ↓
+     \[Database\] (permanent storage)
+</code></pre>
 <p>FINAL ARCHITECTURE:
 <img src="https://res.cloudinary.com/dretwg3dy/image/upload/v1766550504/326_dmboos.png" alt="img9">)
 ══════════════════════════════════════</p>
