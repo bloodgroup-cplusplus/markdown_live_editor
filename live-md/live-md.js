@@ -4,7 +4,7 @@ const chokidar = require("chokidar");
 const browserSync = require("browser-sync").create();
 
 function render() {
-  const content = fs.readFileSync("website_metrics.md", "utf8");
+  const content = fs.readFileSync("webhooks_markdown.md", "utf8");
   const html = `
     <html>
       <head><meta charset="UTF-8"><title>Markdown Preview</title></head>
@@ -16,7 +16,7 @@ function render() {
 render();
 browserSync.init({ server: ".", files: ["index.html"] });
 
-chokidar.watch("website_metrics.md").on("change", () => {
+chokidar.watch("webhooks_markdown.md").on("change", () => {
   render();
   browserSync.reload();
 });
