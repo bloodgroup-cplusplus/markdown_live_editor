@@ -71,7 +71,8 @@ Problems:
 
 Pub-Sub (Broadcast):
 
-       ![][image1]
+  ![img1](https://res.cloudinary.com/dretwg3dy/image/upload/v1766758664/127_ly59xd.png)
+
 New Listener 4 tunes in → automatically receives broadcasts\!
 
 Benefits:
@@ -106,7 +107,7 @@ Topic: "user.registered"
 
 └── Subscribers interested in new users listen here
 
-![][image2]
+![img2](https://res.cloudinary.com/dretwg3dy/image/upload/v1766763247/one_image_er0uxm.png)
 
 Think: Topics are like hashtags on social media
 \#ProductLaunch → Everyone following this hashtag sees posts
@@ -128,13 +129,13 @@ Publishers:
 ├── Just broadcast and continue
 
 └── Fire and forget
-![][image3]
+![img3](https://res.cloudinary.com/dretwg3dy/image/upload/v1766758668/136_cf3sdi.png)
 
 3. Subscribers (The Listeners):
 
 Subscribers listen to topics:
 
-![][image4]
+![img4](https://res.cloudinary.com/dretwg3dy/image/upload/v1766758671/129_qeaqhu.png)
 
 Each subscriber:
 
@@ -165,7 +166,7 @@ Step 4: Subscribers process independently
 Email Service: Sends confirmation email ✓
 SMS Service: Sends text notification ✓
 
-![][image5]
+![img5](https://res.cloudinary.com/dretwg3dy/image/upload/v1766758667/128_uqpgkq.png)
 
 Real-world parallel:
 
@@ -186,7 +187,7 @@ Publisher → Topic → Subscriber 1
 One message, many recipients
 All subscribers get the same message
 
-![][image6]
+![img6](https://res.cloudinary.com/dretwg3dy/image/upload/v1766758677/133_qob94o.png)
 
 2. Topic Filtering (Pattern Matching):
 
@@ -210,7 +211,7 @@ Subscriber patterns:
 
 ├── "sensors.\#" → ALL sensor data
 
-![][image7]
+![img7](https://res.cloudinary.com/dretwg3dy/image/upload/v1766758669/134_bscl1h.png)
 
 Similar to topic exchanges in RabbitMQ\!
 
@@ -240,7 +241,7 @@ Message: {orderId: 124, price: 50, country: "UK"}
 
   → Subscriber 3 ✓ (matches all)
 
-![][image8]
+![img8](https://res.cloudinary.com/dretwg3dy/image/upload/v1766758665/131_jts9hj.png)
 
 Real-world parallel:
 
@@ -295,7 +296,7 @@ Publisher publishes → Message sent → Subscriber 1 ✓
                                    → Subscriber 3 ❌ (offline)
 
 Subscriber 3 was offline → Message LOST\!
-![][image9]
+![img9](https://res.cloudinary.com/dretwg3dy/image/upload/v1766758674/132_nvs8ns.png)
 
 Use case: Non-critical events (page views, clicks)
 Trade-off: Fast, but can lose messages
@@ -316,7 +317,7 @@ Subscriber 3 receives eventually, but might get duplicates\!
 
 Use case: Important events (orders, payments)
 Trade-off: Reliable, but possible duplicates
-![][image10]
+![img10](https://res.cloudinary.com/dretwg3dy/image/upload/v1766758671/135_vh5xty.png)
 
 Exactly-Once (Complex):
 
@@ -332,12 +333,13 @@ Requires: Idempotent operations \+ deduplication
 
 Use case: Financial transactions
 Trade-off: Correct, but complex to implement
-![][image11]
+![img11](https://res.cloudinary.com/dretwg3dy/image/upload/v1766758667/130_sneuzj.png)
 
 Code Example (Handling Duplicates):
 
 
 # Subscriber with deduplication
+```python
 processed_messages = set()
 
 def handle_message(message):
@@ -356,6 +358,7 @@ def handle_message(message):
 
     # Acknowledge
     ack_message(message)
+    ```
 
 Real-world parallel:
 
